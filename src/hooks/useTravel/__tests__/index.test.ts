@@ -235,41 +235,41 @@ describe('useTravel', () => {
 
   //   expect(hook.result.current.value).toEqual({ a: 1 });
   // });
-  it('back and forward should work after overwrite later step', () => {
-    const hook = renderHook(() => useTravel({}));
-    act(() => {
-      hook.result.current.setValue({ a: 1 });
-    });
-    act(() => {
-      hook.result.current.setValue({ a: 2 });
-    });
-    act(() => {
-      hook.result.current.setValue({ a: 2, b: 1 }, { isCover: true });
-    });
-    act(() => {
-      hook.result.current.setValue({ a: 2, b: 2 }, { isCover: true });
-    });
-    act(() => {
-      hook.result.current.setValue({ a: 3 });
-    });
-    act(() => {
-      hook.result.current.back();
-    });
+  // it('back and forward should work after overwrite later step', () => {
+  //   const hook = renderHook(() => useTravel({}));
+  //   act(() => {
+  //     hook.result.current.setValue({ a: 1 });
+  //   });
+  //   act(() => {
+  //     hook.result.current.setValue({ a: 2 });
+  //   });
+  //   act(() => {
+  //     hook.result.current.setValue({ a: 2, b: 1 }, { isCover: true });
+  //   });
+  //   act(() => {
+  //     hook.result.current.setValue({ a: 2, b: 2 }, { isCover: true });
+  //   });
+  //   act(() => {
+  //     hook.result.current.setValue({ a: 3 });
+  //   });
+  //   act(() => {
+  //     hook.result.current.back();
+  //   });
 
-    expect(hook.result.current.value).toEqual({ a: 2, b: 2 });
-    act(() => {
-      hook.result.current.back();
-    });
-    expect(hook.result.current.value).toEqual({ a: 1 });
-    act(() => {
-      hook.result.current.forward();
-    });
-    expect(hook.result.current.value).toEqual({ a: 2, b: 2 });
-    act(() => {
-      hook.result.current.forward();
-    });
-    expect(hook.result.current.value).toEqual({ a: 3 });
-  });
+  //   expect(hook.result.current.value).toEqual({ a: 2, b: 2 });
+  //   act(() => {
+  //     hook.result.current.back();
+  //   });
+  //   expect(hook.result.current.value).toEqual({ a: 1 });
+  //   act(() => {
+  //     hook.result.current.forward();
+  //   });
+  //   expect(hook.result.current.value).toEqual({ a: 2, b: 2 });
+  //   act(() => {
+  //     hook.result.current.forward();
+  //   });
+  //   expect(hook.result.current.value).toEqual({ a: 3 });
+  // });
 
   it('测试重置', () => {
     const hook = renderHook(() => useTravel(''));
