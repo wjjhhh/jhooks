@@ -13,7 +13,8 @@
     "test": "umi-test",
     "test:coverage": "umi-test --coverage",
     "prepublishOnly": "npm run build",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "lint": "lint-staged"
   },
   "module": "es/index.js",
   "typings": "es/index.d.ts",
@@ -21,10 +22,10 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx,less,md,json}": [
+    "src/*.{js,jsx,less,md,json}": [
       "prettier --write"
     ],
-    "*.ts?(x)": [
+    "src/*.ts?(x)": [
       "prettier --parser=typescript --write"
     ]
   },
