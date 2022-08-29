@@ -36,12 +36,12 @@ jobs:
       - name: Installing Dependencies
         # 如果缓存标志位没命中，则执行该step。否则就跳过该step
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
-        run: pnpm install
+        run: npx pnpm install
       # 运行代码扫描
-      - name: Running Lint
+      - name: npx Running Lint
         # 通过前面章节定义的命令行执行代码扫描
-        run: pnpm lint
+        run: npx pnpm lint
       # 运行自动化测试
-      - name: Running Test
+      - name: npx Running Test
         # 通过前面章节定义的命令行执行自动化测试
         run: pnpm test
