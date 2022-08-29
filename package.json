@@ -3,6 +3,7 @@
   "name": "jhooks",
   "version": "0.0.1",
   "scripts": {
+    "init": "pnpm install && pnpm run build",
     "start": "dumi dev",
     "docs:build": "dumi build",
     "docs:deploy": "gh-pages -d docs-dist",
