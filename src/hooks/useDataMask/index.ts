@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useOnceUpdateEffect } from '../..';
 
 type Options = {
@@ -15,10 +15,7 @@ const defaultOptions = {
   request: undefined,
 };
 
-export default function useDataMask(
-  initialValue: string | number | Options,
-  options?: Options,
-) {
+export default function useDataMask(initialValue: string | number | Options, options?: Options) {
   let _options: Options;
   let _initialValue = '';
   if (['number', 'string'].includes(typeof initialValue)) {
@@ -31,10 +28,6 @@ export default function useDataMask(
     _options = initialValue as Options;
   }
   const wrapper = (data?: string | number) => {
-    // if (visible) {
-    //   return remoteData || data;
-    // }
-
     if (typeof data === 'number') {
       data = data + '';
     }
@@ -45,13 +38,15 @@ export default function useDataMask(
       return _options.replacer(data);
     }
 
-    if (_options?.pattern)
-      return data.replace(_options.pattern, _options.mask!);
+    if (_options?.pattern) return data.replace(_options.pattern, _options.mask!);
   };
   const plainTextRef = useRef(_initialValue);
   const [visible, setVisible] = useState(false);
   const [data, setData] = useState(wrapper(_initialValue));
-
+  useOnceUpdateEffect(() => {
+    plainTextRef.current = _initialValue;
+    setData(wrapper(_initialValue));
+  }, [_initialValue], false);
   useOnceUpdateEffect(() => {
     fetch();
   }, [visible]);
