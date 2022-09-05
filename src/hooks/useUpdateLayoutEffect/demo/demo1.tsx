@@ -3,7 +3,7 @@
  * desc: 只在依赖项更新时执行一次。
  */
 
-import { useOnceUpdateLayoutEffect } from 'jhooks';
+import { useUpdateLayoutEffect } from 'jhooks';
 import React, { useLayoutEffect, useState } from 'react';
 
 export default () => {
@@ -15,7 +15,7 @@ export default () => {
     setEffectNum((n) => n + 1);
   }, [toggle]);
 
-  useOnceUpdateLayoutEffect(() => {
+  useUpdateLayoutEffect(() => {
     setOnceEffectNum((n) => n + 1);
   }, [toggle]);
 

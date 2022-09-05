@@ -1,14 +1,14 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useEffect, useLayoutEffect, useState } from 'react';
-import createOnceUpdateEffect from '..';
+import createUpdateEffect from '..';
 
-describe('createOnceUpdateEffect', () => {
+describe('createUpdateEffect', () => {
   it('should work for useEffect', () => {
-    const useOnceUpdateEffect = createOnceUpdateEffect(useEffect);
+    const useUpdateEffect = createUpdateEffect(useEffect);
     const hook = renderHook(() => {
       const [num, setNum] = useState(0);
       const [toggle, setToggle] = useState(false);
-      useOnceUpdateEffect(() => {
+      useUpdateEffect(() => {
         setNum((n) => n + 10);
       }, [toggle]);
       return { num, setToggle };
@@ -21,11 +21,11 @@ describe('createOnceUpdateEffect', () => {
   });
 
   it('should work for useLayoutEffect', () => {
-    const useOnceUpdateEffect = createOnceUpdateEffect(useLayoutEffect);
+    const useUpdateEffect = createUpdateEffect(useLayoutEffect);
     const hook = renderHook(() => {
       const [num, setNum] = useState(0);
       const [toggle, setToggle] = useState(false);
-      useOnceUpdateEffect(() => {
+      useUpdateEffect(() => {
         setNum((n) => n + 11);
       }, [toggle]);
       return { num, setToggle };
