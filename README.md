@@ -1,6 +1,3 @@
-
-
-
 ---
 hero:
   title: jhooks
