@@ -1,9 +1,9 @@
 /**
  * title: 基础用法
- * desc: 只在依赖项更新时执行一次。
+ * desc: 只在依赖项更新时执行。
  */
 
-import { useOnceUpdateEffect } from 'jhooks';
+import { useUpdateEffect } from 'jhooks';
 import React, { useEffect, useState } from 'react';
 
 export default () => {
@@ -15,9 +15,9 @@ export default () => {
     setEffectNum((n) => n + 1);
   }, [toggle]);
 
-  useOnceUpdateEffect(() => {
+  useUpdateEffect(() => {
     setOnceEffectNum((n) => n + 1);
-  }, [toggle]);
+  }, [toggle], 1);
 
   return (
     <>

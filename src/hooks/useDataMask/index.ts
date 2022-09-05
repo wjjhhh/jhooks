@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { useOnceUpdateEffect } from '../..';
+import { useUpdateEffect } from '../..';
 
 type Options = {
   pattern?: RegExp;
@@ -43,11 +43,11 @@ export default function useDataMask(initialValue: string | number | Options, opt
   const plainTextRef = useRef(_initialValue);
   const [visible, setVisible] = useState(false);
   const [data, setData] = useState(wrapper(_initialValue));
-  useOnceUpdateEffect(() => {
+  useUpdateEffect(() => {
     plainTextRef.current = _initialValue;
     setData(wrapper(_initialValue));
-  }, [_initialValue], false);
-  useOnceUpdateEffect(() => {
+  }, [_initialValue]);
+  useUpdateEffect(() => {
     fetch();
   }, [visible]);
 
