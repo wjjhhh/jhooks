@@ -37,8 +37,18 @@ export default () => {
       >
         字体改成红色
       </button>
+      <button
+        onClick={() =>
+          set({
+            '--child-color': get()?.['--child-color'] === 'green' ? 'red' : 'green',
+          })
+        }
+      >
+        child字体改变
+      </button>
       <div ref={ref} className="useCssVar">
         我是useCssVar的div
+        <div className="child">我是child</div>
       </div>
       <button
         onClick={() => {
