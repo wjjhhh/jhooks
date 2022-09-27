@@ -10,3 +10,5 @@ export { default as useUpdateLayoutEffect } from './hooks/useUpdateLayoutEffect'
 export { default as useSessionStorage } from './hooks/useSessionStorage';
 export { default as useTravel } from './hooks/useTravel';
 export { default as useShareModel } from './hooks/useShareModel';
+export { default as useWatch } from './hooks/useWatch';
+export { default as useForceUpdate } from './hooks/useForceUpdate'

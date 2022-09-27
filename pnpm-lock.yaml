@@ -5,6 +5,7 @@ specifiers:
   '@testing-library/react': ^12.1.2
   '@testing-library/react-hooks': ^8.0.1
   '@types/jest': ^27.0.3
+  '@types/lodash-es': ^4.17.6
   '@umijs/fabric': ^2.8.1
   '@umijs/test': ^3.0.5
   antd: ^4.20.7
@@ -14,6 +15,7 @@ specifiers:
   gh-pages: ^3.0.0
   immer: ^9.0.14
   lint-staged: ^10.0.7
+  lodash-es: ^4.17.21
   prettier: ^2.2.1
   react: ^16.12.0 || ^17.0.0
   react-dom: ^16.12.0 || ^17.0.0
@@ -22,12 +24,14 @@ specifiers:
 
 dependencies:
   immer: 9.0.15
+  lodash-es: 4.17.21
 
 devDependencies:
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 12.1.5_react-dom@17.0.2+react@17.0.2
   '@testing-library/react-hooks': 8.0.1_react-dom@17.0.2+react@17.0.2
   '@types/jest': 27.5.2
+  '@types/lodash-es': 4.17.6
   '@umijs/fabric': 2.12.2
   '@umijs/test': 3.5.33
   antd: 4.22.8_react-dom@17.0.2+react@17.0.2
@@ -3456,6 +3460,16 @@ packages:
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
+    dev: true
+
+  /@types/lodash-es/4.17.6:
+    resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
+    dependencies:
+      '@types/lodash': 4.14.185
+    dev: true
+
+  /@types/lodash/4.14.185:
+    resolution: {integrity: sha512-evMDG1bC4rgQg4ku9tKpuMh5iBNEwNa3tf9zRHdP1qlv+1WUg44xat4IxCE14gIpZRGUUWAx2VhItCZc25NfMA==}
     dev: true
 
   /@types/mathjax/0.0.36:
@@ -10223,6 +10237,10 @@ packages:
     dependencies:
       p-locate: 4.1.0
     dev: true
+
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
 
   /lodash.camelcase/4.3.0:
     resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
