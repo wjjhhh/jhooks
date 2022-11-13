@@ -4,11 +4,11 @@ import { useRef } from 'react';
 type EffectHookType = typeof useEffect | typeof useLayoutEffect;
 type FuncType = (hook: EffectHookType) => EffectHookType;
 
-type AType = (hook:  typeof useMemo) =>  typeof useMemo
+type MemoHookType = (hook:  typeof useMemo) =>  typeof useMemo
 
 let oldDeps: any = Symbol()
 
-const createStrictMemo: AType = (hook) => (effect, deps) =>  {
+const createStrictMemo: MemoHookType = (hook) => (effect, deps) =>  {
     
     return hook(() => {
         
