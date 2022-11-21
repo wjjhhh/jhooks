@@ -1,4 +1,5 @@
 import { defineConfig } from 'dumi';
+import path from 'path';
 
 export default defineConfig({
   title: 'jhooks',
@@ -18,5 +19,6 @@ export default defineConfig({
       path: 'https://github.com/wjjhhh/jhooks',
     },
   ],
+
   // more config: https://d.umijs.org/config
 });

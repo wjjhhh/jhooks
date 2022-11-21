@@ -1,4 +1,7 @@
-import type { useEffect, useLayoutEffect, useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo, version } from 'react';
+
+import ReactDom from 'react-dom/client';
+
 import { useRef } from 'react';
 
 type EffectHookType = typeof useEffect | typeof useLayoutEffect;
@@ -29,17 +32,32 @@ const createStrictMemo: MemoHookType = (hook) => (effect, deps) => {
   }, [deps]) as ReturnType<typeof effect>;
 };
 
-const createUnStrictHook: FuncType = (hook) => (effect, deps) => {
-  const isFirst = useRef(true);
+const mp: Record<string, number> = {};
+const createUnStrictHook: FuncType = (hook) => {
+  return (effect, deps) => {
+    const cleanUp = useRef<ReturnType<typeof effect>>();
+    const key = effect.toString() + deps?.toString();
+    mp[key] = mp[key] ? mp[key] + 1 : 1;
+    hook(() => {
+      // 非开发模式或18以下正常返回
+      if (process.env.NODE_ENV !== 'development' || +version.split('.')[0] < 18) {
+        return effect();
+      }
 
-  hook(() => {
-    if (isFirst.current && process.env.NODE_ENV === 'development') {
-      isFirst.current = false;
-      return;
-    }
-
-    return effect();
-  }, [deps]);
+      if (mp[key] === 2) {
+        cleanUp.current = effect();
+      }
+      return () => {
+        if (mp[key]) {
+          mp[key] = 0;
+          return;
+        }
+        if (!mp[key]) {
+          return cleanUp.current?.();
+        }
+      };
+    }, [deps]);
+  };
 };
 
 export default createUnStrictHook;
