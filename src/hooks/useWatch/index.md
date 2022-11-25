@@ -25,6 +25,9 @@ group:
 支持停止和启动watch
 <code src="./demo/demo3.tsx" />
 
+多个值监听
+<code src="./demo/demo4.tsx" />
+
 ## API
 
 ```typescript
