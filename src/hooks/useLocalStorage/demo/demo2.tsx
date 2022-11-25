@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocalStorage } from 'jhooks';
 
-const key = 'yhooks_test_useLocalStorage1';
+const key = 'jhooks_test_useLocalStorage1';
 
 // 组件A
 const A = () => {
