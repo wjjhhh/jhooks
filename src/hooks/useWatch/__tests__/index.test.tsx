@@ -1,5 +1,4 @@
 import { fireEvent, render } from '@testing-library/react';
-import { act, renderHook } from '@testing-library/react-hooks';
 import React, { useState } from 'react';
 import useWatch from '../index';
 

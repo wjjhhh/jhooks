@@ -1,5 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { fireEvent, render, renderHook } from '@testing-library/react';
 import React from 'react';
 import useHover from '../index';
 

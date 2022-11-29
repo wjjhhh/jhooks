@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import useCopy from '../index';
 
 const originalClipboard = { ...global.navigator.clipboard };
