@@ -54,7 +54,7 @@ describe('useHover', () => {
     act(() => {
       result.current.show();
     });
-    await sleep(10);
+    await sleep(1000);
     expect(result.current.data).toBe('我是明文');
   });
 });
