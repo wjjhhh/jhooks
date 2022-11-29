@@ -1,5 +1,4 @@
-import { render } from '@testing-library/react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { render, act, renderHook } from '@testing-library/react';
 import React, { useRef } from 'react';
 import useCssVar from '../index';
 describe('useHover', () => {
