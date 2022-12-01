@@ -207,20 +207,20 @@ describe('useTravel', () => {
     expect(hook.result.current.backLength).toEqual(2);
     act(() => {
       hook.result.current.go(-1);
-    })
+    });
     expect(hook.result.current.backLength).toEqual(1);
     act(() => {
       hook.result.current.back();
-    })
+    });
     expect(hook.result.current.backLength).toEqual(0);
     act(() => {
       hook.result.current.go(-1000);
-    })
+    });
     act(() => {
       hook.result.current.go(2);
-    })
+    });
     expect(hook.result.current.backLength).toEqual(2);
-  })
+  });
   it('back and forward should work after overwrite first step', () => {
     const hook = renderHook(() => useTravel({}));
     act(() => {
@@ -283,7 +283,7 @@ describe('useTravel', () => {
       hook.result.current.setValue('123');
     });
     act(() => {
-      hook.result.current.setValue('124',  { overwrite: true });
+      hook.result.current.setValue('124', { overwrite: true });
     });
     act(() => {
       hook.result.current.back();
@@ -292,7 +292,6 @@ describe('useTravel', () => {
     expect(hook.result.current.forwardLength).toEqual(1);
     expect(hook.result.current.value).toEqual('12');
   });
-
 
   it('should work forward and back', () => {
     const hook = renderHook(() => useTravel(''));
@@ -422,7 +421,7 @@ describe('useTravel', () => {
       hook.result.current.back(2);
     });
     act(() => {
-      hook.result.current.setValue('127',  { overwrite: true });
+      hook.result.current.setValue('127', { overwrite: true });
     });
     expect(hook.result.current.backLength).toEqual(2);
     expect(hook.result.current.forwardLength).toEqual(0);
@@ -457,5 +456,24 @@ describe('useTravel', () => {
     expect(hook.result.current.backLength).toEqual(3);
     expect(hook.result.current.forwardLength).toEqual(0);
     expect(hook.result.current.value).toEqual('1278');
+  });
+  it('should work from simple type to object', () => {
+    const hook = renderHook(() => useTravel());
+    act(() => {
+      hook.result.current.setValue(1);
+      hook.result.current.setValue({ a: 1 });
+      hook.result.current.setValue(2);
+    });
+    expect(hook.result.current.value).toEqual(2);
+    act(() => {
+      hook.result.current.back();
+    });
+    expect(hook.result.current.value).toEqual({ a: 1 });
+    expect(hook.result.current.backLength).toBe(2);
+    act(() => {
+      hook.result.current.forward();
+    });
+    expect(hook.result.current.value).toEqual(2);
+    expect(hook.result.current.backLength).toBe(3);
   });
 });
