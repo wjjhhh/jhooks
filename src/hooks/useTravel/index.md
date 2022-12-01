@@ -16,7 +16,7 @@ group:
 ### 基础用法
 
 直接简单记录用户的输入(如字符串类型)
-<code src="./demo/demo1.tsx" />
+<!-- <code src="./demo/demo1.tsx" /> -->
 
 ### 间接记录复杂对象类型
 
@@ -26,7 +26,7 @@ ps：输入框是输入不到{}的
 ### 可限制最长记录
 
 如限制 5 步
-<code src="./demo/demo3.tsx" />
+<!-- <code src="./demo/demo3.tsx" /> -->
 
 ## API
 

@@ -1,16 +1,18 @@
 // @ts-nocheck
 import { useRef, useState, useCallback } from 'react';
 import Travel from '../../utils/Travel';
+import {  useForceUpdate } from '../..'
 
 const useTravel = (initialValue?: any, maxLength?: number) => {
   const travelRef = useRef(new Travel(initialValue, maxLength));
   const travel = travelRef.current;
-
+  const update = useForceUpdate()
   const [value, setValue] = useState(initialValue);
-
+ 
   return {
     value,
     setValue: useCallback((newValue, isCover: boolean = false) => {
+      update()
       return setValue(travel.setValue(newValue, isCover));
     }, []),
     backLength: travel.getBackLength(),

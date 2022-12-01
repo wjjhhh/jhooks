@@ -1,48 +1,46 @@
-// @ts-nocheck
 import { produce, applyPatches, enablePatches } from 'immer';
 
 interface IObj {
   [key: string]: any;
 }
 
-const isSimpleType = value => typeof value !== 'object' || value === null;
-
 class Travel {
-  public value: object;
+  public value: { value?: any };
   private patchesList: [];
   private inverseReplacesList: [];
   private maxLength: number;
   private current: number;
   private farthest: number; //  最远走过的步骤
-  private isTypeObject: boolean;
+
   private initialValue: any;
   constructor(initialValue = {}, maxLength = Infinity) {
     this.initialValue = initialValue;
-    this.value = isSimpleType(initialValue)
-      ? { _: initialValue }
-      : initialValue;
+
+    this.value = { value: initialValue }; // 兼容简单类型和复杂类型
     this.patchesList = [];
     this.inverseReplacesList = [];
     this.maxLength = maxLength; // 记录的长度
     this.current = 0;
     this.farthest = 0; // 最远走过的步骤
-    this.isTypeObject = !isSimpleType(initialValue); // 是否复杂类型
+
     enablePatches();
   }
-  private deepDiff = (newValue: IObj, oldValue: IObj) => {
+  private deepDiff = (newValue: IObj, originValue: IObj) => {
     if (!newValue || Object.keys(newValue).length === 0) {
-      oldValue = newValue;
+      originValue = newValue;
     } else {
       for (const i in newValue) {
         if (
           newValue[i] &&
-          oldValue[i] &&
+          originValue[i] &&
           typeof newValue[i] === 'object' &&
-          typeof oldValue[i] === 'object'
+          typeof originValue[i] === 'object'
         ) {
-          this.deepDiff(newValue[i], oldValue[i]);
-        } else if (newValue[i] !== oldValue[i]) {
-          oldValue[i] = newValue[i];
+          this.deepDiff(newValue[i], originValue[i]);
+        } else if (newValue[i] !== originValue[i]) {
+          originValue[i] = newValue[i];
+        } else {
+          originValue[i] = newValue[i];
         }
       }
     }
@@ -88,32 +86,21 @@ class Travel {
       step = this.current;
     }
     if (step <= this.maxLength) {
-      this.value = applyPatches(
-        this.value,
-        this.inverseReplacesList[(this.current -= step)],
-      );
+      this.value = applyPatches(this.value, this.inverseReplacesList[(this.current -= step)]);
     }
     return this.getValue();
   }
-  setValue(newValue: any, isCover: boolean = false) {
+  setValue(newValue: any, options?: { overwrite?: boolean }) {
     //覆盖当前步的值，不添加到步数中
-    if (isCover) {
-      this.value = produce(
-        this.value,
-        _ => {
-          // 简单类型
-          if (isSimpleType(newValue)) {
-            this.isTypeObject = false;
-            _['_'] = newValue;
-          } else {
-            this.isTypeObject = true;
-            this.deepDiff(newValue, _);
-          }
-        },
-        <T>(patches: T, inverseReplaces: T) => {
+    this.value = produce(
+      this.value,
+      (_) => {
+        _.value = newValue;
+      },
+      <T>(patches: T, inverseReplaces: T) => {
+        if (options?.overwrite) {
           this.farthest = this.current;
           if (this.current > 0) {
-
             (this.patchesList as T[]).splice(
               this.current - 1,
               this.patchesList.length - this.current + 1,
@@ -124,30 +111,8 @@ class Travel {
               this.current,
               this.inverseReplacesList.length - this.current,
             );
-
           }
-
-          if (this.current > this.maxLength) {
-            this.current = this.farthest = this.maxLength;
-            this.patchesList.shift();
-            this.inverseReplacesList.shift();
-          }
-        },
-      );
-    } else {
-      this.value = produce(
-        this.value,
-        _ => {
-          // 简单类型
-          if (isSimpleType(newValue)) {
-            this.isTypeObject = false;
-            _['_'] = newValue;
-          } else {
-            this.isTypeObject = true;
-            this.deepDiff(newValue, _);
-          }
-        },
-        <T>(patches: T, inverseReplaces: T) => {
+        } else {
           this.farthest = ++this.current;
 
           (this.patchesList as T[]).splice(
@@ -160,26 +125,19 @@ class Travel {
             this.inverseReplacesList.length - this.current + 1,
             inverseReplaces,
           );
-          if (this.current > this.maxLength) {
-            this.current = this.farthest = this.maxLength;
+        }
+        if (this.current > this.maxLength) {
+          this.current = this.farthest = this.maxLength;
+          this.patchesList.shift();
+          this.inverseReplacesList.shift();
+        }
+      },
+    );
 
-            this.patchesList.shift();
-            this.inverseReplacesList.shift();
-          }
-        },
-      );
-    }
-
-    if (!this.isTypeObject) {
-      return this.value['_'];
-    }
-    return this.value;
+    return this.value['value'];
   }
   getValue() {
-    if (this.isTypeObject) {
-      return this.value;
-    }
-    return this.value['_'];
+    return this.value['value'];
   }
   getCurrent() {
     return this.current;

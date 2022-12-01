@@ -1,6 +1,6 @@
 /**
  * title: 间接记录复杂对象类型
- * desc: 撤销跟重做操作，输入内容后，点击 back 和 forward。
+ * desc: 撤销跟重做操作，输入内容后，点击 back 和 forward。甚至可以选择覆盖记录。
  */
 import { useTravel } from 'jhooks';
 import React, { useState } from 'react';
@@ -17,8 +17,9 @@ export default () => {
   const [inputValue, setInputValue] = useState<{ name?: string; age?: number }>(
     {},
   );
-  const onAdd = () => {
-    setValue([...value, inputValue]);
+  
+  const onAdd = (isCover?: boolean) => {
+    setValue([...value, inputValue], { overwrite: isCover });
   };
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -42,9 +43,13 @@ export default () => {
           onChange={e => onChange(e, 'age')}
         />
       </div>
-      <button type="button" onClick={onAdd}>
-        TODO List
+      <button type="button" onClick={() => onAdd()}>
+        增加列表记录
       </button>
+      <button type="button" onClick={() => onAdd(true)}>
+        增加列表记录（覆盖上一步）
+      </button>
+  
       <button
         disabled={backLength <= 0}
         onClick={back}
@@ -55,6 +60,7 @@ export default () => {
       <button disabled={forwardLength <= 0} onClick={forward}>
         前进
       </button>
+    
       <h1>history list</h1>
       <ul>
         {value.map((it: object, i: number) => (
