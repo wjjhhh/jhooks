@@ -3,8 +3,8 @@ import { useAbortController } from 'jhooks';
 
 const Com = () => {
   const abc = useAbortController();
-  const { signal, restore } = abc;
-
+  const { signal } = abc;
+ 
   const myFetch = () => {
     fetch('https://mock.mengxuegu.com/mock/605c30690d58b864da03da46/example/getAllAdcode', {
       signal,
@@ -27,7 +27,7 @@ const Com = () => {
       <div>我是带网络请求的组件</div>
       <button onClick={myFetch}>fetch</button>
       <button onClick={() => abc.abort('我abort的')}>手动abort</button>
-      <button onClick={restore}>restore</button>
+     
     </div>
   );
 };

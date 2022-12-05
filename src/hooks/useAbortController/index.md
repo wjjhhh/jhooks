@@ -15,3 +15,6 @@ group:
 
 注意手动abort后需要restore恢复请求
 <code src="./demo/demo1.tsx" />
+
+addEventListener也能移除
+<code src="./demo/demo2.tsx" />

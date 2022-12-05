@@ -4,7 +4,7 @@ import useForceUpdate from '../useForceUpdate';
 export default function useAbortController(unmoutAbort = true) {
   const abc = useRef(new AbortController());
   const selfAbortController = useRef<AbortController>();
-  const forceUpdate = useForceUpdate();
+//   const forceUpdate = useForceUpdate();
   useEffect(() => {
     selfAbortController.current = new AbortController();
     abc.current.signal.addEventListener(
@@ -23,11 +23,11 @@ export default function useAbortController(unmoutAbort = true) {
   }, [abc.current]);
 
   return Object.assign(abc.current, {
-    restore: () => {
-      abc.current = new AbortController();
-      forceUpdate();
+    // restore: () => {
+    //   abc.current = new AbortController();
+    //   forceUpdate();
       
-    },
+    // },
   });
 
 }
