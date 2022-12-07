@@ -15,10 +15,12 @@ const Com = ({
     document.getElementById(id)?.addEventListener(
       'click',
       () => {
+        
         setCount((preCount) => preCount + 1);
       },
       { signal },
     );
+    
   }, []);
 
   return null;

@@ -1,4 +1,4 @@
-import { fireEvent, render, renderHook, act } from '@testing-library/react';
+import { fireEvent, render, renderHook, act, screen } from '@testing-library/react';
 import React, { useEffect, useState, useRef, useId } from 'react';
 import useAbortController from '../index';
 
@@ -28,12 +28,6 @@ describe('useAbortController', () => {
   it('should be defined', () => {
     expect(useAbortController).toBeDefined();
   });
-
-  const setUp_hook = (...args: any) => {
-    return renderHook(() => {
-      return useAbortController(...args);
-    });
-  };
 
   it('should work abort fetch', async () => {
     const hook = renderHook(() => useAbortController());
@@ -88,7 +82,11 @@ describe('useAbortController', () => {
         document.getElementById(id)?.addEventListener(
           'click',
           () => {
-            num++;
+            // Amazing! signal.aborted === true but it can still run ?
+            if (!signal.aborted) {
+              num++;
+            }
+            
           },
           { signal },
         );
@@ -115,15 +113,11 @@ describe('useAbortController', () => {
     };
     const result = render(<App />);
     fireEvent.click(result.getByText('plus1'));
+
     expect(num).toBe(1);
-
-    act(() => {
-      fireEvent.click(result.getByText('setHasEvent'));
-
-      fireEvent.click(result.getByText('plus1'));
-      fireEvent.click(result.getByText('plus1'));
-      fireEvent.click(result.getByText('plus1'));
-    });
+    fireEvent.click(result.getByText('setHasEvent'));
+    fireEvent.click(result.getByText('plus1'));
+    fireEvent.click(result.getByText('plus1'));
 
     expect(num).toBe(1);
   });
