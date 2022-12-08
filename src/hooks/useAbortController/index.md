@@ -16,5 +16,5 @@ group:
 注意手动abort后需要restore恢复请求
 <code src="./demo/demo1.tsx" />
 
-addEventListener也能移除
+addEventListener也能移除，支持同时移除多个绑定事件
 <code src="./demo/demo2.tsx" />
