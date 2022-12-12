@@ -46,7 +46,7 @@ class Travel {
     }
   };
   // 前进步数, step < 0 为后退， step > 0 时为前进
-  go(step: number) {
+  go(step?: number) {
     if (typeof step !== 'number') {
       step = 1;
     }
