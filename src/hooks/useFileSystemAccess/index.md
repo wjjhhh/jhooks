@@ -15,7 +15,9 @@ group:
 ## 代码演示
 
 ### 基础用法
-
-通过控制台看回调
+打开图片
 <code src="./demo/demo1.tsx" />
+
+文本保存
+<code src="./demo/demo2.tsx" />
 
