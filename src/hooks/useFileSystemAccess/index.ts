@@ -8,7 +8,6 @@ export default (options) => {
     const open = async () => {
         // @ts-ignore
         const newFile =  await showOpenFilePicker(options)
-        console.log('newFile', newFile)
         setFile(newFile)
     }
     return {
