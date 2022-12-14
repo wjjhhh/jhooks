@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFileSystemAccess } from 'jhooks';
 
 export default () => {
@@ -13,7 +13,16 @@ export default () => {
     ],
     multiple: false,
   });
-  console.log('file', file?.[0]?.kind);
+  const [src, setSrc] = useState('');
+  useEffect(() => {
+    if (file) {
+      (async () => {
+        const f = await file[0].getFile();
+
+        setSrc(URL.createObjectURL(f));
+      })();
+    }
+  }, [file]);
   return (
     <>
       {isSupported ? (
@@ -23,6 +32,7 @@ export default () => {
       )}
       <div>file.kind: {file?.[0]?.kind}</div>
       <div>file.name: {file?.[0]?.name}</div>
+      <img src={src} />
     </>
   );
 };
