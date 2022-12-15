@@ -17,12 +17,12 @@ export default () => {
   useEffect(() => {
     if (file) {
       (async () => {
-        const f = await file[0].getFile();
-
-        setSrc(URL.createObjectURL(f));
+        
+        setSrc(URL.createObjectURL(file));
       })();
     }
   }, [file]);
+  console.log('file', file)
   return (
     <>
       {isSupported ? (
@@ -30,8 +30,19 @@ export default () => {
       ) : (
         '抱歉，您的浏览器不支持 File System Access API'
       )}
-      <div>file.kind: {file?.[0]?.kind}</div>
-      <div>file.name: {file?.[0]?.name}</div>
+      图片信息：
+      <div>
+        name: { file?.name}
+      </div>
+      <div>
+        type: { file?.type}
+      </div>
+      <div>
+        size: { file?.size}
+      </div>
+      <div>
+        lastModifiedDate: { JSON.stringify(file?.lastModifiedDate)}
+      </div>
       <img src={src} />
     </>
   );
