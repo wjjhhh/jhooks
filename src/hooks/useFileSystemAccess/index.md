@@ -18,6 +18,6 @@ group:
 打开图片
 <code src="./demo/demo1.tsx" />
 
-文本保存
+文本新建、打开、保存、另存
 <code src="./demo/demo2.tsx" />
 
