@@ -1,4 +1,3 @@
-
 import { useState, useRef } from 'react';
 type Options = {
   dataType?: 'Text' | 'ArrayBuffer' | 'Blob';
@@ -10,12 +9,15 @@ type Options = {
 };
 
 interface FileHandleWritableStream extends WritableStream {
-    write: (data: string) => Promise<void>
+  write: (data: string) => Promise<void>;
 }
 type FileHandle = {
-    getFile: () => Promise<File>,
-    createWritable: () => Promise<FileHandleWritableStream>,
-}
+  getFile: () => Promise<File>;
+  createWritable: () => Promise<FileHandleWritableStream>;
+};
+
+type DirHandleFunc = (dirHandle: FileSystemDirectoryHandle) => void;
+
 export default (options: Options) => {
   const [file, setFile] = useState<File>();
   const [data, setData] = useState<string>();
@@ -35,7 +37,7 @@ export default (options: Options) => {
   };
   const open = async (_options: Options) => {
     if (!isSupported) {
-        return
+      return;
     }
     const [newFile] = await showOpenFilePicker({ ...options, ..._options });
 
@@ -54,20 +56,27 @@ export default (options: Options) => {
   };
   const saveAs = async (_options: Options) => {
     if (!isSupported) {
-        return
+      return;
     }
     handleRef.current = await showSaveFilePicker({ ...options, ..._options });
     const writableStream = await handleRef.current?.createWritable();
     if (writableStream) {
-        await writableStream.write(data!);
-        await writableStream.close();
+      await writableStream.write(data!);
+      await writableStream.close();
     }
-   
   };
 
   const create = async () => {
     handleRef.current = await showSaveFilePicker(options);
     setData(void 0);
+  };
+
+  const readDirectory = async (callback?: DirHandleFunc) => {
+    const dirHandle = await window.showDirectoryPicker();
+
+    if (typeof callback === 'function') {
+      callback(dirHandle);
+    }
   };
   return {
     isSupported,
@@ -78,5 +87,6 @@ export default (options: Options) => {
     setData,
     data,
     create,
-  };
+    readDirectory,
+  } as const;
 };
