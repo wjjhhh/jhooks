@@ -21,3 +21,6 @@ group:
 文本新建、打开、保存、另存
 <code src="./demo/demo2.tsx" />
 
+删除文件
+<code src="./demo/demo3.tsx" />
+
