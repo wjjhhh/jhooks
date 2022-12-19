@@ -19,7 +19,7 @@ type FileHandle = {
 export default (options: Options) => {
   const [file, setFile] = useState<File>();
   const [data, setData] = useState<string>();
-  let handleRef = useRef<FileHandle>(null);
+  let handleRef = useRef<FileHandle | null>(null);
   const isSupported = 'showSaveFilePicker' in window && 'showOpenFilePicker' in window;
   const getFile = async () => {
     const value = await handleRef.current?.getFile();

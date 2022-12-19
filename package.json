@@ -38,6 +38,7 @@
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^27.0.3",
     "@types/lodash-es": "^4.17.6",
+    "@types/wicg-file-system-access": "^2020.9.5",
     "@umijs/fabric": "^2.8.1",
     "@umijs/test": "^3.0.5",
     "antd": "^4.20.7",
