@@ -9,7 +9,7 @@ hero:
 
 ---
 
-[![npm](https://img.shields.io/github/issues/wjjhhh/jhooks)](https://github.com/alibaba/hooks/issues)
+[![npm](https://img.shields.io/github/issues/wjjhhh/jhooks)](https://github.com/wjjhhh/hooks/issues)
 ![GitHub](https://img.shields.io/github/license/wjjhhh/jhooks)
 
 ## Hello jhooks!
