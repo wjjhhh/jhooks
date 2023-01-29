@@ -17,11 +17,22 @@ function getSnapshot() {
 }
 
 const subscription = ([onChange, target]: [Function, BasicTarget]) => {
+
+ 
   const _onChange = (v: BasicTarget) => {
+    if (target === document) {
+      res = {
+        top: scrollY,
+        left: scrollX,
+      }
+      onChange(v)
+      return
+    }
     res = {
       top: v.target.scrollTop,
       left: v.target.scrollLeft,
     };
+    
     onChange(v, target);
   };
   const ele = getTargetElement(target);
