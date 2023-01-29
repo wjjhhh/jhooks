@@ -30,8 +30,10 @@
     ]
   },
   "dependencies": {
+    "@types/use-sync-external-store": "^0.0.3",
     "immer": "^9.0.14",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "use-sync-external-store": "^1.2.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",

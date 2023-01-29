@@ -1,7 +1,7 @@
-import { useEffect, useSyncExternalStore, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { BasicTarget } from '../../types';
 import { getTargetElement } from '../../utils';
-
+import { useSyncExternalStore } from 'use-sync-external-store/shim'
 type Position = {
   top: number;
   left: number;
