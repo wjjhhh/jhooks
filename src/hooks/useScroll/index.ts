@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import { BasicTarget } from '../../types';
 import { getTargetElement } from '../../utils';
-import { useSyncExternalStore } from 'use-sync-external-store/shim'
+import { useSyncExternalStore } from 'use-sync-external-store/shim';
 type Position = {
   top: number;
   left: number;
@@ -17,22 +17,20 @@ function getSnapshot() {
 }
 
 const subscription = ([onChange, target]: [Function, BasicTarget]) => {
-
- 
   const _onChange = (v: BasicTarget) => {
     if (target === document) {
       res = {
         top: scrollY,
         left: scrollX,
-      }
-      onChange(v)
-      return
+      };
+      onChange(v);
+      return;
     }
     res = {
       top: v.target.scrollTop,
       left: v.target.scrollLeft,
     };
-    
+
     onChange(v, target);
   };
   const ele = getTargetElement(target);
