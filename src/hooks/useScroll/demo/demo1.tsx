@@ -3,7 +3,7 @@ import { useScroll } from 'jhooks';
 
 
 export default () => {
-  const ref = useRef();
+  const ref = useRef(null);
   const res = useScroll(ref);
   
   return [
