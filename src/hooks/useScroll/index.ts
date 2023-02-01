@@ -6,6 +6,7 @@ type Position = {
   top: number;
   left: number;
 };
+type Target = BasicTarget | Document;
 
 let res: Position = {
   top: 0,
@@ -16,31 +17,33 @@ function getSnapshot() {
   return res;
 }
 
-const subscription = ([onChange, target]: [Function, BasicTarget]) => {
-  const _onChange = (v: BasicTarget) => {
+const subscription = ([onChange, target]: [Function, Target]) => {
+  const _onChange: EventListener = (v) => {
     if (target === document) {
       res = {
         top: scrollY,
         left: scrollX,
       };
       onChange(v);
-      return;
-    }
-    res = {
-      top: v.target.scrollTop,
-      left: v.target.scrollLeft,
-    };
+      
+    } else {
+      res = {
+        top: (v?.target as HTMLElement).scrollTop,
+        left: (v?.target  as HTMLElement).scrollLeft,
+      };
 
-    onChange(v, target);
+      onChange(v, target);
+      const ele = getTargetElement(target);
+      ele?.addEventListener('scroll', _onChange);
+      return () => {
+        ele?.removeEventListener('scroll', _onChange);
+      };
+    }
   };
-  const ele = getTargetElement(target);
-  ele.addEventListener('scroll', _onChange);
-  return () => {
-    ele.removeEventListener('scroll', _onChange);
-  };
+  return () => {}
 };
 
-function useScroll(target: BasicTarget, selector?: (val: Position) => any) {
+function useScroll(target: Target, selector?: (val: Position) => any) {
   useEffect(() => {
     res = {
       top: 0,
