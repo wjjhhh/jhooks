@@ -18,29 +18,27 @@ function getSnapshot() {
 }
 
 const subscription = ([onChange, target]: [Function, Target]) => {
-  const _onChange: EventListener = (v) => {
-    if (target === document) {
-      res = {
-        top: scrollY,
-        left: scrollX,
-      };
-      onChange(v);
-      
-    } else {
-      res = {
-        top: (v?.target as HTMLElement).scrollTop,
-        left: (v?.target  as HTMLElement).scrollLeft,
-      };
+ 
+  if (target === document) {
+    res = {
+      top: scrollY,
+      left: scrollX,
+    };
 
-      onChange(v, target);
-      const ele = getTargetElement(target);
-      ele?.addEventListener('scroll', _onChange);
-      return () => {
-        ele?.removeEventListener('scroll', _onChange);
-      };
-    }
+    return onChange();
+  }
+  const _onChange: EventListener = (v) => {
+    res = {
+      top: (v?.target as HTMLElement).scrollTop,
+      left: (v?.target as HTMLElement).scrollLeft,
+    };
+    onChange(v, target);
   };
-  return () => {}
+  const ele = getTargetElement(target);
+  ele?.addEventListener('scroll', _onChange);
+  return () => {
+    ele?.removeEventListener('scroll', _onChange);
+  };
 };
 
 function useScroll(target: Target, selector?: (val: Position) => any) {

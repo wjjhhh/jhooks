@@ -8,8 +8,9 @@ export default () => {
   
   return (
     [
-      <div>top:{JSON.stringify(res)}</div>,
+      <div key="0">top:{JSON.stringify(res)}</div>,
       <div
+      key="1"
       style={{
         height: '160px',
         width: '160px',

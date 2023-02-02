@@ -7,8 +7,9 @@ export default () => {
   const res = useScroll(ref);
   
   return [
-    <div>{JSON.stringify(res)}</div>,
+    <div key="0">{JSON.stringify(res)}</div>,
     <div
+      key="1"
       style={{
         height: '160px',
         width: '160px',
