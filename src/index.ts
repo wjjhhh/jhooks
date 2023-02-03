@@ -15,3 +15,4 @@ export { default as useForceUpdate } from './hooks/useForceUpdate';
 export { default as useAbortController } from './hooks/useAbortController';
 export { default as useFileSystemAccess } from './hooks/useFileSystemAccess';
 export { default as useScroll } from './hooks/useScroll';
+export { default as useRecordAudio } from './hooks/useRecordAudio';

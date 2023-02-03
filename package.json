@@ -32,6 +32,7 @@
     "@types/use-sync-external-store": "^0.0.3",
     "immer": "^9.0.14",
     "lodash-es": "^4.17.21",
+    "recordrtc": "^5.6.2",
     "use-sync-external-store": "^1.2.0"
   },
   "peerDependencies": {
@@ -42,6 +43,7 @@
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^27.0.3",
     "@types/lodash-es": "^4.17.6",
+    "@types/recordrtc": "^5.6.10",
     "@types/wicg-file-system-access": "^2020.9.5",
     "@umijs/fabric": "^2.8.1",
     "@umijs/test": "^3.0.5",
