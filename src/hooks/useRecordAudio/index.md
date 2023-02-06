@@ -2,7 +2,7 @@
 nav:
   path: /hooks
 group:
-  title: dom相关
+  title: Dom相关
   order: 1
 ---
 
