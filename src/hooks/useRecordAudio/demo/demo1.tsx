@@ -3,12 +3,14 @@ import { useRecordAudio }  from 'jhooks'
 
 
 export default () => {
-    const { isSupported, start, stop, src, recordRTC } = useRecordAudio()
+    const { isSupported, start, stop, src, recordRTC, pause, resume } = useRecordAudio()
     
     return isSupported ? (
         <>
             <button onClick={start}>开始录音</button>
             <button onClick={stop}>停止录音</button>
+            <button onClick={pause}>暂停录音</button>
+            <button onClick={resume}>恢复录音</button>
             <button onClick={() => console.log('recordRTC', recordRTC)}>获取音频信息</button>
             {
                 src && <audio controls src={src} />
