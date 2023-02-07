@@ -65,6 +65,6 @@ export default () => {
     pause,
     resume,
     src,
-    recordRTC: recorderRef.current,
+    getRecorder: () => recorderRef.current
   };
 };
