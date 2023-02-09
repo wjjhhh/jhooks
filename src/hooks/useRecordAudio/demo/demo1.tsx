@@ -11,7 +11,7 @@ export default () => {
             <button onClick={stop}>停止录音</button>
             <button onClick={pause}>暂停录音</button>
             <button onClick={resume}>恢复录音</button>
-            <button onClick={destory}>23</button>
+            <button onClick={destory}>销毁录音</button>
             <button onClick={() => {
                 console.log('getRecorder', getRecorder())
             }}>获取Recorder对象</button>
