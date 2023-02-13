@@ -17,7 +17,7 @@ export default () => {
   const streamRef = useRef<MediaStream | null>(null);
   const recorderRef = useRef<RecordRTC | null>(null);
   const [url, setUrl] = useState<string>();
-  const [status, setStatus] = useState()
+  const [status, setStatus] = useState('idle') // 'idle' | 'recording' | 'stopped' | 'paused'
   const hasGetUserMedia = !!navigator.mediaDevices.getUserMedia;
 
   const start = async () => {
@@ -36,10 +36,11 @@ export default () => {
         bufferSize: 16384,
         // disableLogs: true,
         // recorderType: StereoPannerNode,
-       
+        
       });
-
+      
       recorderRef.current?.startRecording();
+      setStatus('recording')
     });
   };
   const stop = () => {
@@ -48,13 +49,16 @@ export default () => {
       //   const url = URL.createObjectURL(internalRecorder?.blob);
     
       setUrl(recorderRef.current?.toURL());
+      setStatus('stopped')
     });
   };
   const pause = () => {
     recorderRef.current?.pauseRecording()
+    setStatus('paused')
   };
   const resume = () => {
     recorderRef.current?.resumeRecording()
+    setStatus('recording')
   };
   const destory = () => {
     recorderRef.current?.destroy();
