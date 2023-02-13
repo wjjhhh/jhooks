@@ -16,13 +16,16 @@ function captureUseMedia(callback: (stream: MediaStream) => void) {
 export default () => {
   const streamRef = useRef<MediaStream | null>(null);
   const recorderRef = useRef<RecordRTC | null>(null);
-  const [src, setSrc] = useState<string>();
+  const [url, setUrl] = useState<string>();
+  const [status, setStatus] = useState('idle') // 'idle' | 'recording' | 'stopped' | 'paused'
   const hasGetUserMedia = !!navigator.mediaDevices.getUserMedia;
+
   const start = async () => {
     captureUseMedia((mediaStream: MediaStream) => {
       streamRef.current = mediaStream;
+    
       if (recorderRef.current) {
-        recorderRef.current.destroy();
+        recorderRef.current?.destroy();
         recorderRef.current = null;
       }
 
@@ -31,40 +34,47 @@ export default () => {
         numberOfAudioChannels: 2,
         checkForInactiveTracks: false,
         bufferSize: 16384,
+        // disableLogs: true,
         // recorderType: StereoPannerNode,
+        
       });
+      
       recorderRef.current?.startRecording();
+      setStatus('recording')
     });
   };
   const stop = () => {
     recorderRef.current?.stopRecording(function () {
       //   let internalRecorder = recorderRef.current?.getInternalRecorder() as RecordRTC;
       //   const url = URL.createObjectURL(internalRecorder?.blob);
-      const url = recorderRef.current?.toURL();
-      setSrc(url);
+    
+      setUrl(recorderRef.current?.toURL());
+      setStatus('stopped')
     });
   };
   const pause = () => {
     recorderRef.current?.pauseRecording()
+    setStatus('paused')
   };
   const resume = () => {
     recorderRef.current?.resumeRecording()
+    setStatus('recording')
   };
+  const destory = () => {
+    recorderRef.current?.destroy();
+    recorderRef.current = null
+  }
 
-  //   useEffect(() => {
-  //     if (src) {
-  //       return () => {
-  //         URL.revokeObjectURL(src);
-  //       };
-  //     }
-  //   }, [src]);
   return {
     isSupported: hasGetUserMedia,
     start,
     stop,
     pause,
     resume,
-    src,
-    getRecorder: () => recorderRef.current
+    status,
+    url,
+    destory,
+    getRecorder: () => recorderRef.current,
+    
   };
 };
