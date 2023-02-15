@@ -1,6 +1,6 @@
 /**
  * title: 基础用法
- * desc: 只在依赖项更新时执行。
+ * desc: 只在依赖项更新时执行一次。
  */
 
 import { useUpdateEffect } from 'jhooks';
