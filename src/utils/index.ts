@@ -38,3 +38,26 @@ export const sleep = (timeout: number) => {
     setTimeout(resolve, timeout);
   });
 };
+
+export function generateUUID() {
+  let d = new Date().getTime();
+  if (
+    typeof performance !== 'undefined' &&
+    typeof performance.now === 'function'
+  ) {
+    d += performance.now(); // 使用performance.now()精确到微秒级别
+  }
+  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+    /[xy]/g,
+    function (c) {
+      const r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
+    },
+  );
+  return uuid;
+}
+
+export function isEmptyObject(obj: object) {
+  return Object.keys(obj).length === 0 && obj.constructor === Object;
+}
