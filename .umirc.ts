@@ -1,13 +1,15 @@
 import { defineConfig } from 'dumi';
 
+const publicPath = process.env.NODE_ENV === 'production' ? './' : '/'
+
 export default defineConfig({
   title: 'jhooks',
   favicon:
-    '/simple-logo.png',
-  logo: '/simple-logo.png',
+    `${publicPath}/simple-logo.png`,
+  logo: `${publicPath}/simple-logo.png`,
   outputPath: 'docs-dist',
   mode: 'site',
-  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  publicPath,
   navs: [
     {
       title: 'Hooks',
