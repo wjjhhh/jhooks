@@ -5,8 +5,8 @@ const publicPath = process.env.NODE_ENV === 'production' ? './' : '/'
 export default defineConfig({
   title: 'jhooks',
   favicon:
-    `${publicPath}/simple-logo.png`,
-  logo: `${publicPath}/simple-logo.png`,
+    `${publicPath}simple-logo.png`,
+  logo: `${publicPath}simple-logo.png`,
   outputPath: 'docs-dist',
   mode: 'site',
   publicPath,
