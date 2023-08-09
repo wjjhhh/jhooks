@@ -16,3 +16,4 @@ export { default as useAbortController } from './hooks/useAbortController';
 export { default as useFileSystemAccess } from './hooks/useFileSystemAccess';
 export { default as useScroll } from './hooks/useScroll';
 export { default as useRecordAudio } from './hooks/useRecordAudio';
+export { default as useSpeechSynthesis } from './hooks/useSpeechSynthesis';
