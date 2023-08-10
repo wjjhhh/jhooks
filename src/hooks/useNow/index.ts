@@ -1,13 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 
-type Options = {
-  stopByLeave?: boolean; // 离屏是否停止倒数
-};
+type Options = {};
 
 function useNow(millisecond?: number, options?: Options) {
   const [now, setNow] = useState(new Date());
   const oldTime = useRef(Date.now());
-  let frequency = millisecond || 1000;
+  let frequency = millisecond ?? 1000;
 
   const rafId = useRef<number>();
   const updateNow = () => {
@@ -23,7 +21,9 @@ function useNow(millisecond?: number, options?: Options) {
     rafId.current && window.cancelAnimationFrame(rafId.current);
   };
   const resume = () => {
-    rafId.current = window.requestAnimationFrame(updateNow);
+    if (frequency > 0) {
+      rafId.current = window.requestAnimationFrame(updateNow);
+    }
   };
   if (!rafId.current) {
     resume();
