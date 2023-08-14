@@ -15,3 +15,7 @@ group:
 ### 基础用法
 
 <code src="./demo/demo1.tsx" />
+
+### 规定时间格式
+getTime方法
+<code src="./demo/demo2.tsx" />
