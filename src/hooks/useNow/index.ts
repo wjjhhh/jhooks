@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
 
-type Options = {};
+type Wrapper = (date: Date) => string;
 
-function useNow(millisecond?: number, options?: Options) {
+function useNow(millisecond?: number, wrapper?: Wrapper) {
   const [now, setNow] = useState(new Date());
   const oldTime = useRef(Date.now());
   let frequency = millisecond ?? 1000;
@@ -43,7 +43,7 @@ function useNow(millisecond?: number, options?: Options) {
     };
   }, []);
   return {
-    now: now.toString(),
+    now: typeof wrapper === 'function' ? wrapper(now) : now.toString(),
     pause,
     resume,
   };
