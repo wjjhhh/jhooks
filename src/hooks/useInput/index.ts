@@ -5,13 +5,16 @@ type InputEle = HTMLInputElement | HTMLTextAreaElement;
 type Options = {
   onChange?: ((v: string) => void) | Dispatch<SetStateAction<string>>;
   onSearch?: (v: string) => void;
+  active?: Boolean;
 };
 function useInput(opts: Options = {}) {
   const searchValueRef = useRef('');
   const lockRef = useRef(false);
+  const _active = !(opts?.active === false);
+
   const eventProps = {
     onChange: (e: React.ChangeEvent<InputEle>) => {
-      if (lockRef.current) {
+      if (lockRef.current && _active) {
         return;
       }
       opts?.onChange?.(e.target.value);
