@@ -1,23 +1,21 @@
-import { useEffect, useState } from 'react'
-import QRCode from 'qrcode'
+import { useEffect, useState } from 'react';
+import QRCode from 'qrcode';
 
 function useQRCode(text: string, options?: QRCode.QRCodeToDataURLOptions) {
-    const [dataUrl, setDataUrl] = useState('')
-    const toUrl = async (_text, _options) => {
-        if (!_text) {
-            setDataUrl('')
-        } else {
-            const url = await QRCode.toDataURL(_text, _options)
-            setDataUrl(url)
-        }
-      
+  const [dataUrl, setDataUrl] = useState('');
+  const toUrl = async (_text: string, _options: QRCode.QRCodeToDataURLOptions) => {
+    if (!_text) {
+      setDataUrl('');
+    } else {
+      const url = await QRCode.toDataURL(_text, _options);
+      setDataUrl(url);
     }
-    useEffect(() => {
-        console.log('text', text)
-        toUrl(text, options)
-    }, [text, options])
+  };
+  useEffect(() => {
+    toUrl(text, options);
+  }, [text, options]);
 
-    return dataUrl
+  return dataUrl;
 }
 
-export default useQRCode
+export default useQRCode;
