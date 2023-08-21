@@ -32,6 +32,7 @@
     "@types/use-sync-external-store": "^0.0.3",
     "immer": "^9.0.14",
     "lodash-es": "^4.17.21",
+    "qrcode": "^1.5.3",
     "recordrtc": "^5.6.2",
     "use-sync-external-store": "^1.2.0"
   },
