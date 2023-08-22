@@ -3,7 +3,14 @@ import { useQRCode } from 'jhooks';
 
 export default () => {
   const [text, setText] = useState('jhooks');
-  const dataUrl = useQRCode(text);
+  const dataUrl = useQRCode(text, {
+    margin: 4,
+    width: 200,
+    color: {
+      dark: '#000',
+      light: '#eee',
+    },
+  });
 
   return (
     <>
