@@ -19,3 +19,4 @@ export { default as useRecordAudio } from './hooks/useRecordAudio';
 export { default as useSpeechSynthesis } from './hooks/useSpeechSynthesis';
 export { default as useNow } from './hooks/useNow';
 export { default as useQRCode } from './hooks/useQRCode';
+export { default as useBase64 } from './hooks/useBase64';
