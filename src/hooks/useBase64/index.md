@@ -16,7 +16,10 @@ group:
 
 <code src="./demo/demo1.tsx" />
 
-## API
+### 文件转换
+<code src="./demo/demo2.tsx" />
+
+<!-- ## API
 
 ```typescript
 
@@ -33,4 +36,4 @@ const url = useQRCode(text: string, options?: QRCode.QRCodeToDataURLOptions);
 
 | 参数   | 说明         | 类型       |
 | ------ | ------------ | ---------- |
-| url    | 二维码链接 | string     |
+| url    | 二维码链接 | string     | -->

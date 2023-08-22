@@ -5,14 +5,20 @@ export type UseBaseReturnType = {
   isSupported: boolean;
 };
 
-function toBase64(blob: Blob) {
-  return new Promise((resolve, reject) => {
+function toBase64(_target: Blob | string) {
+  return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
-    reader.readAsDataURL(blob);
+
+    if (typeof _target === 'string') {
+      reader.readAsDataURL(new Blob([_target], { type: 'text/plain' }));
+    } else if (_target instanceof Blob) {
+      reader.readAsDataURL(_target);
+    }
+
     reader.onload = (e) => {
-        resolve(e.target?.result)
+      resolve(e.target?.result as string);
     };
-    reader.onerror = reject
+    reader.onerror = reject;
   });
 }
 
@@ -23,11 +29,13 @@ function useBase64(target: any) {
   if (isSupported.current === void 0) {
     isSupported.current = typeof FileReader !== void 0;
   }
+  const exc = async (_target: Blob | string) => {
+    const res = await toBase64(_target);
+    setBase64(res);
+  };
   useEffect(() => {
-    if (typeof target === 'string') {
-        setBase64(btoa(target))
-    }
-  }, [target])
+    exc(target);
+  }, [target]);
   return {
     base64,
     isSupported: isSupported.current,
