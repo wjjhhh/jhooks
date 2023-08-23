@@ -22,6 +22,7 @@ function toBase64(_target: Blob | string) {
   });
 }
 
+function useBase64(target: File): UseBaseReturnType;
 function useBase64(target: string): UseBaseReturnType;
 function useBase64(target: any) {
   const [base64, setBase64] = useState('');
