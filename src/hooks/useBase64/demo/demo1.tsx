@@ -3,7 +3,7 @@ import { useBase64 } from 'jhooks';
 
 export default () => {
   const [text, setText] = useState('');
-  const { base64, isSupported } = useBase64(text);
+  const { base64, isSupported, promise } = useBase64(text);
   if (!isSupported) {
     return <>抱歉，您的浏览器不支持FileReader</>;
   }

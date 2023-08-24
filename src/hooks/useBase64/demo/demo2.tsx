@@ -3,10 +3,11 @@ import { useBase64 } from 'jhooks';
 
 export default () => {
   const [file, setFile] = useState<File>();
-  const { base64, isSupported } = useBase64(file);
+  const { base64, isSupported, promise } = useBase64(file);
   if (!isSupported) {
     return <>抱歉，您的浏览器不支持FileReader</>;
   }
+ 
   return (
     <>
       <div>
@@ -17,7 +18,7 @@ export default () => {
         转换后：
         <textarea value={base64} />
       </div>
-      
+      <img src={base64} />
     </>
   );
 };
