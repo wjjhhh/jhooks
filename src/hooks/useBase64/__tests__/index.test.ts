@@ -20,9 +20,8 @@ describe('useBase64', () => {
     const hook = renderHook(() => {
       return useBase64(text);
     });
-    // console.log('hook.result.current.promise', hook.result.current.promise)
-
-    await sleep(1000);
+    await sleep(400);
     expect(decode(hook.result.current.base64)).toBe(text);
   });
+
 });

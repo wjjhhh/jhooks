@@ -7,18 +7,22 @@ export default () => {
   if (!isSupported) {
     return <>抱歉，您的浏览器不支持FileReader</>;
   }
- 
+
   return (
     <>
       <div>
         源文本：
-        <input type="file" onChange={(e) => setFile(e.target.files![0])} />
+        <input
+          type="file"
+          onChange={(e) => {
+            setFile(e.target.files![0]);
+          }}
+        />
       </div>
       <div>
         转换后：
-        <textarea value={base64} />
+        <textarea value={base64} cols={80} rows={5} />
       </div>
-      <img src={base64} />
     </>
   );
 };
