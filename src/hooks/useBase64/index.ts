@@ -31,7 +31,7 @@ function useBase64(target: string, callback?: Callback): UseBaseReturnType;
 function useBase64(target: any, callback?: Callback) {
   const [base64, setBase64] = useState('');
   const isSupported = useRef<boolean>();
-  const promise = useRef<Promise<string>>(new Promise(() => ''));
+  const promise = useRef<Promise<string>>(Promise.resolve(''));
   if (isSupported.current === void 0) {
     isSupported.current = typeof FileReader !== void 0;
   }
