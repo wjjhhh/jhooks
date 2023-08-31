@@ -47,7 +47,8 @@ function useStorage<T>(storage: Storage, key: string, initialValue?: T) {
     storage.removeItem(key);
     watcher.setValue(key, null);
   };
-  return [getValue(), setValue, removeValue] as const;
+  const v = getValue()
+  return [v, setValue, removeValue] as const;
 }
 
 export default useStorage;
