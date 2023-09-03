@@ -2,18 +2,18 @@
 import { useState, useEffect, useRef } from 'react';
 
 function loadScript(fileName: string, callback?, into?) {
-  callback = callback || function() {};
-  let js = document.querySelector(`script[src="${fileName}"]`);
-  if (js) {
+  callback = callback || function () {};
+  let script = document.querySelector(`script[src="${fileName}"]`);
+  if (script) {
     callback();
   }
   into = into || 'head';
 
-  const script = document.createElement('script');
+  script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = fileName;
 
-  script.onload = function() {
+  script.onload = function () {
     callback();
   };
 
@@ -23,13 +23,13 @@ function loadScript(fileName: string, callback?, into?) {
     document.body.appendChild(script);
   }
   return {
-    dom: js,
+    dom: script,
     callback,
   };
 }
 
 function loadCSS(fileName: string, callback?, into?) {
-  callback = callback || function() {};
+  callback = callback || function () {};
   let css = document.querySelector(`link[href="${fileName}"]`);
   if (css) {
     callback();
@@ -39,10 +39,9 @@ function loadCSS(fileName: string, callback?, into?) {
     css = document.createElement('link');
     css.type = 'text/css';
     css.rel = 'stylesheet';
-    css.onload = css.onreadystatechange = function() {
+    css.onload = css.onreadystatechange = function () {
       callback();
     };
-
     css.href = fileName;
 
     if (into === 'head') {
@@ -81,7 +80,7 @@ function getResources(
     }
   }
   if (exc && url) {
-    const resource = exc(url, function() {
+    const resource = exc(url, function () {
       if (typeof action === 'function') {
         action();
       }
@@ -96,35 +95,38 @@ function getResources(
   }
 }
 
-const useBatchExternal = (
-  resource?: (string | { url: string; action?: Function })[],
-) => {
+const useBatchExternal = (resource?: (string | { url: string; action?: Function })[]) => {
   const [pending, setPending] = useState('unset');
 
-  const map = useRef(new Map()).current; // 加载表
+  const map = useRef(new Map()); // 加载表
 
   useEffect(() => {
-    setPending('pending');
-    getResources(resource, 0, map, () => {
-      setPending('finished');
-    });
+    if (resource?.length) {
+      setPending('pending');
+      getResources(resource, 0, map.current, () => {
+        setPending('finished');
+      });
+    }
 
     return () => {
       // 卸载资源
-      map.forEach(res => res?.dom?.remove());
-      map.clear();
+      map.current.forEach((res) => res?.dom?.remove());
+      map.current.clear();
     };
   }, []);
-  const load = newResource => {
-    setPending('pending');
-
-    getResources(newResource, 0, map, () => {
-      setPending('finished');
-    });
+  const load = (newResource) => {
+    const hasKeys = [...map.current.keys()];
+    const shouldLoadSource = newResource.filter((_) => !hasKeys.includes(_));
+    if (shouldLoadSource.length) {
+      setPending('pending');
+      getResources(shouldLoadSource, 0, map.current, () => {
+        setPending('finished');
+      });
+    }
   };
-  const unload = target => {
-    if (!map) return;
-    map.forEach((value, key) => {
+  const unload = (target) => {
+    if (!map.current) return;
+    map.current.forEach((value, key) => {
       console.log(key, target);
       if (
         !target ||
@@ -132,7 +134,7 @@ const useBatchExternal = (
         (Array.isArray(target) && target.includes(key))
       ) {
         value.dom.remove();
-        map.delete(key);
+        map.current.delete(key);
       }
     });
   };
