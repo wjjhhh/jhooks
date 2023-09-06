@@ -1,7 +1,14 @@
 // @ts-nocheck
 import { useState, useEffect, useRef } from 'react';
 
-function loadScript(fileName: string, callback?, into?) {
+type JsOptions = Partial<HTMLScriptElement>
+type CssOptions = Partial<HTMLStyleElement>
+
+type Into = 'head'
+
+export type Options = JsOptions | CssOptions
+
+function loadScript(fileName: string, callback?, options?: JsOptions, into?: Into) {
   callback = callback || function () {};
   let script = document.querySelector(`script[src="${fileName}"]`);
   if (script) {
@@ -16,7 +23,11 @@ function loadScript(fileName: string, callback?, into?) {
   script.onload = function () {
     callback();
   };
-
+  if (options) {
+    for(let k in options) {
+      script[k] = options[k]
+    }
+  }
   if (into === 'head') {
     document.getElementsByTagName('head')[0].appendChild(script);
   } else {
@@ -28,7 +39,7 @@ function loadScript(fileName: string, callback?, into?) {
   };
 }
 
-function loadCSS(fileName: string, callback?, into?) {
+function loadCSS(fileName: string, callback?, options?: CssOptions, into?: Into) {
   callback = callback || function () {};
   let css = document.querySelector(`link[href="${fileName}"]`);
   if (css) {
@@ -43,7 +54,12 @@ function loadCSS(fileName: string, callback?, into?) {
       callback();
     };
     css.href = fileName;
-
+    if (options) {
+      for(let k in options) {
+        css[k] = options[k]
+      }
+    }
+    console.log('into', into)
     if (into === 'head') {
       document.getElementsByTagName('head')[0].appendChild(css);
     } else {
@@ -57,7 +73,7 @@ function loadCSS(fileName: string, callback?, into?) {
 }
 
 function getResources(
-  arr: (string | { url: string; action?: Function })[],
+  arr: (string | { url: string; action?: Function, options?: Options, into?: Into })[],
   i = 0,
   map: any,
   callback?: Function,
@@ -65,12 +81,14 @@ function getResources(
   if (!Array.isArray(arr)) return;
   const currentResource = arr[i];
 
-  let exc, url, action;
+  let exc, url, action, options, into;
   if (typeof currentResource === 'string') {
     url = currentResource;
   } else if (typeof currentResource === 'object') {
     url = currentResource?.url;
     action = currentResource?.action;
+    options = currentResource?.options
+    into = currentResource?.into
   }
   if (url) {
     if (/\.js$/.test(url)) {
@@ -87,7 +105,7 @@ function getResources(
       ++i;
       arr.length > i && getResources(arr, i, map, callback);
       arr.length === i && callback?.();
-    });
+    }, options, into);
     map.set(url, resource);
   } else {
     ++i;
@@ -95,7 +113,7 @@ function getResources(
   }
 }
 
-const useBatchExternal = (resource?: (string | { url: string; action?: Function })[]) => {
+const useBatchExternal = (resource?: (string | { url: string; action?: Function, options?: Options, into? })[]) => {
   const [pending, setPending] = useState('unset');
 
   const map = useRef(new Map()); // 加载表
@@ -114,6 +132,8 @@ const useBatchExternal = (resource?: (string | { url: string; action?: Function 
       map.current.clear();
     };
   }, []);
+
+
   const load = (newResource) => {
     const hasKeys = [...map.current.keys()];
     const shouldLoadSource = newResource.filter((_) => !hasKeys.includes(_));
