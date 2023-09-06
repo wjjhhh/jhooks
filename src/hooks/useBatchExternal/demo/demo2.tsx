@@ -6,7 +6,12 @@ export default () => {
   return (
     <>
       <div>状态: {pending}</div>
-      <button onClick={() => load(['/useBatchExternal0.js'])}>加载js</button>
+      <button onClick={() => load([{
+        url: '/useBatchExternal0.js',
+        options: {
+          type: 'module'
+        }
+      }])}>加载js</button>
       <button onClick={() => unload()}>卸载js</button>
     </>
   );
