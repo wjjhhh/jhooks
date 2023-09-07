@@ -1,19 +1,22 @@
-// @ts-nocheck
 import { useState, useEffect, useRef } from 'react';
 
-type JsOptions = Partial<HTMLScriptElement>
-type CssOptions = Partial<HTMLStyleElement>
+type JsOptions = Partial<HTMLScriptElement>;
+type CssOptions = Partial<HTMLStyleElement>;
+type Callback = () => void;
+type Into = 'head';
 
-type Into = 'head'
+type Resource = (string | { url: string; action?: Callback; options?: Options; into?: Into })
 
-export type Options = JsOptions | CssOptions
+export type Options = JsOptions | CssOptions;
 
-function loadScript(fileName: string, callback?, options?: JsOptions, into?: Into) {
+function isFunction(f: unknown): f is Function {
+  return typeof f === 'function';
+}
+
+function loadScript(fileName: string, callback?: Callback, options?: JsOptions, into?: Into) {
   callback = callback || function () {};
-  let script = document.querySelector(`script[src="${fileName}"]`);
-  if (script) {
-    callback();
-  }
+  let script = document.querySelector(`script[src="${fileName}"]`) as HTMLScriptElement;
+
   into = into || 'head';
 
   script = document.createElement('script');
@@ -21,11 +24,11 @@ function loadScript(fileName: string, callback?, options?: JsOptions, into?: Int
   script.src = fileName;
 
   script.onload = function () {
-    callback();
+    callback?.();
   };
   if (options) {
-    for(let k in options) {
-      script[k] = options[k]
+    for (let k in options) {
+      script[k] = options[k];
     }
   }
   if (into === 'head') {
@@ -39,9 +42,9 @@ function loadScript(fileName: string, callback?, options?: JsOptions, into?: Int
   };
 }
 
-function loadCSS(fileName: string, callback?, options?: CssOptions, into?: Into) {
+function loadCSS(fileName: string, callback?: Callback, options?: CssOptions, into?: Into) {
   callback = callback || function () {};
-  let css = document.querySelector(`link[href="${fileName}"]`);
+  let css = document.querySelector(`link[href="${fileName}"]`) as HTMLLinkElement;
   if (css) {
     callback();
   } else {
@@ -50,16 +53,16 @@ function loadCSS(fileName: string, callback?, options?: CssOptions, into?: Into)
     css = document.createElement('link');
     css.type = 'text/css';
     css.rel = 'stylesheet';
-    css.onload = css.onreadystatechange = function () {
-      callback();
+    css.onload = function () {
+      callback?.();
     };
     css.href = fileName;
     if (options) {
-      for(let k in options) {
-        css[k] = options[k]
+      for (let k in options) {
+        css[k] = options[k];
       }
     }
-    console.log('into', into)
+    console.log('into', into);
     if (into === 'head') {
       document.getElementsByTagName('head')[0].appendChild(css);
     } else {
@@ -73,7 +76,7 @@ function loadCSS(fileName: string, callback?, options?: CssOptions, into?: Into)
 }
 
 function getResources(
-  arr: (string | { url: string; action?: Function, options?: Options, into?: Into })[],
+  arr: (string | { url: string; action?: Callback; options?: Options; into?: Into })[],
   i = 0,
   map: any,
   callback?: Function,
@@ -81,14 +84,14 @@ function getResources(
   if (!Array.isArray(arr)) return;
   const currentResource = arr[i];
 
-  let exc, url, action, options, into;
+  let exc, url, options, into, action: Callback | void;
   if (typeof currentResource === 'string') {
     url = currentResource;
   } else if (typeof currentResource === 'object') {
     url = currentResource?.url;
     action = currentResource?.action;
-    options = currentResource?.options
-    into = currentResource?.into
+    options = currentResource?.options;
+    into = currentResource?.into;
   }
   if (url) {
     if (/\.js$/.test(url)) {
@@ -98,14 +101,19 @@ function getResources(
     }
   }
   if (exc && url) {
-    const resource = exc(url, function () {
-      if (typeof action === 'function') {
-        action();
-      }
-      ++i;
-      arr.length > i && getResources(arr, i, map, callback);
-      arr.length === i && callback?.();
-    }, options, into);
+    const resource = exc(
+      url,
+      function () {
+        if (isFunction(action)) {
+          action();
+        }
+        ++i;
+        arr.length > i && getResources(arr, i, map, callback);
+        arr.length === i && callback?.();
+      },
+      options,
+      into,
+    );
     map.set(url, resource);
   } else {
     ++i;
@@ -113,15 +121,17 @@ function getResources(
   }
 }
 
-const useBatchExternal = (resource?: (string | { url: string; action?: Function, options?: Options, into? })[]) => {
+const useBatchExternal = (
+  resources?: Resource[],
+) => {
   const [pending, setPending] = useState('unset');
 
   const map = useRef(new Map()); // 加载表
 
   useEffect(() => {
-    if (resource?.length) {
+    if (resources?.length) {
       setPending('pending');
-      getResources(resource, 0, map.current, () => {
+      getResources(resources, 0, map.current, () => {
         setPending('finished');
       });
     }
@@ -133,18 +143,17 @@ const useBatchExternal = (resource?: (string | { url: string; action?: Function,
     };
   }, []);
 
-
-  const load = (newResource) => {
+  const load = (newResources: Resource[]) => {
     const hasKeys = [...map.current.keys()];
-    const shouldLoadSource = newResource.filter((_) => !hasKeys.includes(_));
-    if (shouldLoadSource.length) {
+    const shouldLoadSources = newResources.filter((_) => !hasKeys.includes(_));
+    if (shouldLoadSources.length) {
       setPending('pending');
-      getResources(shouldLoadSource, 0, map.current, () => {
+      getResources(shouldLoadSources, 0, map.current, () => {
         setPending('finished');
       });
     }
   };
-  const unload = (target) => {
+  const unload = (target: string | string[]) => {
     if (!map.current) return;
     map.current.forEach((value, key) => {
       console.log(key, target);
