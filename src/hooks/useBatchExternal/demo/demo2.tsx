@@ -2,11 +2,14 @@ import React from 'react';
 import { useBatchExternal } from 'jhooks';
 
 export default () => {
-  const { pending, load, unload } = useBatchExternal();
+  const { status, load, unload } = useBatchExternal();
   return (
     <>
-      <div>状态: {pending}</div>
+      <div>状态: {status}</div>
+   
       <button onClick={() => load([{
+        url: 'https://jj.com/handsome.js'
+      }, {
         url: '/useBatchExternal0.js',
         options: {
           type: 'module'

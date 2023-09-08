@@ -4,8 +4,8 @@ type JsOptions = Partial<HTMLScriptElement>;
 type CssOptions = Partial<HTMLStyleElement>;
 type Callback = () => void;
 type Into = 'head';
-
-type Resource = (string | { url: string; action?: Callback; options?: Options; into?: Into })
+type Status = 'unset' | 'pending' | 'finished' | 'error'
+type Resource = string | { url: string; action?: Callback; options?: Options; into?: Into };
 
 export type Options = JsOptions | CssOptions;
 
@@ -24,8 +24,11 @@ function loadScript(fileName: string, callback?: Callback, options?: JsOptions, 
   script.src = fileName;
 
   script.onload = function () {
+    
     callback?.();
   };
+
+
   if (options) {
     for (let k in options) {
       script[k] = options[k];
@@ -62,7 +65,6 @@ function loadCSS(fileName: string, callback?: Callback, options?: CssOptions, in
         css[k] = options[k];
       }
     }
-    console.log('into', into);
     if (into === 'head') {
       document.getElementsByTagName('head')[0].appendChild(css);
     } else {
@@ -80,6 +82,7 @@ function getResources(
   i = 0,
   map: any,
   callback?: Function,
+  error?: OnErrorEventHandler,
 ) {
   if (!Array.isArray(arr)) return;
   const currentResource = arr[i];
@@ -108,12 +111,15 @@ function getResources(
           action();
         }
         ++i;
-        arr.length > i && getResources(arr, i, map, callback);
+        arr.length > i && getResources(arr, i, map, callback, error);
         arr.length === i && callback?.();
       },
       options,
       into,
     );
+    if (error) {
+      resource.dom.onerror = error
+    }
     map.set(url, resource);
   } else {
     ++i;
@@ -121,19 +127,30 @@ function getResources(
   }
 }
 
-const useBatchExternal = (
-  resources?: Resource[],
-) => {
-  const [pending, setPending] = useState('unset');
+const useBatchExternal = (resources?: Resource[]) => {
+  const [status, setStatus] = useState<Status>('unset');
 
   const map = useRef(new Map()); // 加载表
-
+  const _setStatus = (_status: Status) => {
+    if (_status === 'error') {
+      return
+    }
+    setStatus(_status)
+  }
   useEffect(() => {
     if (resources?.length) {
-      setPending('pending');
-      getResources(resources, 0, map.current, () => {
-        setPending('finished');
-      });
+      setStatus('pending');
+      getResources(
+        resources,
+        0,
+        map.current,
+        () => {
+          setStatus('finished');
+        },
+        () => {
+          setStatus('error');
+        },
+      );
     }
 
     return () => {
@@ -147,10 +164,18 @@ const useBatchExternal = (
     const hasKeys = [...map.current.keys()];
     const shouldLoadSources = newResources.filter((_) => !hasKeys.includes(_));
     if (shouldLoadSources.length) {
-      setPending('pending');
-      getResources(shouldLoadSources, 0, map.current, () => {
-        setPending('finished');
-      });
+      setStatus('pending');
+      getResources(
+        shouldLoadSources,
+        0,
+        map.current,
+        () => {
+          setStatus('finished');
+        },
+        () => {
+          setStatus('error');
+        },
+      );
     }
   };
   const unload = (target: string | string[]) => {
@@ -168,7 +193,7 @@ const useBatchExternal = (
     });
   };
   return {
-    pending,
+    status,
     load,
     unload,
   };
