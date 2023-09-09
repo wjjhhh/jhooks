@@ -16,6 +16,10 @@ group:
 
 <code src="./demo/demo1.tsx" />
 
+### 关闭通道
+
+<code src="./demo/demo2.tsx" />
+
 ## API
 
 ```typescript

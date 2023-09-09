@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useBroadcastChannel } from 'jhooks'
 
 const A = () => {
-    const { post, data } = useBroadcastChannel('jhooks')
+    const { post, data } = useBroadcastChannel('jhooks channel')
     const [value, setValue] = useState('')
     return (
         <>
@@ -15,7 +15,7 @@ const A = () => {
 
 
 const B = () => {
-    const { post, data } = useBroadcastChannel('jhooks')
+    const { post, data } = useBroadcastChannel('jhooks channel')
     const [value, setValue] = useState('')
     return (
         <>
@@ -27,7 +27,7 @@ const B = () => {
 }
 
 export default () => {
-    const { isSupported } = useBroadcastChannel('jhooks')
+    const { isSupported } = useBroadcastChannel('jhooks channel')
 
     if(!isSupported) {
         return <div>not supported BroadcastChannel API</div>
