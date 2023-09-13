@@ -21,4 +21,5 @@ export { default as useNow } from './hooks/useNow';
 export { default as useQRCode } from './hooks/useQRCode';
 export { default as useBase64 } from './hooks/useBase64';
 export { default as useCycleList } from './hooks/useCycleList';
+export { default as useCustomEvent } from './hooks/useCustomEvent';
 export { default as useBroadcastChannel } from './hooks/useBroadcastChannel';
