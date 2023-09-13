@@ -16,13 +16,24 @@ group:
 
 <code src="./demo/demo1.tsx" />
 
-
 ## API
 
 ```typescript
 
 const {
   dispatch,
-  onChange,
-} = useCustomEvent(name);
+} = useCustomEvent(name, options: Options);
 ```
+
+### Params
+
+| 参数 | 说明         | 类型   | 默认值 |
+| ---- | ------------ | ------ | ------ |
+| name | 自定义事件名 | string | -      |
+
+### Result
+
+| 参数             | 说明               | 类型                   |
+| ---------------- | ------------------ | ---------------------- |
+| Options.onChange | 数据收到推送后触发 | (event: Event) => void |
+| dispatch         | 推送数据           | （data: any）=> void 0 |
