@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
+
 function useCustomEvent(
   name: string,
   options: { onChange: (event: Event) => void },
 ) {
-  console.log(name)
   if (!name || typeof name !== 'string') {
     throw('name must be a Non empty string')
   }
   const dispatch = (data: any) => {
+
     document.dispatchEvent(new CustomEvent(name, { detail: data }));
   };
 
