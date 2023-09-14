@@ -8,7 +8,7 @@ group:
 
 # useCustomEvent
 
-时间信息显示
+利用**dispatchEvent**和**CustomEvent**通信
 
 ## 代码演示
 
@@ -37,7 +37,3 @@ const {
 | ---------------- | ------------------ | ---------------------- |
 | Options.onChange | 数据收到推送后触发 | (event: Event) => void |
 | dispatch         | 推送数据           | （data: any）=> void 0 |
-=======
-  onChange,
-} = useCustomEvent(name);
-```
