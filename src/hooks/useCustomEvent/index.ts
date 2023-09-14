@@ -8,7 +8,6 @@ function useCustomEvent(
     throw('name must be a Non empty string')
   }
   const dispatch = (data: any) => {
-
     document.dispatchEvent(new CustomEvent(name, { detail: data }));
   };
 
@@ -19,7 +18,7 @@ function useCustomEvent(
         document.removeEventListener(name, options.onChange);
       };
     }
-  }, [name, options]);
+  }, [name]);
   return {
     dispatch,
   };
