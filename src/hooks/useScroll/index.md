@@ -20,3 +20,14 @@ group:
 
 监听垂直滚动
 <code src="./demo/demo2.tsx" />
+
+### 滑动状态
+<code src="./demo/demo3.tsx" />
+
+
+## API
+
+```typescript
+
+const { top, left, status } = useScroll(ref, selector?);
+```
