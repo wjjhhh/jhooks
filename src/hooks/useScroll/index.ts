@@ -31,21 +31,30 @@ const subscription = ([onChange, target]: [Function, Target]) => {
     };
     onChange(v, target);
   };
-  if (target === document) {
-    res = {
-      top: scrollY,
-      left: scrollX,
-    };
+  // if (target === document) {
+  //   res = {
+  //     top: scrollY,
+  //     left: scrollX,
+  //   };
 
-    return onChange();
-  }
+  //   onChange();
+  // }
 
   const _onChange: EventListener = (v) => {
-    res = {
-      top: (v?.target as HTMLElement).scrollTop,
-      left: (v?.target as HTMLElement).scrollLeft,
-      status: 'scrolling',
-    };
+    if (target === document) {
+      res = {
+        top: scrollY,
+        left: scrollX,
+        status: 'scrolling',
+      };
+    } else {
+      res = {
+        top: (v?.target as HTMLElement).scrollTop,
+        left: (v?.target as HTMLElement).scrollLeft,
+        status: 'scrolling',
+      };
+    }
+  
     if (!isSupportedScrollend) {
       clearTimeout(window[scrollEndTimer]);
       window[scrollEndTimer] = setTimeout(_onScrollEnd, 100);
