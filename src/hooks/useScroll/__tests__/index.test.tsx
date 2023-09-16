@@ -37,7 +37,7 @@ const createComponent = (selector?: any) => {
 describe('useScroll', () => {
   it('document position initialValue', () => {
     const hook = renderHook(() => useScroll(document));
-    expect(hook.result.current).toEqual({ top: 0, left: 0 });
+    expect(hook.result.current).toEqual({ top: 0, left: 0, status: 'idle' });
   });
   it('should scroll in component', () => {
     const result = createComponent();
