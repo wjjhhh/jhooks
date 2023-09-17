@@ -37,17 +37,17 @@ const createComponent = (selector?: any) => {
 describe('useScroll', () => {
   it('document position initialValue', () => {
     const hook = renderHook(() => useScroll(document));
-    expect(hook.result.current).toEqual({ top: 0, left: 0 });
+    expect(hook.result.current).toEqual({ top: 0, left: 0, status: 'idle' });
   });
   it('should scroll in component', () => {
     const result = createComponent();
     const scrollContainer = result.getByTestId(containerId);
     const input = result.getByTestId(inputId) as HTMLInputElement;
-    expect(input.value).toBe(JSON.stringify({ top: 0, left: 0 }));
+    expect(input.value).toBe(JSON.stringify({ top: 0, left: 0, status: 'idle' }));
     fireEvent.scroll(scrollContainer, { target: { scrollTop: 100 } });
-    expect(input.value).toBe(JSON.stringify({ top: 100, left: 0 }));
+    expect(input.value).toBe(JSON.stringify({ top: 100, left: 0, status: 'scrolling' }));
     fireEvent.scroll(scrollContainer, { target: { scrollLeft: 111 } });
-    expect(input.value).toBe(JSON.stringify({ top: 100, left: 111 }));
+    expect(input.value).toBe(JSON.stringify({ top: 100, left: 111, status: 'scrolling' }));
   });
   it('should scroll with selector', () => {
     const result = createComponent((r) => r.left);

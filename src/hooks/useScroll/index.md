@@ -7,7 +7,8 @@ group:
 ---
 
 # useScroll
-监听滚动
+
+监听滚动获取相应信息
 
 ## 代码演示
 
@@ -15,15 +16,17 @@ group:
 
 <code src="./demo/demo1.tsx" />
 
+### 监听document 滚动
 
-### 使用selector选择性监听
+<code src="./demo/demo4.tsx" />
 
-监听垂直滚动
-<code src="./demo/demo2.tsx" />
+### 使用 selector 选择性监听
 
-### 滑动状态
+监听垂直滚动 <code src="./demo/demo2.tsx" />
+
+### 滚动状态
+
 <code src="./demo/demo3.tsx" />
-
 
 ## API
 
