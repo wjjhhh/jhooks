@@ -16,7 +16,7 @@ group:
 
 <code src="./demo/demo1.tsx" />
 
-### 监听document 滚动
+### 监听 document 滚动
 
 <code src="./demo/demo4.tsx" />
 
@@ -34,3 +34,18 @@ group:
 
 const { top, left, status } = useScroll(ref, selector?);
 ```
+
+### Params
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| ref | dom 或 ref | Element \| MutableRefObject\<Element> \| Document | document |
+| selector | 滚动信息返回过滤器 | ({ top: number, left: number, status: 'idle' \| 'scrolling' \| 'scrollend'}) => any | - |
+
+### Result
+
+| 参数   | 说明         | 类型                                |
+| ------ | ------------ | ----------------------------------- |
+| top    | 滚动高度     | number                              |
+| left   | 滚动横向距离 | number                              |
+| status | 滚动状态     | idle' \| 'scrolling' \| 'scrollend' |

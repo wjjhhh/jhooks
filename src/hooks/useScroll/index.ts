@@ -24,6 +24,7 @@ const scrollEndTimer = Symbol('timer')
 const isSupportedScrollend = 'onscrollend' in window;
 
 const subscription = ([onChange, target]: [Function, Target]) => {
+  target = target || document
   const _onScrollEnd: EventListener = (v) => {
     res = {
       ...res,
@@ -31,14 +32,6 @@ const subscription = ([onChange, target]: [Function, Target]) => {
     };
     onChange(v, target);
   };
-  // if (target === document) {
-  //   res = {
-  //     top: scrollY,
-  //     left: scrollX,
-  //   };
-
-  //   onChange();
-  // }
 
   const _onChange: EventListener = (v) => {
     if (target === document) {
@@ -77,7 +70,7 @@ const subscription = ([onChange, target]: [Function, Target]) => {
   };
 };
 
-function useScroll(target: Target, selector?: (val: Result) => any) {
+function useScroll(target?: Target, selector?: (val: Result) => any) {
   useEffect(() => {
     res = {
       top: 0,
@@ -87,7 +80,7 @@ function useScroll(target: Target, selector?: (val: Result) => any) {
   }, [target]);
   const _subscription = useCallback(
     (onChange: (e: Event) => void) => subscription([onChange, target]),
-    [target],
+    [target, selector],
   );
   const _getSnapshot = useCallback(() => {
     if (selector) {
