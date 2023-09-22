@@ -7,7 +7,7 @@ type Options = {
   onSearch?: (v: string) => void;
   active?: Boolean;
 };
-function useInput(opts: Options = {}) {
+function useComposition(opts: Options = {}) {
   const searchValueRef = useRef('');
   const lockRef = useRef(false);
   const _active = !(opts?.active === false);
@@ -49,4 +49,4 @@ function useInput(opts: Options = {}) {
   return eventProps;
 }
 
-export default useInput;
+export default useComposition;

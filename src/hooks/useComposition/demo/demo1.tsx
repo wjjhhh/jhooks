@@ -1,10 +1,10 @@
-import { useInput } from 'jhooks';
+import { useComposition } from 'jhooks';
 import React, { useState } from 'react';
 
 export default () => {
   const [content, setContent] = useState('');
   const [active, setActive ] = useState(true)
-  const props = useInput({
+  const props = useComposition({
     onChange: setContent,
     active,
   });

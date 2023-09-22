@@ -3,7 +3,7 @@ export { default as useCopy } from './hooks/useCopy';
 export { default as useCssVar } from './hooks/useCssVar';
 export { default as useDataMask } from './hooks/useDataMask';
 export { default as useHover } from './hooks/useHover';
-export { default as useInput } from './hooks/useInput';
+export { default as useComposition } from './hooks/useComposition';
 export { default as useLocalStorage } from './hooks/useLocalStorage';
 export { default as useUpdateEffect } from './hooks/useUpdateEffect';
 export { default as useUpdateLayoutEffect } from './hooks/useUpdateLayoutEffect';
