@@ -1,5 +1,7 @@
 import type { Dispatch, SetStateAction } from 'react';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
+import { BasicTarget } from '../../types';
+import { getTargetElement } from '../../utils';
 
 type InputEle = HTMLInputElement | HTMLTextAreaElement;
 type Options = {
@@ -7,7 +9,7 @@ type Options = {
   onSearch?: (v: string) => void;
   active?: Boolean;
 };
-function useComposition(opts: Options = {}) {
+function useComposition(target, opts: Options = {}) {
   const searchValueRef = useRef('');
   const lockRef = useRef(false);
   const _active = !(opts?.active === false);
@@ -34,6 +36,15 @@ function useComposition(opts: Options = {}) {
     },
     onSearch: (v: string) => {},
   };
+  useEffect(() => {
+    const targetElement = getTargetElement(target);
+    if (targetElement) {
+      targetElement.addEventListener('input', eventProps.onChange);
+      targetElement.addEventListener('compositionstart', eventProps.onCompositionStart);
+      targetElement.addEventListener('compositionend', eventProps.onCompositionEnd);
+    }
+  }, []);
+
   if ('onSearch' in opts) {
     eventProps['onSearch'] = (value: string) => {
       searchValueRef.current = value;

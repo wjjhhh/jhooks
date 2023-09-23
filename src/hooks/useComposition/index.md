@@ -23,9 +23,9 @@ group:
 ### 在 antd Input 中使用
 
 需 onChange 回调
-<code src="./demo/demo2.tsx" />
+<!-- <code src="./demo/demo2.tsx" /> -->
 
 ### 在 antd Select 中使用
 
 需 onSearch 回调
-<code src="./demo/demo3.tsx" />
+<!-- <code src="./demo/demo3.tsx" /> -->
