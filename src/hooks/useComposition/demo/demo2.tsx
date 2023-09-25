@@ -7,17 +7,17 @@ export default () => {
   const props = useComposition({
     onChange: setContent,
   });
-
   return (
     <>
       <div>fetch所带参数：{content}</div>
 
       <div style={{ width: '200px' }}>
+        Input:
         <Input {...props} />
-        ---
+        <div />
+        TextArea:
         <Input.TextArea {...props} />
       </div>
-      {/* <MySelect /> */}
     </>
   );
 };

@@ -5,7 +5,7 @@ export default () => {
   const [content, setContent] = useState('');
   const [active, setActive ] = useState(true)
   const inputRef = useRef(null)
-  const props = useComposition(inputRef, {
+  useComposition(inputRef, {
     onChange: setContent,
     active,
   });
