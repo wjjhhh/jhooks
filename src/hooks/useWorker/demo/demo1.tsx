@@ -11,6 +11,7 @@ export default () => {
       setData(e.data)
     };
   }, []);
+  console.log('effect', worker)
   return (
     <>
         
