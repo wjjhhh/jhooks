@@ -1,6 +1,6 @@
 import { useWorker } from 'jhooks';
-import { useMemo, useEffect, useState, useLayoutEffect } from 'react';
-import myWorker from './demo1Woker';
+import { useEffect, useState } from 'react';
+
 
 function bigCal() {
   let timer: NodeJS.Timer
