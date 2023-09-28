@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
 type Options = WorkerOptions & {
   onMessage?: (message: MessageEvent) => void;
@@ -15,20 +15,26 @@ function createWoker(f: string, options?: WorkerOptions) {
 
 const useWoker = (fnString: string, options: Options = {}) => {
   const { onMessage, ...workerOptions } = options;
-  let worker = createWoker(fnString, workerOptions);
+  const workerRef = useRef<Worker>();
+  if (!workerRef.current) {
+    workerRef.current = createWoker(fnString, workerOptions);
+  }
+
+  const post = (message: any, transfer: Transferable[]) => {
+    workerRef.current?.postMessage(message, transfer);
+  };
+  const terminate = () => {
+    workerRef.current?.terminate();
+  };
   useEffect(() => {
-    if (typeof onMessage === 'function') {
-      worker.onmessage = onMessage;
+    if (typeof onMessage === 'function' && workerRef.current) {
+      workerRef.current.onmessage = onMessage;
     }
 
-    return () => {
-      worker.terminate();
-    };
+    return terminate;
   }, []);
-  const post = (message: any, transfer: Transferable[]) => {
-    worker.postMessage(message, transfer)
-  }
-  return [worker, post];
+
+  return [workerRef.current, post, terminate];
 };
 
 export default useWoker;
