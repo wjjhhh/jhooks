@@ -1,11 +1,10 @@
 import { useWorker } from 'jhooks';
-import {  useEffect, useState } from 'react';
-
+import { useState } from 'react';
 
 function bigCal() {
-  let timer: NodeJS.Timer
+  let timer: NodeJS.Timer;
   self.onmessage = function (e) {
-    clearTimeout(timer)
+    clearTimeout(timer);
     timer = setTimeout(() => {
       self.postMessage(new Date());
     }, 2000);
@@ -13,17 +12,16 @@ function bigCal() {
 }
 
 export default () => {
-  const [worker] = useWorker(bigCal);
-
-  const [data, setData] = useState<string>();
-  useEffect(() => {
-    worker.onmessage = function (e: MessageEvent) {
+  const [_, post] = useWorker(bigCal, {
+    onMessage: (e: MessageEvent) => {
       setData(e.data);
-    };
-  }, []);
+    },
+  });
+  const [data, setData] = useState<string>();
+
   return (
     <>
-      <button onClick={() => worker.postMessage(0)}>2s后返回时间</button>
+      <button onClick={() => post(0)}>2s后返回时间</button>
       <div>结果：{data?.toString()}</div>
     </>
   );
