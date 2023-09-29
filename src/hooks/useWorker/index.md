@@ -22,5 +22,5 @@ group:
 <code src="./demo/demo2.tsx" />
 
 ### 简洁写法
-配置回调里可以接收信息，返回参数可以直接发送，不用在操作worker实例方法
+配置回调里可以接收信息，返回参数可以直接发送和终止，不用在操作worker实例方法
 <code src="./demo/demo3.tsx" />

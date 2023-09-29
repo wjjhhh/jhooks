@@ -6,23 +6,26 @@ function bigCal() {
   self.onmessage = function (e) {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      self.postMessage(new Date());
+      self.postMessage(e.data);
     }, 2000);
   };
 }
 
 export default () => {
-  const [_, post] = useWorker(bigCal, {
+  const [result, setResult] = useState();
+  const [_, post, terminate] = useWorker(bigCal, {
     onMessage: (e: MessageEvent) => {
-      setData(e.data);
+      setResult(e.data);
     },
   });
-  const [data, setData] = useState<string>();
+  const [value, setValue] = useState<string>('');
 
   return (
     <>
-      <button onClick={() => post(0)}>2s后返回时间</button>
-      <div>结果：{data?.toString()}</div>
+      <input value={value} onChange={(e) => setValue(e.target.value)} />
+      <button onClick={() => post(value)}>2s后返回输入框值</button>
+      <button onClick={terminate}>停止worker</button>
+      <div>返回结果：{result}</div>
     </>
   );
 };
