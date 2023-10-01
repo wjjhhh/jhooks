@@ -24,3 +24,4 @@ export { default as useCycleList } from './hooks/useCycleList';
 export { default as useCustomEvent } from './hooks/useCustomEvent';
 export { default as useBroadcastChannel } from './hooks/useBroadcastChannel';
 export { default as useWorker } from './hooks/useWorker';
+export { default as useSharedWorker } from './hooks/useSharedWorker';
