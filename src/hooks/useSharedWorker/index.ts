@@ -14,7 +14,12 @@ const useSharedWorker = (fnString: string) => {
   if (!workRef.current) {
     workRef.current = createWoker(fnString);
   }
-  useEffect(() => {}, []);
+  useEffect(() => {
+    workRef.current?.port.start()
+    return () => {
+      workRef.current?.port.close();
+    }
+  }, []);
   return [workRef.current];
 };
 
