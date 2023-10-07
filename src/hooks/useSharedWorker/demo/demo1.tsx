@@ -1,21 +1,9 @@
 import { useSharedWorker } from 'jhooks';
 import { useState, useEffect } from 'react';
 
-function sharedWorkerJs() {
-  self.onconnect = ({ ports }) => {
-    ports.forEach((port) => {
-      port.onmessage = (ev) => {
-        port.postMessage(ev.data);
-      };
-      port.onmessageerror = (error) => {
-        console.log('error', error);
-      };
-    });
-  };
-}
 
 export default () => {
-  const [worker] = useSharedWorker(sharedWorkerJs);
+  const [worker] = useSharedWorker('/demo1ShareWorker.worker');
   const [num, setNum] = useState(0);
   const changeNum = () => {
     const newNum = num + 1;
