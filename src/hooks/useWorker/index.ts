@@ -1,8 +1,11 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 type Options = WorkerOptions & {
   onMessage?: (message: MessageEvent) => void;
+  onMessageError?: (message: MessageEvent) => void;
 };
+
+type Status = 'idle' | 'open' | 'closed' | 'error';
 
 function createWoker(f: string, options?: WorkerOptions) {
   let code = f.toString();
@@ -14,27 +17,40 @@ function createWoker(f: string, options?: WorkerOptions) {
 }
 
 const useWoker = (fnString: string, options: Options = {}) => {
-  const { onMessage, ...workerOptions } = options;
+  const { onMessage, onMessageError, ...workerOptions } = options;
   const workerRef = useRef<Worker>();
-  if (!workerRef.current) {
-    workerRef.current = createWoker(fnString, workerOptions);
-  }
+  const [status, setStatus] = useState<Status>('idle');
 
   const post = (message: any, transfer: Transferable[]) => {
     workerRef.current?.postMessage(message, transfer);
   };
   const terminate = () => {
+    setStatus('closed');
     workerRef.current?.terminate();
   };
-  useEffect(() => {
-    if (typeof onMessage === 'function' && workerRef.current) {
-      workerRef.current.onmessage = onMessage;
+  const start = () => {
+    if (status !== 'open') {
+      workerRef.current = createWoker(fnString, workerOptions);
+      if (workerRef.current) {
+        if (typeof onMessage === 'function') {
+          workerRef.current.onmessage = onMessage;
+        }
+        workerRef.current.onmessageerror = (e: MessageEvent) => {
+          onMessageError?.(e);
+          setStatus('error');
+        };
+      }
+      setStatus('open');
     }
-
+  };
+  if (!workerRef.current) {
+    start();
+  }
+  useEffect(() => {
     return terminate;
   }, []);
 
-  return [workerRef.current, post, terminate];
+  return [workerRef.current, { post, terminate, start, status }];
 };
 
 export default useWoker;
