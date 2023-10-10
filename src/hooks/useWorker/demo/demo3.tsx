@@ -21,18 +21,22 @@ export default () => {
   const [value, setValue] = useState<string>('');
   return (
     <>
-      状态：{status}
-      <div />
-      <input value={value} onChange={(e) => setValue(e.target.value)} />
-      <div />
-      <button onClick={() => post(value)}>2s后返回输入框值</button>
-      <div />
-      <button onClick={terminate} disabled={status === 'closed'}>停止worker</button>
-      <div />
-      <button onClick={start} disabled={!['closed', 'error'].includes(status)}>
-        重新开启worker
-      </button>
+      <div>状态：{status}</div>
       <div>返回结果：{result}</div>
+      <div>
+        <input value={value} onChange={(e) => setValue(e.target.value)} />
+        <button onClick={() => post(value)}>2s后返回输入框值</button>
+      </div>
+      <div style={{ marginBlock: 10 }}>
+        <button onClick={terminate} disabled={status === 'closed'}>
+          停止worker
+        </button>
+      </div>
+      <div>
+        <button onClick={start} disabled={!['closed', 'error'].includes(status)}>
+          重新开启worker
+        </button>
+      </div>
     </>
   );
 };
