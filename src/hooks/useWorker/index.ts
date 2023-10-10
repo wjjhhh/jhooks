@@ -7,7 +7,7 @@ type Options = WorkerOptions & {
 
 type Status = 'idle' | 'open' | 'closed' | 'error';
 
-function createWoker(f: string, options?: WorkerOptions) {
+function createWoker(f: Function, options?: WorkerOptions) {
   let code = f.toString();
   code = code.substring(code.indexOf('{') + 1, code.lastIndexOf('}'));
   const blob = new Blob([code], { type: 'application/javascript' });
@@ -16,7 +16,7 @@ function createWoker(f: string, options?: WorkerOptions) {
   return new Worker(url, options);
 }
 
-const useWoker = (fnString: string, options: Options = {}) => {
+const useWoker = (fn: Function, options: Options = {}) => {
   const { onMessage, onMessageError, ...workerOptions } = options;
   const workerRef = useRef<Worker>();
   const [status, setStatus] = useState<Status>('idle');
@@ -30,7 +30,7 @@ const useWoker = (fnString: string, options: Options = {}) => {
   };
   const start = () => {
     if (status !== 'open') {
-      workerRef.current = createWoker(fnString, workerOptions);
+      workerRef.current = createWoker(fn, workerOptions);
       if (workerRef.current) {
         if (typeof onMessage === 'function') {
           workerRef.current.onmessage = onMessage;
