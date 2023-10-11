@@ -33,12 +33,15 @@ const [worker, { post, terminate, start, status }] = useWorker(fn, options?);
 
 ### Params
 
-| 参数                   | 说明             | 类型                            | 默认值 |
-| ---------------------- | ---------------- | ------------------------------- | ------ |
-| fn                     | 资源路径或函数   | Function                        |        |
-| options.onMessage      | 获取消息回调     | (message: MessageEvent) => void | -      |
-| options.onMessageError | 获取消息异常回调 | (message: MessageEvent) => void | -      |
-| options.WorkerOptions  | worker 参数      | WorkerOptions                   | -      |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| fn | 资源路径或函数 | Function |  |
+| options.onMessage | 获取消息回调 | (message: MessageEvent) => void | - |
+| options.onMessageError | Worker 收到的消息不能进行反序列化时触发 | (evt: MessageEvent) => void | - |
+| options.onerror | 在 Worker 的 error 事件触发并冒泡时执行 | (evt: ErrorEvent) => void | - |
+| options.type | worker 参数 | WorkerOptions.type | - |
+| options.credentials | worker 参数 | WorkerOptions.credentials | - |
+| options.name | worker 参数 | WorkerOptions.name | - |
 
 ### Result
 
