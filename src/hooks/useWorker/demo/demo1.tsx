@@ -1,5 +1,5 @@
 import { useWorker } from 'jhooks';
-import { useMemo, useEffect, useState, useLayoutEffect } from 'react';
+import { useEffect, useState } from 'react';
 import myWorker from './demo1Woker';
 
 export default () => {

@@ -2,7 +2,8 @@ import { useRef, useEffect, useState } from 'react';
 
 type Options = WorkerOptions & {
   onMessage?: (message: MessageEvent) => void;
-  onMessageError?: (message: MessageEvent) => void;
+  onMessageError?: (evt: MessageEvent) => void;
+  onError?: (evt: ErrorEvent) => void
 };
 
 type Status = 'idle' | 'open' | 'closed' | 'error';
@@ -17,7 +18,7 @@ function createWoker(f: Function, options?: WorkerOptions) {
 }
 
 const useWoker = (fn: Function, options: Options = {}) => {
-  const { onMessage, onMessageError, ...workerOptions } = options;
+  const { onMessage, onMessageError, onError, ...workerOptions } = options;
   const workerRef = useRef<Worker>();
   const [status, setStatus] = useState<Status>('idle');
 
@@ -39,6 +40,11 @@ const useWoker = (fn: Function, options: Options = {}) => {
           onMessageError?.(e);
           setStatus('error');
         };
+        workerRef.current.onerror = (e: ErrorEvent) => { 
+          onError?.(e) 
+          setStatus('error');
+          terminate()
+        }
       }
       setStatus('open');
     }
