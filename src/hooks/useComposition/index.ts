@@ -23,8 +23,11 @@ function useComposition(target: BasicTarget | Options, opts?: Options) {
       if (lockRef.current && _active) {
         return;
       }
-      const v = 'value' in e.target ? e.target.value : e.target;
-      _options?.onChange?.(v as string);
+      if (e.target) {
+        const v = 'value' in e.target ? e.target.value : e.target;
+        _options?.onChange?.(v as string);
+      }
+      
     },
     onCompositionStart: () => {
       lockRef.current = true;
