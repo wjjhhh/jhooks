@@ -9,7 +9,6 @@ export default () => {
     onChange: setContent,
     active,
   });
-
   return (
     <>
       <div>fetch所带参数：{content}</div>

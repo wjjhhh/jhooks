@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
-import { useRef, useEffect, useLayoutEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { BasicTarget } from '../../types';
 import { getTargetElement, isDomElement } from '../../utils';
 
@@ -23,8 +23,11 @@ function useComposition(target: BasicTarget | Options, opts?: Options) {
       if (lockRef.current && _active) {
         return;
       }
-      const v = 'value' in e.target ? e.target.value : e.target;
-      _options?.onChange?.(v as string);
+      if (e.target) {
+        const v = 'value' in e.target ? e.target.value : e.target;
+        _options?.onChange?.(v as string);
+      }
+      
     },
     onCompositionStart: () => {
       lockRef.current = true;
@@ -81,7 +84,6 @@ function useComposition(target: BasicTarget | Options, opts?: Options) {
     const { onSearch, ...restProps } = eventProps;
     return restProps;
   }
-  console.log(eventProps);
   return eventProps;
 }
 
