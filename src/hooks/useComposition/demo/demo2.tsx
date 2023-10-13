@@ -1,10 +1,11 @@
 import { useComposition } from 'jhooks';
 import { Input } from 'antd';
-import React, { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export default () => {
   const [content, setContent] = useState('');
-  const props = useComposition({
+  const inputRef = useRef(null)
+  const props = useComposition(inputRef, {
     onChange: setContent,
   });
   return (

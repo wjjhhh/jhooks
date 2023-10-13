@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
-import { useRef, useEffect, useLayoutEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { BasicTarget } from '../../types';
 import { getTargetElement, isDomElement } from '../../utils';
 
@@ -84,7 +84,6 @@ function useComposition(target: BasicTarget | Options, opts?: Options) {
     const { onSearch, ...restProps } = eventProps;
     return restProps;
   }
-  console.log(eventProps);
   return eventProps;
 }
 
