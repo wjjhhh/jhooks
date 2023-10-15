@@ -5,6 +5,7 @@ interface Options {
   onSuccess?: () => void;
   onError?: () => void;
   trigger?: 'click' | 'dblclick';
+  allowed?: true;
 }
 type TargetValue<T> = T | undefined | null;
 
@@ -20,15 +21,10 @@ function useCopy(target?: BasicTarget | Options, options?: Options) {
   const [error, setError] = useState<string | null>(null);
 
   const isInsideRef =
-    !target ||
-    'onSuccess' in target ||
-    'onError' in target ||
-    'trigger' in target;
+    !target || 'onSuccess' in target || 'onError' in target || 'trigger' in target;
   let _options = isInsideRef ? target : options;
   const getElement = () => {
-    return isInsideRef
-      ? getTargetElement(innerRef)
-      : getTargetElement(target as BasicTarget);
+    return isInsideRef ? getTargetElement(innerRef) : getTargetElement(target as BasicTarget);
   };
 
   const copy = () => {
@@ -60,8 +56,14 @@ function useCopy(target?: BasicTarget | Options, options?: Options) {
     if (['dblclick', 'click'].includes(trigger)) {
       targetElement?.addEventListener(trigger, copy);
     }
+    const notAllowed = (e: Event) => {
+      e.preventDefault();
+      e.clipboardData.setData('text/plain', ' 不能复制');
+    };
+    targetElement?.addEventListener('copy', notAllowed);
     return () => {
       targetElement?.removeEventListener(trigger, copy);
+      targetElement?.removeEventListener('copy', notAllowed);
     };
   }, []);
 
