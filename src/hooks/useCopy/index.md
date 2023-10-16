@@ -20,6 +20,10 @@ group:
 
 甚至不需要传入 DOM 元素和 ref <code src="./demo/demo2.tsx">
 
+### 禁止复制
+可在复制时加入弹窗提示
+<code src="./demo/demo3.tsx">
+
 ## API
 
 ```typescript

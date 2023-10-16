@@ -5,7 +5,8 @@ interface Options {
   onSuccess?: () => void;
   onError?: () => void;
   trigger?: 'click' | 'dblclick';
-  allowed?: true;
+  forbid?: boolean;
+  onForbid: (e: ClipboardEvent) => void;
 }
 type TargetValue<T> = T | undefined | null;
 
@@ -53,17 +54,24 @@ function useCopy(target?: BasicTarget | Options, options?: Options) {
   useLayoutEffect(() => {
     const targetElement = getElement();
     const trigger = _options?.trigger || 'click';
-    if (['dblclick', 'click'].includes(trigger)) {
+    const allowed = !_options?.forbid;
+
+    if (['dblclick', 'click'].includes(trigger) && allowed) {
       targetElement?.addEventListener(trigger, copy);
     }
     const notAllowed = (e: Event) => {
       e.preventDefault();
-      e.clipboardData.setData('text/plain', ' 不能复制');
+      _options?.onForbid?.(e as ClipboardEvent);
     };
-    targetElement?.addEventListener('copy', notAllowed);
+    if (!allowed) {
+      targetElement?.addEventListener('copy', notAllowed);
+    }
     return () => {
-      targetElement?.removeEventListener(trigger, copy);
-      targetElement?.removeEventListener('copy', notAllowed);
+      if (allowed) {
+        targetElement?.removeEventListener(trigger, copy);
+      } else {
+        targetElement?.removeEventListener('copy', notAllowed);
+      }
     };
   }, []);
 
