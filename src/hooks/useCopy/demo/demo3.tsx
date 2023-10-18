@@ -2,7 +2,6 @@ import { useCopy } from 'jhooks';
 
 export default () => {
   const { ref } = useCopy({
-    trigger: 'dblclick',
     forbid: true,
     onForbid: (e) => {
       e.clipboardData?.setData('text/plain', '不能复制!')
