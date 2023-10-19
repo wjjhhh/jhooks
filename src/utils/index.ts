@@ -51,3 +51,7 @@ export function generateUUID() {
 export function isEmptyObject(obj: object) {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
 }
+
+export function isPlainObject(obj: object) {  
+  return Object.prototype.toString.call(obj) === '[object Object]' && !Array.isArray(obj) && obj.constructor === Object;  
+}

@@ -1,5 +1,5 @@
 import { MutableRefObject, useLayoutEffect, useRef, useState } from 'react';
-import { getTargetElement } from '../../utils';
+import { getTargetElement, isPlainObject } from '../../utils';
 
 interface Options {
   onSuccess?: () => void;
@@ -16,16 +16,19 @@ export type BasicTarget<T extends TargetType = Element> =
   | TargetValue<T>
   | MutableRefObject<TargetValue<T>>;
 
+const isOptions = (target: unknown): target is Options => {
+  return !target || isPlainObject(target);
+};
+
 function useCopy(target?: BasicTarget | Options, options?: Options) {
   const innerRef = useRef<HTMLDivElement | null>(null);
   const valueRef = useRef<string>(null!);
   const [error, setError] = useState<string | null>(null);
 
-  const isInsideRef =
-    !target || 'onSuccess' in target || 'onError' in target || 'trigger' in target;
+  const isInsideRef = isOptions(target);
   let _options = isInsideRef ? target : options;
   const getElement = () => {
-    return isInsideRef ? getTargetElement(innerRef) : getTargetElement(target as BasicTarget);
+    return isInsideRef ? getTargetElement(innerRef) : getTargetElement(target);
   };
 
   const copy = () => {
@@ -73,7 +76,7 @@ function useCopy(target?: BasicTarget | Options, options?: Options) {
         targetElement?.removeEventListener('copy', notAllowed);
       }
     };
-  }, []);
+  }, [target, options]);
 
   const getValue = () => {
     return valueRef.current;
