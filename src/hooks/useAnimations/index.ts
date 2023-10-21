@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { TargetType } from '@/utils/types';
 import { getTargetElement, isPlainObject } from '../../utils';
 
@@ -8,18 +8,29 @@ function useAnimation(
   options?: KeyframeAnimationOptions,
 ) {
   const [pending, setPending] = useState(false);
+  const animate = useRef<Animation>();
+ 
+
   const play = () => {
-    getTargetElement(target).animate(keyframes, options);
+    animate.current?.play();
   };
-  const pause = () => {};
-  const cancel = () => {};
+  const pause = () => {
+    animate.current?.pause();
+  };
+  const cancel = () => {
+    animate.current?.cancel();
+  };
+  const reverse = () => {
+    animate.current?.reverse();
+  };
   useEffect(() => {
-    play();
+    animate.current = getTargetElement(target).animate(keyframes, options);
   }, [target, keyframes, options]);
   return {
     pending,
     play,
     pause,
+    reverse,
     cancel,
   };
 }
