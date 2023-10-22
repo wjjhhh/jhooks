@@ -3,7 +3,7 @@ import { useAnimations } from 'jhooks';
 
 export default () => {
   const ref = useRef(null);
-  useAnimations(
+  const { play, pause, cancel, reverse } = useAnimations(
     ref,
     {
       transform: ['translateX(0)', 'translateX(550px)'],
@@ -17,6 +17,10 @@ export default () => {
   );
   return (
     <div>
+      <button onClick={play}>play</button>
+      <button onClick={pause}>pause</button>
+      <button onClick={cancel}>cancel</button>
+      <button onClick={reverse}>reverse</button>
       <div
         ref={ref}
         style={{
@@ -24,7 +28,7 @@ export default () => {
           height: 200,
           background: 'green',
         }}
-      ></div>
+      />
     </div>
   );
 };
