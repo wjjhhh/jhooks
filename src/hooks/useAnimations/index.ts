@@ -1,37 +1,39 @@
 import { useState, useEffect, useRef } from 'react';
 import type { TargetType } from '@/utils/types';
-import { getTargetElement, isPlainObject } from '../../utils';
+import { getTargetElement } from '../../utils';
+import useDeepEffect from '../useDeepEffect';
+
 
 function useAnimation(
   target: TargetType,
   keyframes: KeyframeEffect,
   options?: KeyframeAnimationOptions,
 ) {
-  const [pending, setPending] = useState(false);
-  const animate = useRef<Animation>();
- 
+  const [animate, setAnimate] = useState<Animation>();
+
 
   const play = () => {
-    animate.current?.play();
+    animate?.play();
   };
   const pause = () => {
-    animate.current?.pause();
+    animate?.pause();
   };
   const cancel = () => {
-    animate.current?.cancel();
+    animate?.cancel();
   };
   const reverse = () => {
-    animate.current?.reverse();
+    animate?.reverse();
   };
-  useEffect(() => {
-    animate.current = getTargetElement(target).animate(keyframes, options);
+  useDeepEffect(() => {
+    setAnimate(getTargetElement(target).animate(keyframes, options));
   }, [target, keyframes, options]);
+  
   return {
-    pending,
     play,
     pause,
     reverse,
     cancel,
+    animate,
   };
 }
 
