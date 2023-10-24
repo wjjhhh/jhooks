@@ -3,7 +3,7 @@ import { useAnimations } from 'jhooks';
 
 export default () => {
   const ref = useRef(null);
-  const { play, pause, cancel, reverse, animate } = useAnimations(
+  const { play, pause, cancel, reverse, finish, status } = useAnimations(
     ref,
     {
       transform: ['translateX(0)', 'translateX(550px)'],
@@ -12,16 +12,22 @@ export default () => {
       easing: 'cubic-bezier(.68,.08,.89,-0.05)',
       duration: 2000,
       fill: 'both',
-      iterations: Infinity,
+      iterations: 1,
+      immediate: false,
     },
   );
+
   return (
     <div>
-      <button onClick={play}>play</button>
-      <button onClick={pause}>pause</button>
+      {status === 'running' ? (
+        <button onClick={pause}>pause</button>
+      ) : (
+        <button onClick={play}>play</button>
+      )}
+      <button onClick={finish}>finish</button>
       <button onClick={cancel}>cancel</button>
       <button onClick={reverse}>reverse</button>
-      <button onClick={() => console.log('animate', animate)}>get ref</button>
+      <div>status: {status}</div>
       <div
         ref={ref}
         style={{
