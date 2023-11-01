@@ -5,10 +5,12 @@ import useDeepEffect from '../useDeepEffect';
 
 function useAnimation(
   target: TargetType,
-  keyframes: KeyframeEffect,
-  options?: KeyframeAnimationOptions & {
-    immediate: boolean;
-  },
+  keyframes: PropertyIndexedKeyframes,
+  options?: KeyframeAnimationOptions &
+    Partial<{
+      immediate: boolean;
+      commitStyles: boolean;
+    }>,
 ) {
   const [animate, setAnimate] = useState<Animation>();
   const [status, setStatus] = useState<'idle' | 'running' | 'paused' | 'finished'>('idle');
@@ -18,6 +20,9 @@ function useAnimation(
     a.onfinish = () => {
       setStatus('finished');
     };
+    if (options?.commitStyles) {
+        a.commitStyles()
+    }
     return a;
   };
   const play = () => {
