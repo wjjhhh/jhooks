@@ -21,7 +21,7 @@ function useAnimation(
       setStatus('finished');
     };
     if (options?.commitStyles) {
-        a.commitStyles()
+      a.commitStyles();
     }
     return a;
   };
@@ -63,6 +63,7 @@ function useAnimation(
     finish,
     animate,
     status,
+    isSupported: window && HTMLElement && 'animate' in HTMLElement.prototype
   };
 }
 

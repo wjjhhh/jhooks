@@ -3,7 +3,7 @@ import { useAnimations } from 'jhooks';
 
 export default () => {
   const ref = useRef(null);
-  const { play, pause, cancel, reverse, finish, status, animate } = useAnimations(
+  const { isSupported, play, pause, cancel, reverse, finish, status, animate } = useAnimations(
     ref,
     {
       transform: ['translateX(0)', 'translateX(550px)'],
@@ -16,6 +16,9 @@ export default () => {
       immediate: false,
     },
   );
+  if (!isSupported) {
+    return <div>not supported</div>
+  }
   return (
     <div>
       {status === 'running' ? (
