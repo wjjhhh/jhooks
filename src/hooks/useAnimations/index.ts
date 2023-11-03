@@ -14,7 +14,9 @@ function useAnimation(
 ) {
   const [animate, setAnimate] = useState<Animation>();
   const [status, setStatus] = useState<'idle' | 'running' | 'paused' | 'finished'>('idle');
+  const isSupported = window && HTMLElement && 'animate' in HTMLElement.prototype
   const init = () => {
+    if (!isSupported) { return }
     const a = getTargetElement(target).animate(keyframes, options);
 
     a.onfinish = () => {
@@ -63,7 +65,7 @@ function useAnimation(
     finish,
     animate,
     status,
-    isSupported: window && HTMLElement && 'animate' in HTMLElement.prototype
+    isSupported
   };
 }
 
