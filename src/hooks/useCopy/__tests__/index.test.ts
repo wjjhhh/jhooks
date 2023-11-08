@@ -1,5 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import useCopy from '../index';
+import type { Options } from '../index';
 
 const originalClipboard = { ...global.navigator.clipboard };
 
@@ -10,41 +11,39 @@ describe('useCopy', () => {
     expect(useCopy).toBeDefined();
   });
   document.execCommand = jest.fn().mockReturnValue(true);
-
+  const mockClipboard = {
+    readText: jest.fn(() => Promise.resolve(CONTENT)),
+  };
   let textDom: HTMLDivElement;
-  // let inpuDom: HTMLInputElement;
   beforeEach(() => {
     textDom = document.createElement('div');
     textDom.innerHTML = CONTENT;
-    // inpuDom = document.createElement('input')
     document.body.appendChild(textDom);
-    // document.body.appendChild(inpuDom);
-    const mockClipboard = {
-      readText: jest.fn(() => Promise.resolve(CONTENT)),
-    };
-    global.navigator.clipboard = mockClipboard;
+    (global.navigator as any).clipboard = mockClipboard;
   });
   afterEach(() => {
     document.body.removeChild(textDom);
-    // document.body.removeChild(inpuDom);
-    jest.resetAllMocks();
-    global.navigator.clipboard = originalClipboard;
+    (global.navigator as any).clipboard = originalClipboard;
   });
-
-  const setUp = <T>(target: HTMLDivElement, options?: T) => {
+  afterAll(() => {
+    jest.resetAllMocks();
+  });
+  const setUp = <T>(target: HTMLDivElement, options?: Options) => {
     return renderHook(() => {
       return useCopy(target, options);
     });
   };
 
-  it('should work click on text', () => {
+  it('should work click on text', (done) => {
     const hook = setUp(textDom);
     let clipText = '';
     act(() => {
       hook.result.current.copy();
+      clipText = hook.result.current.paste();
       setTimeout(() => {
         clipText = hook.result.current.paste();
         expect(clipText).toEqual(CONTENT);
+        done();
       }, 0);
     });
   });

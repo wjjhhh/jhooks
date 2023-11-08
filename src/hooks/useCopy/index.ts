@@ -1,7 +1,7 @@
 import { MutableRefObject, useLayoutEffect, useRef, useState } from 'react';
 import { getTargetElement, isPlainObject } from '../../utils';
 
-interface Options {
+export interface Options {
   onSuccess?: () => void;
   onError?: () => void;
   trigger?: 'click' | 'dblclick';
