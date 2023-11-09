@@ -6,7 +6,7 @@ export interface Options {
   onError?: () => void;
   trigger?: 'click' | 'dblclick';
   forbid?: boolean;
-  onForbid: (e: ClipboardEvent) => void;
+  onForbid?: (e: ClipboardEvent) => void;
 }
 type TargetValue<T> = T | undefined | null;
 
@@ -32,6 +32,9 @@ function useCopy(target?: BasicTarget | Options, options?: Options) {
   };
 
   const copy = () => {
+    if (options?.forbid) {
+      return;
+    }
     let successful = false;
     let range = document.createRange();
     window?.getSelection()?.removeAllRanges();
