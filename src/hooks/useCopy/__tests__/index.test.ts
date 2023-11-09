@@ -39,12 +39,23 @@ describe('useCopy', () => {
     let clipText = '';
     act(() => {
       hook.result.current.copy();
-      clipText = hook.result.current.paste();
       setTimeout(() => {
         clipText = hook.result.current.paste();
         expect(clipText).toEqual(CONTENT);
         done();
       }, 0);
     });
+  });
+
+  it('should not allow copy', (done) => {
+    const hook = setUp(textDom, {
+      forbid: true,
+    });
+    hook.result.current.copy();
+    setTimeout(() => {
+      let clipText = hook.result.current.paste();
+      expect(clipText).toBeNull();
+      done();
+    }, 0);
   });
 });
