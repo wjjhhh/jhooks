@@ -14,7 +14,10 @@ group:
 
 ### 基础用法
 
-将['first', 'second', 'third', 'four', 'five']循环使用 <code src="./demo/demo1.tsx" />
+对原数组['first', 'second', 'third', 'four', 'five']进行操作
+
+可push、pop内容
+ <code src="./demo/demo1.tsx" />
 
 ## API
 
