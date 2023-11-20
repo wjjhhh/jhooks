@@ -33,7 +33,6 @@ describe('useBase64', () => {
       return useCycleList(['white', 'red', 'yellow', 'blue']);
     });
 
-
     act(() => {
       hook.result.current.prev();
     });
@@ -45,5 +44,34 @@ describe('useBase64', () => {
     });
     expect(hook.result.current.index).toBe(2);
     expect(hook.result.current.data).toBe('yellow');
+  });
+
+  it('should push and pop', () => {
+    const hook = renderHook(() => {
+      return useCycleList(['Jack', 'Mike', 'Rose']);
+    });
+
+    act(() => {
+      hook.result.current.push('Kate');
+    });
+    act(() => {
+      hook.result.current.prev();
+    });
+    expect(hook.result.current.data).toBe('Kate');
+    expect(hook.result.current.index).toBe(3);
+
+    act(() => {
+      hook.result.current.next();
+    });
+    expect(hook.result.current.data).toBe('Jack');
+
+    act(() => {
+      hook.result.current.pop();
+    });
+    act(() => {
+      hook.result.current.prev();
+    });
+    expect(hook.result.current.data).toBe('Rose');
+    expect(hook.result.current.index).toBe(2);
   });
 });
