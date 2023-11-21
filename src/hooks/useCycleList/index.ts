@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 function useCycleList<T>(list: T[]) {
   const [index, setIndex] = useState(0);
-  const [innerList, setInnerList] = useState<any[]>(list)
+  const [innerList, setInnerList] = useState<any[]>(list);
   const len = innerList.length;
   const prev = () => {
     setIndex((old) => (old === 0 ? len - 1 : old - 1));
@@ -10,13 +10,24 @@ function useCycleList<T>(list: T[]) {
   const next = () => {
     setIndex((old) => (old + 1) % len);
   };
-  const push = (arr: any) => {
-    setInnerList(prev => [...prev, arr])
-  }
+  const push = (member: any) => {
+    setInnerList((prev) => [...prev, member]);
+  };
   const pop = () => {
-    setInnerList(prev => prev.slice(0, -1))
-  }
-  
+    setInnerList((prev) => prev.slice(0, -1));
+  };
+
+  const shift = () => {
+    const res = innerList.shift();
+    setInnerList([...innerList]);
+    return res;
+  };
+
+  const unshift = (member: any) => {
+    const res = innerList.unshift(member);
+    setInnerList([...innerList]);
+    return res;
+  };
   return {
     index,
     prev,
@@ -24,7 +35,9 @@ function useCycleList<T>(list: T[]) {
     data: innerList[index],
     push,
     pop,
-    list: innerList
+    shift,
+    unshift,
+    list: innerList,
   };
 }
 
