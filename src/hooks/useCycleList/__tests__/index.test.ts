@@ -82,22 +82,51 @@ describe('useCycleList', () => {
     act(() => {
       hook.result.current.shift();
     });
-    expect(hook.result.current.list).not.toContain('A')
-    expect(hook.result.current.data).toBe('B')
+    expect(hook.result.current.list).not.toContain('A');
+    expect(hook.result.current.data).toBe('B');
     act(() => {
-      hook.result.current.prev()
+      hook.result.current.prev();
     });
-    expect(hook.result.current.data).toBe('D')
-    expect(hook.result.current.index).toBe(2)
+    expect(hook.result.current.data).toBe('D');
+    expect(hook.result.current.index).toBe(2);
     act(() => {
-      hook.result.current.unshift('j')
-    })
-    expect(hook.result.current.index).toBe(2)
-    expect(hook.result.current.data).toBe('C')
+      hook.result.current.unshift('j');
+    });
+    expect(hook.result.current.index).toBe(2);
+    expect(hook.result.current.data).toBe('C');
     act(() => {
-      hook.result.current.next()
-      hook.result.current.next()
-    })
-    expect(hook.result.current.data).toBe('j')
-  })
+      hook.result.current.next();
+    });
+    act(() => {
+      hook.result.current.next();
+    });
+    expect(hook.result.current.data).toBe('j');
+  });
+
+  it('should work though none member', () => {
+    const hook = renderHook(() => {
+      return useCycleList(['spring', 'summer']);
+    });
+    act(() => {
+      hook.result.current.shift();
+    });
+    act(() => {
+      hook.result.current.shift();
+    });
+    expect(hook.result.current.index).toBe(-1);
+    expect(hook.result.current.data).toBeUndefined();
+    expect(hook.result.current.list.length).toBe(0);
+    act(() => {
+      hook.result.current.next();
+    });
+    expect(hook.result.current.index).toBe(-1);
+    act(() => {
+      hook.result.current.prev();
+    });
+    expect(hook.result.current.index).toBe(-1);
+    act(() => {
+      hook.result.current.pop();
+    });
+    expect(hook.result.current.index).toBe(-1);
+  });
 });
