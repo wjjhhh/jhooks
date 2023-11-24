@@ -8,7 +8,7 @@ export default () => {
     'four',
     'five',
   ]);
-
+  console.log('list', list)
   return (
     <>
       成员：
@@ -24,7 +24,7 @@ export default () => {
       <button onClick={() => push(Date.now())}>push</button>
       <button onClick={pop}>pop</button>
       <button onClick={shift}>shift</button>
-      <button onClick={() => unshift(Date.now())}>unshift</button>
+      <button onClick={() => unshift(Date.now(), Date.now())}>unshift</button>
       <div>当前数据：{data}</div>
       <div>当前索引：{index}</div>
     </>
