@@ -27,3 +27,4 @@ export { default as useWorker } from './hooks/useWorker';
 export { default as useSharedWorker } from './hooks/useSharedWorker';
 export { default as useAnimations } from './hooks/useAnimations';
 export { default as useIdle } from './hooks/useIdle';
+export { default as useDeepEffect } from './hooks/useDeepEffect';
