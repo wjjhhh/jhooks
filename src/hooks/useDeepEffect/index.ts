@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
-import createDeepEffect from '../createDeepEffect'
+import { useEffect } from 'react';
+import createDeepEffect from '../createDeepEffect';
 
-export default createDeepEffect(useEffect)
+export default createDeepEffect(useEffect);

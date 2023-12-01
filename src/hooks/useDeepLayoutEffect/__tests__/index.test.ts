@@ -1,17 +1,17 @@
 import { renderHook, act } from '@testing-library/react';
 import { useState } from 'react';
-import useDeepEffect from '../index';
+import useDeepLayoutEffect from '../index';
 
-describe('useDeepEffect', () => {
+describe('useDeepLayoutEffect', () => {
   it('should be defined', () => {
-    expect(useDeepEffect).toBeDefined();
+    expect(useDeepLayoutEffect).toBeDefined();
   });
 
   it('it should be deep compare', () => {
     const hook = renderHook(() => {
       const [n, setN] = useState(0);
       const [obj, setObj] = useState({});
-      useDeepEffect(() => {
+      useDeepLayoutEffect(() => {
         setN((prev) => prev + 1);
       }, [obj]);
       return { n, setObj };
