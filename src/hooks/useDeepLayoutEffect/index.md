@@ -6,9 +6,9 @@ group:
   order: 0
 ---
 
-# useDeepEffect
+# useDeepLayoutEffect
 
-跟 useEffect 用法一样，但额外对依赖做深比较。
+跟 useLayoutEffect 用法一样，但额外对依赖做深比较。
 
 ## 代码演示
 
@@ -19,7 +19,7 @@ group:
 ## API
 
 ```typescript
-useDeepEffect(
+useDeepLayoutEffect(
   effect: React.EffectCallback,
   deps: React.DependencyList
 )
