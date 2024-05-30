@@ -29,3 +29,4 @@ export { default as useAnimations } from './hooks/useAnimations';
 export { default as useIdle } from './hooks/useIdle';
 export { default as useDeepEffect } from './hooks/useDeepEffect';
 export { default as useDeepLayoutEffect } from './hooks/useDeepLayoutEffect';
+export { default as useSignal } from './hooks/useSignal';
