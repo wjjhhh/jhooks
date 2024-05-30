@@ -16,7 +16,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: "18.x"
       # 检查缓存
       # 如果key命中缓存则直接将缓存的文件还原到 path 目录，从而减少流水线运行时间
       # 若 key 没命中缓存时，在当前Job成功完成时将自动创建一个新缓存
