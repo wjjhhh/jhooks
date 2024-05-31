@@ -1,28 +1,40 @@
 import type { Dispatch, SetStateAction } from 'react';
 import React, { useMemo, useReducer, useRef } from 'react';
-type Getter<T> = () => T;
-type Setter<T> = Dispatch<SetStateAction<T>>;
 
-const isObject = (data: unknown) => typeof data === 'object';
+type WrapperProps = {
+  keys?: string[];
+  mapProps?: (...args: any[]) => any;
+};
 
-function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>] {
+const isPlainObject = (data: unknown) => typeof data === 'object';
+
+function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>, () => T] {
   const valueRef = useRef(initialValue);
   const updateRef = useRef<() => void>();
-  const Wrapper = ({ keys = [] }: { keys?: string[] }) => {
+  const Wrapper = ({ keys = [], mapProps }: WrapperProps) => {
     const [, s] = useReducer(() => ({}), {});
-
     updateRef.current = s;
-    if (keys.length) {
-      return keys.reduce((obj: any, key: string) => obj[key], valueRef.current);
+   
+    if (Array.isArray(keys)) {
+      const value = keys.reduce((obj: any, key: string) => obj[key], valueRef.current);
+      if (mapProps) {
+        return value.map(mapProps)
+      }
+      return value
     }
     return valueRef.current;
   };
   const dealDeepValue = (value: any, keys?: string[]): T => {
     return new Proxy(value, {
       get: (target, key: string) => {
+        console.log('target', target, key)
         const cur = target[key];
         const newKeys = keys?.concat(key);
-        if (isObject(cur)) {
+        if (Array.isArray(target) && key === 'map') {
+            return (restProps: WrapperProps['mapProps']) => <Wrapper keys={keys} mapProps={restProps} />
+        }
+        if (isPlainObject(cur)) {
+          
           return dealDeepValue(cur, newKeys);
         }
 
@@ -32,7 +44,7 @@ function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>] {
   };
 
   const getter = () => {
-    if (isObject(valueRef.current)) {
+    if (isPlainObject(valueRef.current)) {
       return dealDeepValue(valueRef.current, []);
     }
     return (<Wrapper />) as T;
@@ -45,7 +57,10 @@ function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>] {
     }
     updateRef.current?.();
   };
-  return useMemo(() => [getter, setter], []);
+  const getValue = () => {
+    return valueRef.current
+  };
+  return useMemo(() => [getter, setter, getValue], []);
 }
 
 export default useSignal;
