@@ -1,4 +1,4 @@
-import { useSignal } from '@yingzi/yhooks';
+import { useSignal } from 'jhooks';
 import React, { useState } from 'react';
 
 export default () => {
