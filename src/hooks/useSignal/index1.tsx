@@ -7,14 +7,22 @@ type WrapperProps = {
 };
 
 const isPlainObject = (data: unknown) => typeof data === 'object';
-
+let flag = false
+let effectRun: (() => void) | null
+export function getFlag() {
+  return flag
+}
+export function setEffectRun(fn: typeof effectRun): void {
+  flag = true
+  effectRun = fn
+}
 function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>, () => T] {
   const valueRef = useRef(initialValue);
   const updateRef = useRef<() => void>();
   const Wrapper = ({ keys = [], mapProps }: WrapperProps) => {
     const [, s] = useReducer(() => ({}), {});
     updateRef.current = s;
-   
+    
     if (Array.isArray(keys)) {
       const value = keys.reduce((obj: any, key: string) => obj[key], valueRef.current);
       if (mapProps) {
@@ -44,6 +52,9 @@ function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>, (
   };
 
   const getter = () => {
+    if (flag) {
+      return valueRef.current
+    }
     if (isPlainObject(valueRef.current)) {
       return dealDeepValue(valueRef.current, []);
     }
@@ -56,6 +67,9 @@ function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>, (
       valueRef.current = newValue;
     }
     updateRef.current?.();
+    if (flag) {
+      effectRun?.()
+    }
   };
   const getValue = () => {
     return valueRef.current
