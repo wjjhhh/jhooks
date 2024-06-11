@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
-import React, { useMemo, useReducer, useRef } from 'react';
+import React, { useMemo, useReducer, useRef, useEffect } from 'react';
 
 type WrapperProps = {
   keys?: string[];
@@ -16,6 +16,12 @@ export function setEffectRun(fn: typeof effectRun): void {
   flag = true
   effectRun = fn
 }
+
+export function resetEffectRun(): void {
+  flag = false
+  effectRun = null
+}
+
 function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>, () => T] {
   const valueRef = useRef(initialValue);
   const updateRef = useRef<() => void>();
