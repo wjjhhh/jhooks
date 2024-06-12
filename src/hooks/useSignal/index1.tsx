@@ -7,48 +7,57 @@ type WrapperProps = {
 };
 
 const isPlainObject = (data: unknown) => typeof data === 'object';
-let flag = false
-let effectRun: (() => void) | null
-export function getFlag() {
-  return flag
-}
-export function setEffectRun(fn: typeof effectRun): void {
-  flag = true
-  effectRun = fn
+let flag = false;
+let effectRun: (() => void) | null;
+let updateMap = new Map();
+
+export function setEffectRun(fn: typeof effectRun, sb: symbol): void {
+  updateMap.set(sb, fn);
 }
 
-export function resetEffectRun(): void {
-  flag = false
-  effectRun = null
+export function resetEffectRun(sb: symbol): void {
+  console.log('resetEffectRun');
+  updateMap.delete(sb);
 }
 
 function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>, () => T] {
   const valueRef = useRef(initialValue);
   const updateRef = useRef<() => void>();
+  const setterQueue = useRef([])
   const Wrapper = ({ keys = [], mapProps }: WrapperProps) => {
     const [, s] = useReducer(() => ({}), {});
     updateRef.current = s;
-    
+    useEffect(() => {
+      return () => {
+      
+        
+      }
+    }, [])
+    useEffect(() => {
+      setterQueue.current = []
+    })
     if (Array.isArray(keys)) {
       const value = keys.reduce((obj: any, key: string) => obj[key], valueRef.current);
       if (mapProps) {
-        return value.map(mapProps)
+        return value.map(mapProps);
       }
-      return value
+      return value;
     }
+    
     return valueRef.current;
   };
   const dealDeepValue = (value: any, keys?: string[]): T => {
     return new Proxy(value, {
       get: (target, key: string) => {
-        console.log('target', target, key)
+        console.log('target', target, key);
         const cur = target[key];
         const newKeys = keys?.concat(key);
         if (Array.isArray(target) && key === 'map') {
-            return (restProps: WrapperProps['mapProps']) => <Wrapper keys={keys} mapProps={restProps} />
+          return (restProps: WrapperProps['mapProps']) => (
+            <Wrapper keys={keys} mapProps={restProps} />
+          );
         }
         if (isPlainObject(cur)) {
-          
           return dealDeepValue(cur, newKeys);
         }
 
@@ -58,9 +67,7 @@ function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>, (
   };
 
   const getter = () => {
-    if (flag) {
-      return valueRef.current
-    }
+   
     if (isPlainObject(valueRef.current)) {
       return dealDeepValue(valueRef.current, []);
     }
@@ -73,14 +80,17 @@ function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>, (
       valueRef.current = newValue;
     }
     updateRef.current?.();
-    if (flag) {
-      effectRun?.()
+    for (const effectRun of updateMap.values()) {
+      effectRun();
     }
+    
   };
   const getValue = () => {
-    return valueRef.current
+    return valueRef.current;
   };
   return useMemo(() => [getter, setter, getValue], []);
+
+  // return [getter, setter, getValue]
 }
 
 export default useSignal;

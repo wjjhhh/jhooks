@@ -1,11 +1,16 @@
-import React, {  useEffect } from 'react';
-import { setEffectRun, resetEffectRun } from '../useSignal/index1';
+import { useEffect, useRef } from 'react';
+import useSignal, { setEffectRun, resetEffectRun } from '../useSignal/index1';
 
 function useSignalUpdate(fn: () => void) {
+  const symbol = useRef(Symbol())
+  
   useEffect(() => {
-    setEffectRun(fn);
+    setEffectRun(fn, symbol.current);
     fn();
-    return resetEffectRun
+    return () => {
+      console.log(888)
+    }
+    return () => resetEffectRun(symbol.current);
   }, []);
 }
 
