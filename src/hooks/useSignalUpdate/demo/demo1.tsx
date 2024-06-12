@@ -8,19 +8,24 @@ export default () => {
   console.count('render!');
 
   useSignalUpdate(() => {
-    console.log('update: ', count1(), array());
+    console.log('update: ', count1());
   });
+  // useSignalUpdate(() => {
+  //   console.log('update1: ',  array());
+  // });
+
   return (
     <>
       <h3>change number</h3>
       {show && count1()}
+      <button onClick={() => setShow(!show)}>toggle</button>
       <button onClick={() => setCount1(getValue() + 1)}>+</button>
-      <h3>change array</h3>
+      {/* <h3>change array</h3>
       {array().map((n) => (
         <span key={n}>{n}</span>
       ))}
       <button onClick={() => setArray([5, 6])}>array change</button>
-      <button onClick={() => setShow(!show)}>sett</button>
+      */}
     </>
   );
 };

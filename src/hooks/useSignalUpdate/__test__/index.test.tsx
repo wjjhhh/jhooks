@@ -27,4 +27,25 @@ describe('useSignalUpdate', () => {
     fireEvent.click(getByTestId('button'));
     expect(getByTestId('depId').innerHTML).toBe('2');
   });
+  it('should run multiple useSignalUpdate', () => {
+    let times = 0;
+    const Component = () => {
+      const [object, setObject] = useSignal({});
+      useSignalUpdate(() => {
+        times++;
+      });
+      useSignalUpdate(() => {
+        times++;
+      });
+      return (
+        <>
+          <button data-testid="button" onClick={() => setObject({})}></button>
+        </>
+      );
+    };
+    const { getByTestId } = render(<Component />);
+    expect(times).toBe(2);
+    fireEvent.click(getByTestId('button'));
+    expect(times).toBe(4);
+  });
 });

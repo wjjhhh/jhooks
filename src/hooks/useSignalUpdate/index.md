@@ -18,7 +18,6 @@ group:
 需配合useSignal使用，其所有signal变化都会触发回调
 
 <code src="./demo/demo1.tsx" />
-
 ## API
 
 ```typescript
