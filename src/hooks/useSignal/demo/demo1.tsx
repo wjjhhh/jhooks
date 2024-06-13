@@ -31,7 +31,7 @@ export default () => {
       <h3>array</h3>
       <p>
         {
-            array().map((_,i) => <div key={i}>{_}jj</div>)
+            array().map((_,i) => <span key={i}>{_}jj</span>)
         }
        
       </p>

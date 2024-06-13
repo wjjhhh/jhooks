@@ -7,9 +7,7 @@ function useSignalUpdate(fn: () => void) {
   useEffect(() => {
     setEffectRun(fn, symbol.current);
     fn();
-    return () => {
-      console.log(888)
-    }
+    
     return () => resetEffectRun(symbol.current);
   }, []);
 }
