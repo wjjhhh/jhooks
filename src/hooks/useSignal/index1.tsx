@@ -1,50 +1,52 @@
 import type { Dispatch, SetStateAction } from 'react';
 import React, { useMemo, useReducer, useRef, useEffect } from 'react';
 
-type WrapperProps = {
+type ComponentProps = {
   keys?: string[];
   mapProps?: (...args: any[]) => any;
 };
+type Setter<T> = Dispatch<SetStateAction<T>>;
+type Excuter = {
+  excute: () => void;
+} | null;
+type Setcurrent<T> = (newValue: T) => void;
 
-const isPlainObject = (data: unknown) => typeof data === 'object';
-let flag = false;
-let effectRun: (() => void) | null;
-let updateMap = new Map();
+const isObject = (data: unknown) => typeof data === 'object';
 
-export function setEffectRun(fn: typeof effectRun, sb: symbol): void {
-  updateMap.set(sb, fn);
-}
+let excuter: Excuter;
+let restoreExcuter: () => void;
 
-export function resetEffectRun(sb: symbol): void {
-  updateMap.delete(sb);
-}
-
-function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>, () => T] {
+function useSignal<T>(initialValue: T): [() => T, Setter<T>, () => T] {
   const valueRef = useRef(initialValue);
   const updateRef = useRef<() => void>();
-  const inEffectRef = useRef(false)
-  const setterQueue = useRef([])
-  const Component = ({ keys = [], mapProps }: WrapperProps) => {
-    const [, s] = useReducer(() => ({}), {});
-    const componentValue = useRef(valueRef.current)
-    const isMounted = useRef(false)
-    updateRef.current = s;
+  const inEffectRef = useRef(false);
+  const setterQueue = useRef<Setcurrent<T>[]>([]);
+
+  const Component = ({ keys, mapProps }: ComponentProps) => {
+    const [, forceUpdate] = useReducer(() => ({}), {});
+    const componentValue = useRef<T>(valueRef.current);
+    const isMounted = useRef(false);
+    updateRef.current = forceUpdate;
+
     useEffect(() => {
-      
-      if (inEffectRef.current && isMounted.current) {
-        inEffectRef.current = false
+      if (inEffectRef.current) {
+        restoreExcuter?.();
+        inEffectRef.current = false;
       }
-    })
+    });
     useEffect(() => {
-      // setterQueue.current.forEach((setter) => setter())
-      inEffectRef.current = true
-      isMounted.current = true
+      setterQueue.current.push((newValue: T) => {
+        componentValue.current = newValue;
+        forceUpdate();
+      });
+      inEffectRef.current = true;
+      isMounted.current = true;
       return () => {
-        isMounted.current = false
-        inEffectRef.current = false
-      }
-    }, [])
- 
+        isMounted.current = false;
+        inEffectRef.current = false;
+      };
+    }, []);
+
     if (Array.isArray(keys)) {
       const value = keys.reduce((obj: any, key: string) => obj[key], valueRef.current);
       if (mapProps) {
@@ -52,21 +54,19 @@ function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>, (
       }
       return value;
     }
-    
     return componentValue.current;
   };
   const dealDeepValue = (value: any, keys?: string[]): T => {
     return new Proxy(value, {
       get: (target, key: string) => {
-        console.log('target', target, key);
         const cur = target[key];
         const newKeys = keys?.concat(key);
         if (Array.isArray(target) && key === 'map') {
-          return (restProps: WrapperProps['mapProps']) => (
+          return (restProps: ComponentProps['mapProps']) => (
             <Component keys={keys} mapProps={restProps} />
           );
         }
-        if (isPlainObject(cur)) {
+        if (isObject(cur)) {
           return dealDeepValue(cur, newKeys);
         }
 
@@ -76,33 +76,51 @@ function useSignal<T>(initialValue: T): [() => T, Dispatch<SetStateAction<T>>, (
   };
 
   const getter = () => {
-    if (inEffectRef.current) {
-      return valueRef.current
+    if (excuter) {
+      return valueRef.current;
     }
-    if (isPlainObject(valueRef.current)) {
+    
+    if (isObject(valueRef.current)) {
       return dealDeepValue(valueRef.current, []);
     }
+   
     return (<Component />) as T;
   };
   const setter = (newValue: SetStateAction<T>) => {
     if (typeof newValue === 'function') {
+      
       valueRef.current = (newValue as Function)?.(valueRef.current);
     } else {
+     
       valueRef.current = newValue;
     }
-    inEffectRef.current = true
-    updateRef.current?.();
-    for (const effectRun of updateMap.values()) {
-      effectRun();
-    }
-    
+    setterQueue.current.forEach((fn) => {
+      fn(valueRef.current);
+    });
+    inEffectRef.current = true;
   };
   const getValue = () => {
     return valueRef.current;
   };
-  return useMemo(() => [getter, setter, getValue], []);
+  return [getter, setter, getValue]
+}
 
-  // return [getter, setter, getValue]
+export function useSignalUpdate(fn: () => void) {
+  const excute = () => {
+    excuter = updateRef.current;
+    fn();
+    excuter = null;
+  };
+  const updateRef = useRef({
+    excute: () => {
+      excute();
+    },
+  });
+
+  useEffect(() => {
+    restoreExcuter = excute;
+    updateRef.current.excute();
+  }, []);
 }
 
 export default useSignal;

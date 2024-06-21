@@ -8,11 +8,9 @@ export default () => {
   console.count('render!');
 
   useSignalUpdate(() => {
-    console.log('update: ', count1());
+    console.log('update: ', count1(), array());
   });
-  // useSignalUpdate(() => {
-  //   console.log('update1: ',  array());
-  // });
+
 
   return (
     <>
@@ -20,12 +18,12 @@ export default () => {
       {show && count1()}
       <button onClick={() => setShow(!show)}>toggle</button>
       <button onClick={() => setCount1(getValue() + 1)}>+</button>
-      {/* <h3>change array</h3>
+      <h3>change array</h3>
       {array().map((n) => (
         <span key={n}>{n}</span>
       ))}
       <button onClick={() => setArray([5, 6])}>array change</button>
-      */}
+     
     </>
   );
 };
