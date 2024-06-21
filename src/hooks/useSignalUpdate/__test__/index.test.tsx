@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, renderHook, render, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import useSignalUpdate from '../index';
 import useSignal from '../../useSignal';
 
@@ -27,25 +27,25 @@ describe('useSignalUpdate', () => {
     fireEvent.click(getByTestId('button'));
     expect(getByTestId('depId').innerHTML).toBe('2');
   });
-  it('should run multiple useSignalUpdate', () => {
+  it('should run multiple useSignalUpdate', async () => {
     let times = 0;
     const Component = () => {
-      const [object, setObject] = useSignal({});
-      useSignalUpdate(() => {
-        times++;
-      });
+      const [num, setNum] = useSignal(0);
       useSignalUpdate(() => {
         times++;
       });
       return (
         <>
-          <button data-testid="button" onClick={() => setObject({})}></button>
+          {num()}
+          <button data-testid="button" onClick={() => setNum(9)}></button>
         </>
       );
     };
     const { getByTestId } = render(<Component />);
+    expect(times).toBe(1);
+    fireEvent.click(getByTestId('button'));
     expect(times).toBe(2);
     fireEvent.click(getByTestId('button'));
-    expect(times).toBe(4);
+    expect(times).toBe(3);
   });
 });
