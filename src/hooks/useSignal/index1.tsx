@@ -20,30 +20,27 @@ function useSignal<T>(initialValue: T): [() => T, Setter<T>, () => T] {
   const valueRef = useRef(initialValue);
   const updateRef = useRef<() => void>();
   const inEffectRef = useRef(false);
-  const setterQueue = useRef<Setcurrent<T>[]>([]);
-
+  // const setterQueue = useRef<Setcurrent<T>[]>([]);
+  const updateFnMap = useRef(new Map());
   const Component = ({ keys, mapProps }: ComponentProps) => {
     const [, forceUpdate] = useReducer(() => ({}), {});
     const componentValue = useRef<T>(valueRef.current);
-    const isMounted = useRef(false);
+    const uniKey = useRef(Symbol());
     updateRef.current = forceUpdate;
 
     useEffect(() => {
       if (inEffectRef.current) {
         restoreExcuter?.();
-        inEffectRef.current = false;
       }
     });
     useEffect(() => {
-      setterQueue.current.push((newValue: T) => {
+      const thisUpdateFn = (newValue: T) => {
         componentValue.current = newValue;
         forceUpdate();
-      });
-      inEffectRef.current = true;
-      isMounted.current = true;
+      };
+      updateFnMap.current.set(uniKey.current, thisUpdateFn);
       return () => {
-        isMounted.current = false;
-        inEffectRef.current = false;
+        updateFnMap.current.delete(uniKey.current);
       };
     }, []);
 
@@ -76,33 +73,38 @@ function useSignal<T>(initialValue: T): [() => T, Setter<T>, () => T] {
   };
 
   const getter = () => {
+    // effect
     if (excuter) {
       return valueRef.current;
     }
-    
+    // render
     if (isObject(valueRef.current)) {
       return dealDeepValue(valueRef.current, []);
     }
-   
+
     return (<Component />) as T;
   };
   const setter = (newValue: SetStateAction<T>) => {
     if (typeof newValue === 'function') {
-      
       valueRef.current = (newValue as Function)?.(valueRef.current);
     } else {
-     
       valueRef.current = newValue;
     }
-    setterQueue.current.forEach((fn) => {
-      fn(valueRef.current);
-    });
+    if (updateFnMap.current.size) {
+      updateFnMap.current.forEach((fn) => {
+        fn(valueRef.current);
+      });
+    } else {
+      restoreExcuter?.();
+      excuter?.excute();
+    }
+
     inEffectRef.current = true;
   };
   const getValue = () => {
     return valueRef.current;
   };
-  return [getter, setter, getValue]
+  return [getter, setter, getValue];
 }
 
 export function useSignalUpdate(fn: () => void) {
