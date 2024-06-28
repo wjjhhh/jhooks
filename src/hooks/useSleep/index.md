@@ -14,6 +14,9 @@ group:
 ### 基础用法
 <code src="./demo/demo1.tsx" />
 
+### Promise内容也可打断
+<code src="./demo/demo2.tsx" />
+
 ## API
 
 ```typescript
@@ -32,3 +35,4 @@ const { sleep, destory } = useSleep(fn?);
 | --- | --- | --- |
 | sleep | 延时函数 | (time: number) => void |
 | destory | 打断函数 | () => void |
+| makeCancelable | 输出一个可打断的promise | (promise: Promise<any>) => Promise<unknown> |
