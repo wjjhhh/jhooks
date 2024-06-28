@@ -19,9 +19,9 @@ export default () => {
     <>
       status: {status}
       <br />
-      <button onClick={loogOp}>耗时操作1</button>
+      <button onClick={loogOp}>耗时操作</button>
       <br />
-      <button onClick={destory}>暂停操作1</button>
+      <button onClick={destory}>暂停操作</button>
     </>
   );
 };
