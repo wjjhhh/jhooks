@@ -13,9 +13,8 @@ class Travel {
   private farthest: number; //  最远走过的步骤
 
   private initialValue: any;
-  constructor(initialValue = {}, maxLength = Infinity) {
+  constructor(initialValue: unknown, maxLength = Infinity) {
     this.initialValue = initialValue;
-
     this.value = { value: initialValue }; // 兼容简单类型和复杂类型
     this.patchesList = [];
     this.inverseReplacesList = [];
@@ -46,7 +45,7 @@ class Travel {
     }
   };
   // 前进步数, step < 0 为后退， step > 0 时为前进
-  go(step: number) {
+  go(step?: number) {
     if (typeof step !== 'number') {
       step = 1;
     }

@@ -1,12 +1,14 @@
+import { isEmptyObject } from './';
+
+let queueMap: Record<string, Record<string, Function>> = {};
+
 class Singleton {
   private value;
   private oldValue;
-  private queue: { key: string; notify: Function }[];
   private static instance: Singleton = null!;
   constructor(value: Record<string, unknown>) {
     this.value = value;
     this.oldValue = value;
-    this.queue = [];
   }
   static getInstance = (value: any) => {
     if (!this.instance) {
@@ -27,25 +29,37 @@ class Singleton {
     for (let k in this.value) {
       if (this?.oldValue?.[k] !== this?.value?.[k]) {
         // 更新
-        this.queue.forEach(({ key: queueKey, notify }) => {
+        for (let queueKey in queueMap) {
           if (queueKey === key) {
-            notify();
+            const _uuidMap = queueMap[queueKey];
+            for (let _uuid in _uuidMap) {
+              _uuidMap[_uuid]();
+            }
           }
-        });
+        }
       }
     }
 
     this.oldValue = this.value;
   };
 
-  subscribe = (key: string, notify: Function) => {
-    this.queue.push({
-      key,
-      notify,
-    });
+  subscribe = (key: string, uuid: string, notify: Function) => {
+    if (queueMap[key]) {
+      queueMap[key][uuid] = notify;
+    } else {
+      queueMap[key] = {
+        [uuid]: notify,
+      };
+    }
+  };
+  del = (key: string, uuid: string) => {
+    delete queueMap[key][uuid];
+    if (isEmptyObject(queueMap[key])) {
+      delete queueMap[key];
+    }
   };
   clean = () => {
-    this.queue.length = 0;
+    queueMap = {};
   };
 }
 

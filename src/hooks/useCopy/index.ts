@@ -1,10 +1,12 @@
 import { MutableRefObject, useLayoutEffect, useRef, useState } from 'react';
-import { getTargetElement } from '../../utils';
+import { getTargetElement, isPlainObject } from '../../utils';
 
-interface Options {
+export interface Options {
   onSuccess?: () => void;
   onError?: () => void;
   trigger?: 'click' | 'dblclick';
+  forbid?: boolean;
+  onForbid?: (e: ClipboardEvent) => void;
 }
 type TargetValue<T> = T | undefined | null;
 
@@ -14,24 +16,25 @@ export type BasicTarget<T extends TargetType = Element> =
   | TargetValue<T>
   | MutableRefObject<TargetValue<T>>;
 
+const isOptions = (target: unknown): target is Options => {
+  return !target || isPlainObject(target);
+};
+
 function useCopy(target?: BasicTarget | Options, options?: Options) {
   const innerRef = useRef<HTMLDivElement | null>(null);
   const valueRef = useRef<string>(null!);
   const [error, setError] = useState<string | null>(null);
 
-  const isInsideRef =
-    !target ||
-    'onSuccess' in target ||
-    'onError' in target ||
-    'trigger' in target;
+  const isInsideRef = isOptions(target);
   let _options = isInsideRef ? target : options;
   const getElement = () => {
-    return isInsideRef
-      ? getTargetElement(innerRef)
-      : getTargetElement(target as BasicTarget);
+    return isInsideRef ? getTargetElement(innerRef) : getTargetElement(target);
   };
 
   const copy = () => {
+    if (options?.forbid) {
+      return;
+    }
     let successful = false;
     let range = document.createRange();
     window?.getSelection()?.removeAllRanges();
@@ -57,13 +60,26 @@ function useCopy(target?: BasicTarget | Options, options?: Options) {
   useLayoutEffect(() => {
     const targetElement = getElement();
     const trigger = _options?.trigger || 'click';
-    if (['dblclick', 'click'].includes(trigger)) {
+    const allowed = !_options?.forbid;
+
+    if (['dblclick', 'click'].includes(trigger) && allowed) {
       targetElement?.addEventListener(trigger, copy);
     }
-    return () => {
-      targetElement?.removeEventListener(trigger, copy);
+    const notAllowed = (e: Event) => {
+      e.preventDefault();
+      _options?.onForbid?.(e as ClipboardEvent);
     };
-  }, []);
+    if (!allowed) {
+      targetElement?.addEventListener('copy', notAllowed);
+    }
+    return () => {
+      if (allowed) {
+        targetElement?.removeEventListener(trigger, copy);
+      } else {
+        targetElement?.removeEventListener('copy', notAllowed);
+      }
+    };
+  }, [target, options]);
 
   const getValue = () => {
     return valueRef.current;

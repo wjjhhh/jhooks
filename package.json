@@ -3,7 +3,7 @@
   "name": "jhooks",
   "version": "0.0.1",
   "scripts": {
-    "init": "pnpm install && pnpm run build",
+    "init": "yarn install && yarn run build",
     "start": "dumi dev",
     "docs:build": "dumi build",
     "docs:deploy": "gh-pages -d docs-dist",
@@ -13,7 +13,6 @@
     "test": "umi-test",
     "test:coverage": "umi-test --coverage",
     "prepublishOnly": "npm run build",
-    "preinstall": "npx only-allow pnpm",
     "lint": "lint-staged"
   },
   "module": "es/index.js",
@@ -30,16 +29,25 @@
     ]
   },
   "dependencies": {
+    "@types/use-sync-external-store": "^0.0.3",
     "immer": "^9.0.14",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "qrcode": "^1.5.3",
+    "recordrtc": "^5.6.2",
+    "use-sync-external-store": "^1.2.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^27.0.3",
     "@types/lodash-es": "^4.17.6",
+    "@types/recordrtc": "^5.6.10",
+    "@types/wicg-file-system-access": "^2020.9.5",
     "@umijs/fabric": "^2.8.1",
-    "@umijs/test": "^3.0.5",
+    "@umijs/test": "3.5.36",
     "antd": "^4.20.7",
     "babel-plugin-import": "^1.13.5",
     "dumi": "^1.1.0",
@@ -48,7 +56,7 @@
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.1",
     "react": "^18.2.0",
-    "react-dom": "18.2.0",
+    "react-dom": "^18.2.0",
     "ts-jest": "^28.0.5",
     "yorkie": "^2.0.0"
   }
