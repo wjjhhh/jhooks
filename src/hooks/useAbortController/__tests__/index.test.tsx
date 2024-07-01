@@ -28,7 +28,49 @@ describe('useAbortController', () => {
   it('should be defined', () => {
     expect(useAbortController).toBeDefined();
   });
-
+  it('should create an AbortController instance', () => {
+    const { result } = renderHook(() => useAbortController());
+    expect(result.current).toBeDefined();
+    expect(result.current.signal).toBeDefined();
+  });
+  it('should restore AbortController instance on abort', () => {
+    const { result } = renderHook(() => useAbortController({ recovery: true }));
+    const initialSignal = result.current.signal;
+    act(() => {
+      result.current.abort();
+    });
+    expect(result.current.signal).not.toBe(initialSignal);
+  });
+  it('should not restore AbortController instance on abort if recovery is false', () => {
+    const { result } = renderHook(() => useAbortController({ recovery: false }));
+    const initialSignalAborted = result.current.signal.aborted;
+    act(() => {
+      result.current.abort();
+    });
+    expect(result.current.signal.aborted).not.toBe(initialSignalAborted);
+  });
+  it('should abort on component unmount if unmoutAbort is true', () => {
+    const { result, unmount } = renderHook(() => useAbortController({ unmoutAbort: true }));
+    const abortSpy = jest.spyOn(result.current, 'abort');
+    unmount();
+    expect(abortSpy).toHaveBeenCalled();
+  });
+  it('should restore AbortController instance on abort if recovery is true', () => {
+    const { result } = renderHook(() => useAbortController({ recovery: true }));
+    const initialSignalAborted = result.current.signal.aborted;
+    act(() => {
+      result.current.abort();
+    });
+    expect(result.current.signal.aborted).toBe(initialSignalAborted);
+  });
+  it('should not restore AbortController instance on abort if recovery is false', () => {
+    const { result } = renderHook(() => useAbortController({ recovery: false }));
+    const initialSignal = result.current.signal;
+    act(() => {
+      result.current.abort();
+    });
+    expect(result.current.signal).toBe(initialSignal);
+  });
   it('should work abort fetch', async () => {
     const hook = renderHook(() => useAbortController());
     const mockSpy = jest.spyOn(console, 'warn').mockImplementationOnce(() => {});
@@ -86,7 +128,7 @@ describe('useAbortController', () => {
             if (!signal.aborted) {
               num++;
             }
-            
+
           },
           { signal },
         );
