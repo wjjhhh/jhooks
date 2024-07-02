@@ -56,7 +56,7 @@ const useWoker = (fn: Function, options: Options = {}) => {
     return terminate;
   }, []);
 
-  return [workerRef.current, { post, terminate, start, status }];
+  return [workerRef.current, { post, terminate, start, status }] as const;
 };
 
 export default useWoker;
