@@ -12,7 +12,7 @@ const A = () => {
 };
 
 const B = () => {
-    const [value, setValue ] = useState()
+  const [value, setValue ] = useState()
   useCustomEvent('jhooks_useCustomEvent', {
     onChange: (e) => {
       setValue(e.detail)
