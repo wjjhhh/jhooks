@@ -36,4 +36,4 @@ const {
 | 参数             | 说明               | 类型                   |
 | ---------------- | ------------------ | ---------------------- |
 | Options.onChange | 数据收到推送后触发 | (event: Event) => void |
-| dispatch         | 推送数据           | （data: any）=> void 0 |
+| dispatch         | 推送数据           | (data: any) => void 0 |

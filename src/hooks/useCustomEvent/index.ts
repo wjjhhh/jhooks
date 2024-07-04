@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 function useCustomEvent(
   name: string,
-  options: { onChange: (event: Event) => void },
+  options: { onChange: (event: CustomEventInit) => void },
 ) {
   if (!name || typeof name !== 'string') {
     throw('name must be a Non empty string')
@@ -23,5 +23,6 @@ function useCustomEvent(
     dispatch,
   };
 }
+
 
 export default useCustomEvent;
