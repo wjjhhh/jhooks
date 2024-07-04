@@ -18,7 +18,7 @@ function useCustomEvent(
         document.removeEventListener(name, options.onChange);
       };
     }
-  }, [name, options]);
+  }, [name]);
   return {
     dispatch,
   };

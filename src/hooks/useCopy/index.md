@@ -20,6 +20,10 @@ group:
 
 甚至不需要传入 DOM 元素和 ref <code src="./demo/demo2.tsx">
 
+### 禁止复制
+
+可在复制时加入弹窗提示 <code src="./demo/demo3.tsx">
+
 ## API
 
 ```typescript
@@ -40,17 +44,20 @@ const {
 | options | 配置       | Options     | -      |
 
 ### Options
-| 参数   | 说明         | 类型       |
-| ------ | ------------ | ---------- |
-| onSuccess  | 成功回调 | () => void |
-| onError | 失败回调 | () => void |
-| trigger | 触发行为 | 'click' \| 'dblclick' |
+
+| 参数      | 说明           | 类型                        |
+| --------- | -------------- | --------------------------- |
+| onSuccess | 成功回调       | () => void                  |
+| onError   | 失败回调       | () => void                  |
+| trigger   | 触发行为       | 'click' \| 'dblclick'       |
+| forbid    | 是否禁止复制   | boolean                     |
+| onForbid  | 禁止复制时回调 | (e: ClipboardEvent) => void |
 
 ### Result
 
-| 参数   | 说明         | 类型       |
-| ------ | ------------ | ---------- |
-| ref    | 元素对应 ref | React.MutableRefObject<T> |
-| copy  | 复制 | () => void |
-| paste | 粘贴 | () => void |
-| error | 错误信息 | string |
+| 参数  | 说明         | 类型                      |
+| ----- | ------------ | ------------------------- |
+| ref   | 元素对应 ref | React.MutableRefObject<T> |
+| copy  | 复制         | () => void                |
+| paste | 粘贴         | () => void                |
+| error | 错误信息     | string                    |

@@ -1,33 +1,42 @@
 import React, { useRef, useEffect, useState } from 'react';
 import useForceUpdate from '../useForceUpdate';
 
-export default function useAbortController(unmoutAbort = true) {
+type Props = {
+  /** 卸载时自动abort */
+  unmoutAbort?: boolean;
+  /** abort后自动重新创建signal */
+  recovery?: boolean;
+}
+
+export default function useAbortController(props: Props = {}) {
+  const { unmoutAbort, recovery } = {
+    unmoutAbort: true,
+    recovery: false,
+    ...props,
+  }
   const abc = useRef(new AbortController());
-  const selfAbortController = useRef<AbortController>();
-//   const forceUpdate = useForceUpdate();
+  const forceUpdate = useForceUpdate();
+  const restore = () => {
+    if (recovery) {
+      abc.current = new AbortController();
+      abc.current.signal.addEventListener('abort', restore)
+      forceUpdate()
+    }
+  
+  }
+ 
   useEffect(() => {
-    selfAbortController.current = new AbortController();
     abc.current.signal.addEventListener(
       'abort',
-      () => {
-        abc.current = new AbortController();
-      },
-      {
-        signal: selfAbortController.current.signal,
-      },
+      restore
     );
     return () => {
       unmoutAbort && abc.current.abort();
-      selfAbortController.current?.abort();
     };
-  }, [abc.current]);
+  }, [recovery, unmoutAbort]);
 
   return Object.assign(abc.current, {
-    // restore: () => {
-    //   abc.current = new AbortController();
-    //   forceUpdate();
-      
-    // },
+    restore,
   });
 
 }
