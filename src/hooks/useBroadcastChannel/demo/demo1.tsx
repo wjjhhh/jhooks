@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useBroadcastChannel } from 'jhooks'
 
 const A = () => {
-    const { post, data } = useBroadcastChannel('jhooks channel')
+    const { post, data } = useBroadcastChannel('jhooks channel', 'a')
     const [value, setValue] = useState('')
     return (
         <>
@@ -15,7 +15,7 @@ const A = () => {
 
 
 const B = () => {
-    const { post, data } = useBroadcastChannel('jhooks channel')
+    const { post, data } = useBroadcastChannel('jhooks channel', 'b')
     const [value, setValue] = useState('')
     return (
         <>
@@ -27,7 +27,7 @@ const B = () => {
 }
 
 export default () => {
-    const { isSupported } = useBroadcastChannel('jhooks channel')
+    const { isSupported, data } = useBroadcastChannel('jhooks channel', 'zong')
 
     if(!isSupported) {
         return <div>not supported BroadcastChannel API</div>
@@ -38,6 +38,8 @@ export default () => {
             <A />
             <div style={{ marginBottom: 20 }} />
             <B />
+            ....
+            {data}
         </>
     )
 }
