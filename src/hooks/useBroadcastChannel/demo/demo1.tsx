@@ -4,6 +4,7 @@ import { useBroadcastChannel } from 'jhooks'
 const A = () => {
     const { post, data } = useBroadcastChannel('jhooks channel')
     const [value, setValue] = useState('')
+ 
     return (
         <>
             <input value={value} onChange={e => setValue(e.target.value)} />
@@ -17,6 +18,7 @@ const A = () => {
 const B = () => {
     const { post, data } = useBroadcastChannel('jhooks channel')
     const [value, setValue] = useState('')
+   
     return (
         <>
             <input value={value} onChange={e => setValue(e.target.value)} />
@@ -27,13 +29,11 @@ const B = () => {
 }
 
 export default () => {
-    const { isSupported } = useBroadcastChannel('jhooks channel')
-
+    const { isSupported } = useBroadcastChannel()
     if(!isSupported) {
         return <div>not supported BroadcastChannel API</div>
     }
     return (
-
         <>
             <A />
             <div style={{ marginBottom: 20 }} />
