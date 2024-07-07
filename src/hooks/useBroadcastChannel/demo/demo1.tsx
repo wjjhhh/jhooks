@@ -30,12 +30,10 @@ const B = () => {
 
 export default () => {
     const { isSupported } = useBroadcastChannel()
-
     if(!isSupported) {
         return <div>not supported BroadcastChannel API</div>
     }
     return (
-
         <>
             <A />
             <div style={{ marginBottom: 20 }} />

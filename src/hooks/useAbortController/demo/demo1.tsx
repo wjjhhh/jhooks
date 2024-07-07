@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useAbortController } from 'jhooks';
 
 const Com = () => {
-  const abc = useAbortController();
+  const abc = useAbortController({
+    recovery: true
+  });
   const { signal } = abc;
  
   const myFetch = () => {
@@ -27,7 +29,7 @@ const Com = () => {
       <div>我是带网络请求的组件</div>
       <button onClick={myFetch}>fetch</button>
       <button onClick={() => abc.abort('我abort的')}>手动abort</button>
-     
+      <button onClick={() => console.log(abc.signal)}>12</button>
     </div>
   );
 };
