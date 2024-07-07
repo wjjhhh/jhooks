@@ -30,7 +30,6 @@ const B = () => {
 };
 
 export default () => {
-  return null
   const { isSupported } = useBroadcastChannel('jhooks is good');
 
   if (!isSupported) {
