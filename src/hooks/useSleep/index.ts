@@ -1,42 +1,61 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 export type Fn = () => void;
 
 const useSleep = (fn?: Fn) => {
-  const timeoutId = useRef<NodeJS.Timeout>()
-  const promiseCanceld = useRef(false)
+  const controller = useRef<AbortController | null>(null);
+
   const destory = () => {
-    promiseCanceld.current = true
-    clearTimeout(timeoutId.current);
-    fn?.()
+    if (controller.current) {
+      controller.current.abort();
+      controller.current = null;
+      fn?.();
+    }
   };
   const makeCancelable = (promise: Promise<any>) => {
-    promiseCanceld.current = false
+    controller.current = new AbortController();
+    const { signal } = controller.current;
     return new Promise((resolve, reject) => {
+      signal.addEventListener('abort', () => reject({ isCanceled: true }));
       promise.then(
-        val => {
-          promiseCanceld.current ? reject({ isCanceled: true }) : resolve(val)
+        (val) => {
+          if (signal.aborted) {
+            reject({ isCanceled: true });
+          } else {
+            resolve(val);
+          }
         },
-        error => {
-          promiseCanceld.current ? reject({ isCanceled: true }) : reject(error)
-        }
+        (error) => {
+          if (signal.aborted) {
+            reject({ isCanceled: true });
+          } else {
+            reject(error);
+          }
+        },
       );
-    })
-  }
-  
-  const sleep = (time: number) => {
-    return new Promise((resolve) => {
-      timeoutId.current = setTimeout((args: unknown) => {
-        resolve(args);
-      }, time);
-  
     });
   };
- 
+
+  const sleep = (time: number) => {
+    controller.current = new AbortController();
+    return new Promise((resolve) => {
+      const timeoutId = setTimeout(() => {
+        resolve(undefined);
+      }, time);
+      controller.current?.signal.addEventListener('abort', () => {
+        clearTimeout(timeoutId);
+      });
+    });
+  };
+  useEffect(() => {
+    return () => {
+      destory();
+    };
+  }, []);
   return {
     sleep,
     destory,
-    makeCancelable
+    makeCancelable,
   } as const;
 };
 
