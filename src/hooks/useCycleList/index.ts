@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 function useCycleList<T>(list: T[]) {
   const [index, setIndex] = useState(0);
-  const [innerList, setInnerList] = useState<any[]>(list);
+  const [innerList, setInnerList] = useState<T[]>(list);
   const len = innerList.length;
   const prev = () => {
     if (len < 2) {
