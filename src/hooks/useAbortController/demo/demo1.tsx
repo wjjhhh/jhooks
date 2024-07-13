@@ -3,18 +3,17 @@ import { useAbortController } from 'jhooks';
 
 const Com = () => {
   const abc = useAbortController({
-    recovery: true
+    recovery: true,
   });
   const { signal } = abc;
- 
+  const [response, setResponse] = useState({});
   const myFetch = () => {
+    setResponse({})
     fetch('https://mock.mengxuegu.com/mock/605c30690d58b864da03da46/example/getAllAdcode', {
       signal,
     })
       .then((r) => r.json())
-      .then((response) => {
-        console.log(response);
-      })
+      .then(setResponse)
       .catch((err) => {
         if (err.name === 'AbortError') {
           console.log('Fetch was aborted');
@@ -29,7 +28,8 @@ const Com = () => {
       <div>我是带网络请求的组件</div>
       <button onClick={myFetch}>fetch</button>
       <button onClick={() => abc.abort('我abort的')}>手动abort</button>
-      <button onClick={() => console.log(abc.signal)}>12</button>
+      <br />
+      response:{JSON.stringify(response)}
     </div>
   );
 };
