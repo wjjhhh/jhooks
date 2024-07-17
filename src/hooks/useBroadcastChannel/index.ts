@@ -30,7 +30,9 @@ export default (name: string) => {
       //   console.log('close')
       // })
     }
-    return bcc.current?.close;
+    return () => {
+      bcc.current?.close()
+    }
   }, []);
 
   const post = (_data: unknown) => {
