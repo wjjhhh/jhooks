@@ -32,3 +32,4 @@ export { default as useDeepLayoutEffect } from './hooks/useDeepLayoutEffect';
 export { default as useSignal } from './hooks/useSignal';
 export { default as useSignalUpdate } from './hooks/useSignalUpdate';
 export { default as useSleep } from './hooks/useSleep';
+export { default as useOnline } from './hooks/useOnline';
