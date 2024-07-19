@@ -2,11 +2,11 @@
 nav:
   path: /hooks
 group:
-  title: Dev
-  order: 1
+  title: Other
+  order: 2
 ---
 
-## useOnline
+# useOnline
 
 是否网络在线
 
@@ -16,10 +16,20 @@ group:
 
 <code src="./demo/demo1.tsx">
 
-
 ## API
 
 ```typescript
-
 const isOnline = useOnline();
 ```
+
+### Result
+
+| 参数     | 说明         | 类型    |
+| -------- | ------------ | ------- |
+| isOnline | 是否网络在线 | boolean |
+
+### Params
+
+| 参数     | 说明                 | 类型                          | 默认值 |
+| -------- | -------------------- | ----------------------------- | ------ |
+| callback | 网络是否在线转换回调 | （isOnline: boolean） => void | -      |
