@@ -1,7 +1,9 @@
 import { useOnline } from 'jhooks';
 
 export default () => {
-  const isOnline = useOnline();
+  const isOnline = useOnline((_isOnline: boolean) => {
+    console.log('online status change to:', _isOnline)
+  });
   return (
     <>
       <h1>Is Online: {isOnline ? 'Yes' : 'No'}</h1>
