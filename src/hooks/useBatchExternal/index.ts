@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 
-type JsOptions = Partial<HTMLScriptElement>;
-type CssOptions = Partial<HTMLStyleElement>;
+type JsOptions = Partial<HTMLScriptElement> & { [key: string]: any };
+type CssOptions = Partial<HTMLStyleElement> & { [key: string]: any };
 type Callback = () => void;
 type Into = 'head';
-type Status = 'unset' | 'pending' | 'finished' | 'error'
+type Status = 'unset' | 'pending' | 'finished' | 'error';
 type Resource = string | { url: string; action?: Callback; options?: Options; into?: Into };
 
 export type Options = JsOptions | CssOptions;
@@ -24,18 +24,21 @@ function loadScript(fileName: string, callback?: Callback, options?: JsOptions, 
   script.src = fileName;
 
   script.onload = function () {
-    
     callback?.();
   };
 
-
   if (options) {
     for (let k in options) {
-      script[k] = options[k];
+      (script as any)[k] = options[k];
     }
   }
+
   if (into === 'head') {
-    document.getElementsByTagName('head')[0].appendChild(script);
+    try {
+      document.getElementsByTagName('head')[0].appendChild(script);
+    } catch (e) {
+      console.log('1e', e);
+    }
   } else {
     document.body.appendChild(script);
   }
@@ -62,7 +65,7 @@ function loadCSS(fileName: string, callback?: Callback, options?: CssOptions, in
     css.href = fileName;
     if (options) {
       for (let k in options) {
-        css[k] = options[k];
+        (css as any)[k] = options[k];
       }
     }
     if (into === 'head') {
@@ -96,34 +99,39 @@ function getResources(
     options = currentResource?.options;
     into = currentResource?.into;
   }
-  if (url) {
-    if (/\.js$/.test(url)) {
-      exc = loadScript;
-    } else if (/\.css$/.test(url)) {
-      exc = loadCSS;
+  try {
+    if (url) {
+      if (/\.js$/.test(url)) {
+        exc = loadScript;
+      } else if (/\.css$/.test(url)) {
+        exc = loadCSS;
+      }
     }
-  }
-  if (exc && url) {
-    const resource = exc(
-      url,
-      function () {
-        if (isFunction(action)) {
-          action();
-        }
-        ++i;
-        arr.length > i && getResources(arr, i, map, callback, error);
-        arr.length === i && callback?.();
-      },
-      options,
-      into,
-    );
-    if (error) {
-      resource.dom.onerror = error
+
+    if (exc && url) {
+      const resource = exc(
+        url,
+        function () {
+          if (isFunction(action)) {
+            action();
+          }
+          ++i;
+          arr.length > i && getResources(arr, i, map, callback, error);
+          arr.length === i && callback?.();
+        },
+        options,
+        into,
+      );
+      if (error) {
+        resource.dom.onerror = error;
+      }
+      map.set(url, resource);
+    } else {
+      ++i;
+      arr.length === i && callback?.();
     }
-    map.set(url, resource);
-  } else {
-    ++i;
-    arr.length === i && callback?.();
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -133,10 +141,10 @@ const useBatchExternal = (resources?: Resource[]) => {
   const map = useRef(new Map()); // 加载表
   const _setStatus = (_status: Status) => {
     if (_status === 'error') {
-      return
+      return;
     }
-    setStatus(_status)
-  }
+    setStatus(_status);
+  };
   useEffect(() => {
     if (resources?.length) {
       setStatus('pending');
@@ -181,7 +189,6 @@ const useBatchExternal = (resources?: Resource[]) => {
   const unload = (target: string | string[]) => {
     if (!map.current) return;
     map.current.forEach((value, key) => {
-      console.log(key, target);
       if (
         !target ||
         (typeof target === 'string' && target === key) ||
