@@ -6,15 +6,24 @@ export default () => {
   return (
     <>
       <div>状态: {status}</div>
-   
-      <button onClick={() => load([{
-        url: 'https://jj.com/handsome.js'
-      }, {
-        url: '/useBatchExternal0.js',
-        options: {
-          type: 'module'
+
+      <button
+        onClick={() =>
+          load([
+            {
+              url: '/useBatchExternal0.js',
+              options: {
+                type: 'module',
+              },
+            },
+            {
+              url: '/useBatchExternal1.js',
+            },
+          ])
         }
-      }])}>加载js</button>
+      >
+        加载js
+      </button>
       <button onClick={() => unload()}>卸载js</button>
     </>
   );

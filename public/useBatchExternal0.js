@@ -1,3 +1,3 @@
-console.log('load js successfully')
+console.log('load first js successfully')
 
 export default 'jj'
