@@ -5,7 +5,7 @@ import useDeepEffect from '../useDeepEffect';
 
 function useAnimation(
   target: TargetType,
-  keyframes: PropertyIndexedKeyframes,
+  keyframes?: PropertyIndexedKeyframes,
   options?: KeyframeAnimationOptions &
     Partial<{
       immediate: boolean;
@@ -14,18 +14,22 @@ function useAnimation(
 ) {
   const [animate, setAnimate] = useState<Animation>();
   const [status, setStatus] = useState<'idle' | 'running' | 'paused' | 'finished'>('idle');
-  const isSupported = window && HTMLElement && 'animate' in HTMLElement.prototype
+  const isSupported = window && HTMLElement && 'animate' in HTMLElement.prototype;
   const init = () => {
-    if (!isSupported) { return }
-    const a = getTargetElement(target).animate(keyframes, options);
-
-    a.onfinish = () => {
-      setStatus('finished');
-    };
-    if (options?.commitStyles) {
-      a.commitStyles();
+    if (!isSupported) {
+      return;
     }
-    return a;
+    if (keyframes) {
+      const a = getTargetElement(target).animate(keyframes, options);
+
+      a.onfinish = () => {
+        setStatus('finished');
+      };
+      if (options?.commitStyles) {
+        a.commitStyles();
+      }
+      return a;
+    }
   };
   const play = () => {
     if (options?.immediate === false) {
@@ -65,7 +69,7 @@ function useAnimation(
     finish,
     animate,
     status,
-    isSupported
+    isSupported,
   };
 }
 
