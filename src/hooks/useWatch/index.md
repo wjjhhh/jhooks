@@ -28,6 +28,9 @@ group:
 多个值监听
 <code src="./demo/demo4.tsx" />
 
+一次性监听
+<code src="./demo/demo5.tsx" />
+
 ## API
 
 ```typescript
