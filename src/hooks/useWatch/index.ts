@@ -9,9 +9,13 @@ type WatchOptions = {
 
 type Callback = (oldValue: any, newValue: any) => void;
 
+const getValue = (dep: unknown) => {
+  return typeof dep === 'function' ? dep() : dep;
+}
+
 export default (dep: any, callback: Callback, options?: WatchOptions) => {
   const isMount = useRef(false);
-  const oldValue = useRef(dep);
+  const oldValue = useRef(getValue(dep));
   const once = useRef(false);
   const [isWatching, setIsWatching] = useState(true);
 
@@ -25,13 +29,13 @@ export default (dep: any, callback: Callback, options?: WatchOptions) => {
       isMount.current = true;
     } else {
       // 非深比较 或者 深比较不相同
-      if ((!_options.deep || !isEqual(oldValue.current, dep)) && isWatching && !once.current) {
+      if ((!_options.deep || !isEqual(oldValue.current, getValue(dep))) && isWatching && !once.current) {
         _options.once && (once.current = true);
-        callback(dep, oldValue.current);
+        callback(getValue(dep), oldValue.current);
       }
     }
-    oldValue.current = dep;
-  }, [dep, callback, options]);
+    oldValue.current = getValue(dep);
+  }, [getValue(dep), callback, options]);
 
   return {
     cancel: () => setIsWatching(false),
