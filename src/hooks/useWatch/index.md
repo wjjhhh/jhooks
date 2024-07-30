@@ -40,7 +40,7 @@ const { cancel, run, isWatching } = useWatch(dep: any, callback: Callback, optio
 ### Parms
 | 参数    | 说明 | 类型 |
 | ------- | -------------------- | --------------------------- |
-| dep | 侦听变化的数据 | any |
+| dep | 侦听变化的数据,支持getter | any |
 | callback | 侦听数据发生变化触发的回调 | Callback |
 | options | 额外配置 | WatchOptions |
 
@@ -49,6 +49,7 @@ const { cancel, run, isWatching } = useWatch(dep: any, callback: Callback, optio
 | ------- | -------------------- | --------------------------- |---|
 | immediate | 是否首次渲染立即执行回调 | boolean | false |
 | deep | 是否深度比较 | boolean | false |
+| once | 是否只执行一次 | boolean | false |
 
 ### Result
 | 参数    | 说明 | 类型 |
