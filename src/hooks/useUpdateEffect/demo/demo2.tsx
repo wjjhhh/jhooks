@@ -1,6 +1,6 @@
 /**
  * title: 基础用法
- * desc: 只在依赖项更新时执行。
+ * desc: 只在依赖项更新时执行一次。
  */
 
 import { useUpdateEffect } from 'jhooks';
@@ -15,17 +15,19 @@ export default () => {
     setEffectNum((n) => n + 1);
   }, [toggle]);
 
-  useUpdateEffect(() => {
-    setOnceEffectNum((n) => n + 1);
-  }, [toggle], 1);
+  useUpdateEffect(
+    () => {
+      setOnceEffectNum((n) => n + 1);
+    },
+    [toggle],
+    1,
+  );
 
   return (
     <>
-      <div>effectNum is: {effectNum}</div>
-      <div>我只更新一次：onceEffectNum is: {onceEffectNum}</div>
-      <button onClick={() => setToggle(!toggle)}>
-        toggle: {JSON.stringify(toggle)}
-      </button>
+      <div>useEffect触发次数: {effectNum}</div>
+      <div>useUpdateEffect触发次数: {onceEffectNum}</div>
+      <button onClick={() => setToggle(!toggle)}>更新</button>
     </>
   );
 };

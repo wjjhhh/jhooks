@@ -4,11 +4,22 @@ module.exports = {
   testPathIgnorePatterns: ['/.history/'],
   modulePathIgnorePatterns: ['<rootDir>/package.json'],
   resetMocks: false,
-  // setupFiles: ['jest-localstorage-mock'],
   globals: {
     'ts-jest': {
       tsconfig: 'tsconfig.json',
     },
   },
   moduleDirectories: ['node_modules', 'src'],
+  collectCoverageFrom: [
+    // '<rootDir>/**/src/**/*.{js,jsx,ts,tsx}',
+    
+    // '!**/example/**',
+    // '!**/es/**',
+    // '!**/lib/**',
+    // '!**/dist/**',
+    // '!**/.umi/**',
+    // '!**/src/utils/**'
+    '**/src/hooks/**',
+    '!**/demo/**',
+  ],
 };

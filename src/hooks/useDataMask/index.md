@@ -19,14 +19,14 @@ group:
 
 <code src="./demo/demo1.tsx" />
 
-<!-- 数据曝光时需要异步接口下的场景，数据会第一次点显示时执行请求后缓存
+数据曝光时需要异步接口下的场景，数据会第一次点显示时执行请求后缓存
 <code src="./demo/demo2.tsx" />
 
 自定义加密符号
 <code src="./demo/demo3.tsx" />
 
 自定义加密逻辑
-<code src="./demo/demo4.tsx" /> -->
+<code src="./demo/demo4.tsx" />
 
 
 ## API

@@ -8,7 +8,7 @@ group:
 
 # useUpdateEffect
 
-跟 useEffect 用法一样，同时忽略首次执行，可限制依赖更新时执行的次数
+跟 useEffect 用法一样，同时忽略首次执行，也可限制依赖更新时执行的次数
 
 
 

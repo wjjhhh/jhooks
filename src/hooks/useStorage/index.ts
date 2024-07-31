@@ -1,14 +1,18 @@
 import { useEffect, useReducer, useRef } from 'react';
 import Singleton from '../../utils/Storage';
+import { generateUUID } from '../../utils';
 
 function useStorage<T>(storage: Storage, key: string, initialValue?: T) {
   const [, update] = useReducer((x) => x + 1, 0);
 
   const watcher = useRef(Singleton.getInstance(initialValue)).current;
+  const uuidCurrent = useRef(generateUUID());
   useEffect(() => {
-    watcher?.subscribe(key, update);
+    watcher?.subscribe(key, uuidCurrent.current, update);
+
     return () => {
-      watcher?.clean();
+      watcher.del(key, uuidCurrent.current);
+      // watcher?.clean();
     };
   }, []);
 
@@ -43,7 +47,8 @@ function useStorage<T>(storage: Storage, key: string, initialValue?: T) {
     storage.removeItem(key);
     watcher.setValue(key, null);
   };
-  return [getValue(), setValue, removeValue] as const;
+  const v = getValue()
+  return [v, setValue, removeValue] as const;
 }
 
 export default useStorage;

@@ -1,4 +1,4 @@
-import { fireEvent, render, act, renderHook, waitFor } from '@testing-library/react';
+import { fireEvent, render, act, renderHook } from '@testing-library/react';
 import React, { useState } from 'react';
 import useWatch from '..';
 

@@ -9,8 +9,10 @@ hero:
 
 ---
 
-[![npm](https://img.shields.io/github/issues/wjjhhh/jhooks)](https://github.com/alibaba/hooks/issues)
+[![npm](https://img.shields.io/github/issues/wjjhhh/jhooks)](https://github.com/wjjhhh/hooks/issues)
 ![GitHub](https://img.shields.io/github/license/wjjhhh/jhooks)
+
+[![Security Status](https://www.murphysec.com/platform3/v3/badge/1618658886215565312.svg?t=1)](https://www.murphysec.com/accept?code=3be3dd4cd8ead611f44b1dc4701756f6&type=1&from=2&t=2)
 
 ## Hello jhooks!
 
@@ -20,8 +22,7 @@ hero:
 $ npm install --save jhooks
 # or
 $ yarn add jhooks
-# or
-$ pnpm add jhooks
+
 ```
 
 ## 🔨 使用
@@ -34,7 +35,7 @@ import { useLocalStorage } from 'jhooks';
 ```bash
 $ git clone git@github.com:wjjhhh/jhooks.git
 $ cd jhooks
-$ pnpm run init
-$ pnpm start
+$ yarn init
+$ yarn start
 ```
 打开浏览器访问 http://127.0.0.1:8000

@@ -21,10 +21,10 @@ export default () => {
 
   return (
     <>
-      <div>effectNum is: {effectNum}</div>
-      <div>我只更新一次：onceEffectNum is: {onceEffectNum}</div>
+      <div>useEffect触发次数: {effectNum}</div>
+      <div>useUpdateEffect触发次数: {onceEffectNum}</div>
       <button onClick={() => setToggle(!toggle)}>
-        toggle: {JSON.stringify(toggle)}
+        更新
       </button>
     </>
   );
