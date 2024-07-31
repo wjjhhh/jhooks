@@ -1,6 +1,6 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, act, renderHook } from '@testing-library/react';
 import React, { useState } from 'react';
-import useWatch from '../index';
+import useWatch from '..';
 
 describe('useWatch', () => {
   it('should be defined', () => {
@@ -128,5 +128,100 @@ describe('useWatch', () => {
     fireEvent.click(bt2);
     expect(a).toEqual([1, 111]);
     expect(b).toEqual([1, 112]);
+  });
+  it('should call the callback when the dependency changes', () => {
+    let oldValue: any;
+    let newValue: any;
+    let dep = 1;
+    const callback = jest.fn((newVal, oldVal) => {
+      oldValue = oldVal;
+      newValue = newVal;
+    });
+    const { rerender } = renderHook(() => useWatch(dep, callback));
+
+    expect(callback).not.toHaveBeenCalled();
+
+    rerender();
+
+    expect(callback).not.toHaveBeenCalled();
+
+    rerender();
+
+    expect(callback).not.toHaveBeenCalled();
+
+    dep = 2;
+    rerender();
+
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(oldValue).toBe(1);
+    expect(newValue).toBe(dep);
+  });
+
+  it('should not call the callback when the dependency does not change', () => {
+    const dep = { a: 1 };
+    const callback = jest.fn();
+    const { rerender } = renderHook(() => useWatch(dep, callback));
+
+    expect(callback).not.toHaveBeenCalled();
+
+    rerender();
+
+    expect(callback).not.toHaveBeenCalled();
+
+    rerender();
+
+    expect(callback).not.toHaveBeenCalled();
+  });
+
+  it('should call the callback immediately if specified', () => {
+    const dep = 1;
+    const callback = jest.fn();
+    renderHook(() => useWatch(dep, callback, { immediate: true }));
+
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(callback).toHaveBeenCalledWith(dep, dep);
+  });
+
+  it('should call the callback only once if specified', () => {
+    const dep = 1;
+    const callback = jest.fn();
+    const { rerender } = renderHook(() => useWatch(dep, callback, { once: true }));
+
+    expect(callback).toHaveBeenCalledTimes(0);
+
+    rerender();
+
+    expect(callback).toHaveBeenCalledTimes(1);
+
+    rerender();
+
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
+
+  it('should cancel and resume watching', () => {
+    let dep = 1;
+    const callback = jest.fn();
+    const { result, rerender } = renderHook(() => useWatch(dep, callback));
+
+    expect(result.current.isWatching).toBe(true);
+
+    act(() => {
+      result.current.cancel();
+    });
+
+    dep = 2;
+    rerender();
+
+    expect(callback).not.toHaveBeenCalled();
+    expect(result.current.isWatching).toBe(false);
+
+    act(() => {
+      result.current.run();
+    });
+    dep = 3;
+    rerender();
+
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(result.current.isWatching).toBe(true);
   });
 });

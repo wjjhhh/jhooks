@@ -7,7 +7,7 @@ type WatchOptions = {
   once?: boolean;
 };
 
-type Callback = (oldValue: any, newValue: any) => void;
+type Callback = (newValue: any, oldValue: any) => void;
 
 const getValue = (dep: unknown) => {
   return typeof dep === 'function' ? dep() : dep;
