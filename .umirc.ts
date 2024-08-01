@@ -9,6 +9,9 @@ export default defineConfig({
   outputPath: 'docs-dist',
   mode: 'site',
   publicPath,
+  history: {
+    type: 'hash'
+  },
   navs: [
     {
       title: 'Hooks',
