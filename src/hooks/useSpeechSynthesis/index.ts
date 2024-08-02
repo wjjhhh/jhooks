@@ -25,7 +25,6 @@ const useSpeechSynthesis = (text: string, options: Options = {}) => {
       utterance.current.volume = options?.volume ?? 1
 
       utterance.current.onstart = () => {
-        console.log('onstart');
         setStatus('ing');
       };
     //   utterance.current.onpause = () => {
@@ -37,7 +36,6 @@ const useSpeechSynthesis = (text: string, options: Options = {}) => {
     //     setStatus('ing');
     //   };
       utterance.current.onend = () => {
-        console.log('onend');
         setStatus('end');
       };
       utterance.current.onerror = (e) => {
