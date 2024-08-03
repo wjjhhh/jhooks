@@ -17,7 +17,7 @@ describe('useSpeechSynthesis', () => {
       pitch: 1,
       onstart: jest.fn(),
       onend: jest.fn(),
-      onerror: null,
+      onerror: jest.fn(),
       onpause: null,
       onresume: null,
       onmark: null,
@@ -80,10 +80,32 @@ describe('useSpeechSynthesis', () => {
     });
 
     setTimeout(() => {
-      act(() => {
-        expect(result.current.status).toBe('end');
-      });
+      expect(result.current.status).toBe('end');
+
       done();
     }, 200);
+  });
+
+  it('should trigger onerror event', (done) => {
+    window.speechSynthesis.speak = jest.fn((utterance: SpeechSynthesisUtterance) => {
+      if (utterance.onstart) {
+        utterance.onstart(undefined as any);
+      }
+      // 延迟3秒触发onend事件
+      setTimeout(() => {
+        if (utterance.onerror) {
+          utterance.onerror('error' as any);
+        }
+      }, 100);
+    });
+    const { result } = renderHook(() => useSpeechSynthesis('Hello, world!'));
+    act(() => {
+      result.current.speak();
+    });
+
+    setTimeout(() => {
+      expect(result.current.error).toBe('error');
+      done();
+    }, 1500);
   });
 });
