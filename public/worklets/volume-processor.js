@@ -2,7 +2,6 @@ class VolumeMeter extends AudioWorkletProcessor {
   constructor() {
     super();
     this.volume = 0;
-    console.log(currentTime)
     this.oldTime = currentTime;
   }
 

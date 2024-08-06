@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const defaultConstraints: MediaStreamConstraints = {
   video: true,
@@ -13,13 +13,18 @@ const defaultConstraints: MediaStreamConstraints = {
 const useVolume = (constraints: MediaStreamConstraints = defaultConstraints) => {
   const [stream, setStream] = useState<MediaStream>();
   const [error, setError] = useState();
-  const [audioContext, setAudioContext] = useState<AudioContext>(() => new AudioContext());
+  const audioContextRef = useRef(new AudioContext())
   const [volume, setVolume] = useState(0);
   const getVolume = async (mediaStream: MediaStream) => {
+    if (audioContextRef.current.state === 'closed') {
+      audioContextRef.current = new AudioContext();
+    }
+    const audioContext = audioContextRef.current;
+ 
     await audioContext.audioWorklet.addModule('/worklets/volume-processor.js');
     const source = audioContext.createMediaStreamSource(mediaStream);
     const node = new AudioWorkletNode(audioContext, 'vumeter');
-  
+
     node.port.onmessage = (event) => {
       if (event.data.volume) {
         setVolume(Math.round(event.data.volume));
@@ -32,27 +37,37 @@ const useVolume = (constraints: MediaStreamConstraints = defaultConstraints) => 
       track.stop();
     });
     setStream(void 0);
-    await audioContext.close();
+    await audioContextRef.current?.close();
   };
-  useEffect(() => {
-    navigator.mediaDevices
+  const startStream =  (reStart = true) => {
+   
+    setTimeout(() => {
+      navigator.mediaDevices
       .getUserMedia(constraints)
       .then((mediaStream) => {
+        console.log('reStart', reStart);
         setStream(mediaStream);
+
         getVolume(mediaStream);
       })
       .catch((error) => {
         console.error('Error accessing media devices.', error);
         setError(error);
       });
+    }, 1000)
+
+  };
+  useEffect(() => {
+    startStream(false);
   }, []);
 
   return {
     stream,
     error,
-    audioContext,
+    audioContext: audioContextRef.current,
     volume,
     closeStream,
+    startStream,
   };
 };
 
