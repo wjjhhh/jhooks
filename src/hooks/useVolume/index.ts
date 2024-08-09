@@ -39,26 +39,22 @@ const useVolume = (constraints: MediaStreamConstraints = defaultConstraints) => 
     setStream(void 0);
     await audioContextRef.current?.close();
   };
-  const startStream =  (reStart = true) => {
+  const startStream = () => {
    
-    setTimeout(() => {
-      navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((mediaStream) => {
-        console.log('reStart', reStart);
-        setStream(mediaStream);
-
-        getVolume(mediaStream);
-      })
-      .catch((error) => {
-        console.error('Error accessing media devices.', error);
-        setError(error);
-      });
-    }, 1000)
+    navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then((mediaStream) => {
+      setStream(mediaStream);
+      getVolume(mediaStream);
+    })
+    .catch((error) => {
+      console.error('Error accessing media devices.', error);
+      setError(error);
+    });
 
   };
   useEffect(() => {
-    startStream(false);
+    startStream();
   }, []);
 
   return {
