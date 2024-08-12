@@ -26,6 +26,7 @@ const {
   volume,
   closeStream,
   startStream,
+  status
 } = useVolume(constraints: MediaStreamConstraints)
 ```
 
@@ -45,3 +46,4 @@ const {
 | volume       | 音量              | number       | 
 | closeStream  | 关闭媒体流        | () => void   |
 | startStream  | 开启媒体流        | () => void   | 
+| status | 状态 | 'idle' \| 'running' \| 'closed' |
