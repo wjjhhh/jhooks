@@ -15,7 +15,7 @@ const useVolume = (constraints: MediaStreamConstraints = defaultConstraints) => 
   const [error, setError] = useState();
   const audioContextRef = useRef(new AudioContext());
   const [volume, setVolume] = useState(0);
-  const [status, setStatus] = useState<'idle' | 'closed' | 'running'| 'suspended'>('idle');
+  const [status, setStatus] = useState<'idle' | 'closed' | 'running' | 'suspended'>('idle');
   const getVolume = async (mediaStream: MediaStream) => {
     if (audioContextRef.current.state === 'closed') {
       audioContextRef.current = new AudioContext();
@@ -41,6 +41,7 @@ const useVolume = (constraints: MediaStreamConstraints = defaultConstraints) => 
       track.stop();
     });
     setStream(void 0);
+
     await audioContextRef.current?.close();
     setStatus('closed');
   };
