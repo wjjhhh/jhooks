@@ -48,32 +48,29 @@ describe('useVolume', () => {
 
   it('should start the stream and get the volume', async () => {
     const { result } = renderHook(() => useVolume());
-
+    expect(result.current.status).toBe('idle');
     expect(result.current.stream).toBeUndefined();
     expect(result.current.error).toBeUndefined();
     expect(result.current.volume).toBe(0);
     expect(result.current.error).toBeUndefined();
   });
 
-  it('should close the stream', async () => {
+  it('should close the stream and start again', async () => {
     const { result } = renderHook(() => useVolume());
 
-    act(() => {
-      result.current.closeStream();
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      await result.current.closeStream();
     });
-
+    expect(result.current.status).toBe('closed');
     expect(result.current.stream).toBeUndefined();
-  });
 
-  it('should start the stream again', async () => {
-    const { result } = renderHook(() => useVolume());
-
-    act(() => {
-      result.current.closeStream();
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100));
       result.current.startStream();
     });
-    setTimeout(() => {
-      expect(result.current.stream).toBeDefined();
-    });
+
+    expect(result.current.stream).toBeDefined();
+    expect(result.current.status).toBe('running');
   });
 });
