@@ -32,7 +32,7 @@ describe('useVolume', () => {
     });
     global.AudioWorkletNode = jest.fn().mockImplementation(() => ({
       port: {
-        onmessage: null,
+        onmessage: jest.fn(),
         postMessage: jest.fn(),
         addEventListener: jest.fn(),
         removeEventListener: jest.fn(),
@@ -46,13 +46,41 @@ describe('useVolume', () => {
     jest.restoreAllMocks();
   });
 
-  it('should start the stream and get the volume', async () => {
+  it('should initialize with default values', () => {
     const { result } = renderHook(() => useVolume());
-    expect(result.current.status).toBe('idle');
     expect(result.current.stream).toBeUndefined();
     expect(result.current.error).toBeUndefined();
     expect(result.current.volume).toBe(0);
-    expect(result.current.error).toBeUndefined();
+    expect(result.current.status).toBe('idle');
+  });
+
+  it('should start the stream successfully', (done) => {
+    const mockGetUserMedia = jest
+      .spyOn(navigator.mediaDevices, 'getUserMedia')
+      .mockResolvedValue(new MediaStream());
+    const { result } = renderHook(() => useVolume());
+    setTimeout(() => {
+      expect(mockGetUserMedia).toHaveBeenCalled();
+      expect(result.current.stream).toBeDefined();
+      expect(result.current.status).toBeDefined();
+      expect(result.current.error).toBeUndefined();
+      mockGetUserMedia.mockRestore();
+      done();
+    });
+  });
+
+  it('should handle errors when starting the stream', (done) => {
+    const mockGetUserMedia = jest
+      .spyOn(navigator.mediaDevices, 'getUserMedia')
+      .mockRejectedValue(new Error('Permission denied'));
+    const { result } = renderHook(() => useVolume());
+    setTimeout(() => {
+      expect(mockGetUserMedia).toHaveBeenCalled();
+      expect(result.current.error).toBeDefined();
+      expect(result.current.stream).toBeUndefined();
+      mockGetUserMedia.mockRestore();
+      done();
+    });
   });
 
   it('should close the stream and start again', async () => {
