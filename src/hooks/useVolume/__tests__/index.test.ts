@@ -25,6 +25,8 @@ describe('useVolume', () => {
       createScriptProcessor: jest.fn(),
       destination: {},
       close: jest.fn().mockResolvedValue(undefined),
+      suspend: jest.fn().mockResolvedValue(undefined),
+      resume: jest.fn().mockResolvedValue(undefined),
     }));
     Object.defineProperty(window, 'AudioContext', {
       value: mockAudioContext,
@@ -85,7 +87,6 @@ describe('useVolume', () => {
 
   it('should close the stream and start again', async () => {
     const { result } = renderHook(() => useVolume());
-
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
       await result.current.closeStream();
@@ -100,5 +101,22 @@ describe('useVolume', () => {
 
     expect(result.current.stream).toBeDefined();
     expect(result.current.status).toBe('running');
+  });
+
+  it('should handle suspended AudioContext', async () => {
+    const { result } = renderHook(() => useVolume());
+    Object.defineProperty(result.current.audioContext, 'state', {
+      value: 'suspended',
+      writable: true,
+    });
+    act(() => {
+      result.current.audioContext.suspend();
+    });
+    expect(result.current.audioContext.state).toBe('suspended');
+
+    jest.spyOn(result.current.audioContext, 'resume').mockResolvedValueOnce();
+
+    await new Promise((resolve) => setTimeout(resolve));
+    expect(result.current.audioContext.resume).toHaveBeenCalled();
   });
 });

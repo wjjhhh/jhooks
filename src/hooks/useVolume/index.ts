@@ -29,7 +29,6 @@ const useVolume = (constraints: MediaStreamConstraints = defaultConstraints) => 
     const node = new AudioWorkletNode(audioContext, 'vumeter');
 
     node.port.onmessage = (event) => {
-      console.log('!!!!!!!!!!!')
       if (event.data.volume) {
         setVolume(Math.round(event.data.volume));
       }
