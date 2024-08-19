@@ -10,7 +10,7 @@ const defaultConstraints: MediaStreamConstraints = {
   },
 };
 
-const useVolume = (constraints: MediaStreamConstraints = defaultConstraints) => {
+const useVolume = (constraints: MediaStreamConstraints = defaultConstraints, customProcessorPath: string = '/worklets/volume-processor.js') => {
   const [stream, setStream] = useState<MediaStream>();
   const [error, setError] = useState();
   const audioContextRef = useRef(new AudioContext());
@@ -24,7 +24,7 @@ const useVolume = (constraints: MediaStreamConstraints = defaultConstraints) => 
     }
     const audioContext = audioContextRef.current;
 
-    await audioContext.audioWorklet.addModule('/worklets/volume-processor.js');
+    await audioContext.audioWorklet.addModule(customProcessorPath);
     const source = audioContext.createMediaStreamSource(mediaStream);
     const node = new AudioWorkletNode(audioContext, 'vumeter');
 
