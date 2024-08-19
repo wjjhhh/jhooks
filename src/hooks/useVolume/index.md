@@ -35,6 +35,7 @@ const {
 | 参数        | 说明       | 类型                   | 默认值 |
 | ----------- | ---------- | ---------------------- | ------ |
 | constraints | 媒体流约束 | MediaStreamConstraints | -      |
+| customProcessorPath | AudioWorkletProcessor 的路径 | string | /worklets/volume-processor.js |
 
 ### Result
 
