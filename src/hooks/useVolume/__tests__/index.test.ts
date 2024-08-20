@@ -119,4 +119,13 @@ describe('useVolume', () => {
     await new Promise((resolve) => setTimeout(resolve));
     expect(result.current.audioContext.resume).toHaveBeenCalled();
   });
+
+  it('should pass customProcessorPath parameter correctly', async () => {
+    const customProcessorPath = 'path/to/custom/processor';
+    const { result } = renderHook(() => useVolume({}, customProcessorPath));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(result.current.audioContext.audioWorklet.addModule).toHaveBeenCalledWith(
+      customProcessorPath,
+    );
+  });
 });
