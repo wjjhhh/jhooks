@@ -16,7 +16,7 @@ const useEyeDropper = (): UseEyeDropperReturn => {
 
   const openEyeDropper = useCallback(() => {
     if (!isSupported) {
-      alert('EyeDropper API is not supported in your browser.');
+      console.error('EyeDropper API is not supported in your browser.');
       return;
     }
 
