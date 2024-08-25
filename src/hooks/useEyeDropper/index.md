@@ -22,12 +22,10 @@ group:
 const { color, openEyeDropper, isSupported } = useEyeDropper();
 ```
 
-### Params
-
-| 参数 | 说明 | 类型 | 默认值 |
-| ---- | ---- | ---- | ------ |
-
 ### Result
 
 | 参数 | 说明 | 类型 |
 | ---- | ---- | ---- |
+| color | 当前拾取到的颜色值 | string |
+| openEyeDropper | 打开 EyeDropper API | () => void |
+| isSupported | EyeDropper API 是否可用 | boolean |
