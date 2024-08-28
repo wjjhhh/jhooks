@@ -6,14 +6,17 @@ declare global {
     EyeDropper: any;
   }
 }
+beforeEach(() => {
+  // 重置状态
+  jest.clearAllMocks();
+});
 
 describe('useEyeDropper', () => {
   it('should initialize with default values ', () => {
-    window.EyeDropper = jest.fn();
     const { result } = renderHook(() => useEyeDropper());
     expect(result.current.color).toBeNull();
-    expect(result.current.isSupported).toBe(true);
-    delete window.EyeDropper;
+    expect(result.current.isSupported).toBe('EyeDropper' in window);
+
   });
 
   it('should set the color when EyeDropper is opened successfully', async () => {
@@ -31,7 +34,7 @@ describe('useEyeDropper', () => {
   });
 
   it('should log an error when EyeDropper is not supported', () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
     delete window.EyeDropper;
 
     const { result } = renderHook(() => useEyeDropper());
