@@ -16,7 +16,7 @@ describe('useEyeDropper', () => {
     const { result } = renderHook(() => useEyeDropper());
     expect(result.current.color).toBeNull();
     expect(result.current.isSupported).toBe('EyeDropper' in window);
-
+    expect(result.current.isLoading).toBe(false);
   });
 
   it('should set the color when EyeDropper is opened successfully', async () => {
@@ -31,6 +31,7 @@ describe('useEyeDropper', () => {
 
     expect(mockOpen).toHaveBeenCalled();
     expect(result.current.color).toBe('#ffffff');
+    expect(result.current.isLoading).toBe(false);
   });
 
   it('should log an error when EyeDropper is not supported', () => {
@@ -46,6 +47,7 @@ describe('useEyeDropper', () => {
       'EyeDropper API is not supported in your browser.',
     );
     expect(result.current.color).toBeNull();
+    expect(result.current.isLoading).toBe(false);
 
     consoleErrorSpy.mockRestore();
   });
@@ -72,4 +74,21 @@ describe('useEyeDropper', () => {
 
     consoleErrorSpy.mockRestore();
   });
+
+  it('should reset the color', async () => {
+    const mockOpen = jest.fn().mockResolvedValue({ sRGBHex: '#EEE' });
+    window.EyeDropper = jest.fn().mockImplementation(() => ({
+      open: mockOpen,
+    }));
+    const { result } = renderHook(() => useEyeDropper());
+    await act(async () => {
+      result.current.openEyeDropper();
+    });
+    act(() => {
+      result.current.reset();
+    });
+
+    expect(result.current.color).toBeNull();
+  });
+
 });
