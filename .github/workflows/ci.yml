@@ -32,10 +32,11 @@ jobs:
           # 这里用yarn.lock而不是package.json是因为package.json中还有version和description之类的描述项目但和依赖无关的属性
           # 2022/8/29改成pnpm
           key: ${{runner.OS}}-${{hashFiles('**/pnpm-lock.yaml')}}
+      # 清理 pnpm 缓存
+      - name: Prune pnpm store
+        run: npx pnpm store prune
       # 安装依赖
       - name: Installing Dependencies
-        # 如果缓存标志位没命中，则执行该step。否则就跳过该step
-        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: npx pnpm@7.26.3 install
       # 运行代码扫描
       - name: npx Running Lint
