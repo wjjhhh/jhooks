@@ -44,4 +44,4 @@ jobs:
       # 运行自动化测试
       - name: npx Running Test
         # 通过前面章节定义的命令行执行自动化测试
-        run: npx pnpm test
+        run: npx pnpm@7.26.3 test
