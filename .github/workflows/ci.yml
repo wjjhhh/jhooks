@@ -31,7 +31,10 @@ jobs:
           # key中定义缓存标志位的生成方式。runner.OS指当前环境的系统。外加对yarn.lock内容生成哈希码作为key值，如果yarn.lock改变则代表依赖有变化。
           # 这里用yarn.lock而不是package.json是因为package.json中还有version和description之类的描述项目但和依赖无关的属性
           # 2022/8/29改成pnpm
-          key: ${{runner.OS}}-${{hashFiles('**/pnpm-lock.yaml')}}
+          key: ${{l.OS}}-${{hashFiles('**/pnpm-lock.yaml')}}
+      # 删除 node_modules 目录
+      - name: Remove node_modules
+        run: rm -rf node_modules
       # 清理 pnpm 缓存
       - name: Prune pnpm store
         run: npx pnpm store prune
