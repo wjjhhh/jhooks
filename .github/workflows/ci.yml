@@ -32,12 +32,6 @@ jobs:
           # 这里用yarn.lock而不是package.json是因为package.json中还有version和description之类的描述项目但和依赖无关的属性
           # 2022/8/29改成pnpm
           key: ${{runner.OS}}-${{hashFiles('**/pnpm-lock.yaml')}}
-      # 删除 node_modules 目录
-      - name: Remove node_modules
-        run: rm -rf node_modules
-      # 清理 pnpm 缓存
-      - name: Prune pnpm store
-        run: npx pnpm store prune
       # 安装依赖
       - name: Installing Dependencies
         run: npx pnpm@7.26.3 install
