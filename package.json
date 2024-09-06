@@ -59,5 +59,8 @@
     "react-dom": "^18.2.0",
     "ts-jest": "^28.0.5",
     "yorkie": "^2.0.0"
+  },
+  "resolutions": {
+    "@babel/core": "7.22.0"
   }
 }
