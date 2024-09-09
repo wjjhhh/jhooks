@@ -1,6 +1,11 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import useQRCode from '..';
 
+beforeAll(async () => {
+  global.TextEncoder = require('util').TextEncoder;
+  global.TextDecoder = require('util').TextDecoder;
+});
+
 describe('useQRCode', () => {
     it('should return an empty string if the text is empty', () => {
       const { result } = renderHook(() => useQRCode(''));
