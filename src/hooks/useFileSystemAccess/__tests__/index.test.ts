@@ -112,7 +112,7 @@ describe('useFileSystemAccess', () => {
   it('should read a directory', async () => {
     const dirHandle = {};
     const callback = jest.fn();
-    global.showDirectoryPicker.mockResolvedValue(dirHandle);
+    (global.showDirectoryPicker as jest.Mock).mockResolvedValue(dirHandle);
 
     const { result } = renderHook(() => useFileSystemAccess(options));
 
