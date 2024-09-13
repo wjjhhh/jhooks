@@ -1,8 +1,9 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import useFileSystemAccess from '..';
+import type { Options } from '..';
 
 describe('useFileSystemAccess', () => {
-  const options = {
+  const options: Options = {
     dataType: 'Text',
     types: [
       {
@@ -33,7 +34,7 @@ describe('useFileSystemAccess', () => {
       getFile: jest.fn().mockResolvedValue(file),
     };
     file.text = jest.fn().mockResolvedValue('file content');
-    global.showOpenFilePicker.mockResolvedValue([fileHandle]);
+    (global.showOpenFilePicker as jest.Mock).mockResolvedValue([fileHandle]);
 
     const { result } = renderHook(() => useFileSystemAccess(options));
 
@@ -55,7 +56,7 @@ describe('useFileSystemAccess', () => {
     const fileHandle = {
       createWritable: jest.fn().mockResolvedValue(writableStream),
     };
-    global.showSaveFilePicker.mockResolvedValue(fileHandle);
+    (global.showSaveFilePicker as jest.Mock).mockResolvedValue(fileHandle);
 
     const { result } = renderHook(() => useFileSystemAccess(options));
 
@@ -79,7 +80,7 @@ describe('useFileSystemAccess', () => {
     const fileHandle = {
       createWritable: jest.fn().mockResolvedValue(writableStream),
     };
-    global.showSaveFilePicker.mockResolvedValue(fileHandle);
+    (global.showSaveFilePicker as jest.Mock).mockResolvedValue(fileHandle);
 
     const { result } = renderHook(() => useFileSystemAccess(options));
 
@@ -97,7 +98,7 @@ describe('useFileSystemAccess', () => {
 
   it('should create a new file', async () => {
     const fileHandle = {};
-    global.showSaveFilePicker.mockResolvedValue(fileHandle);
+    (global.showSaveFilePicker as jest.Mock).mockResolvedValue(fileHandle);
 
     const { result } = renderHook(() => useFileSystemAccess(options));
 

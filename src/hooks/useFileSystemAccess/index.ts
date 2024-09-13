@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-type Options = {
+export type Options = {
   dataType?: 'Text' | 'ArrayBuffer' | 'Blob';
   types: {
     description?: string;
