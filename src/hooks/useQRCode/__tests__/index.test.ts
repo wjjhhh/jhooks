@@ -47,23 +47,5 @@ describe('useQRCode', () => {
       expect(result.current).toMatch(/^data:image\/png;base64,/);
     });
   });
-  describe('useFileSystemAccess', () => {
-    const options = {
-      dataType: 'Text',
-      types: [
-        {
-          description: 'Text Files',    const options = {
-      dataType: 'Text',
-      types: [{ accept: { 'text/plain': ['.txt'] } }],
-    };
-
-      expect(result.current.file).toBeUndefined();
-    });
-
-    it('should open a file and set file and data state', async () => {
-      expect(result.current.isSupported).toBe('showSaveFilePicker' in window && 'showOpenFilePicker' in window);
-      expect(result.current.data).toBeUndefined();
-    it('should initialize with default values', () => {
-      const { result } = renderHook(() => useFileSystemAccess(options));
 
 });
