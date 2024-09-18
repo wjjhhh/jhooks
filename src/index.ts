@@ -35,3 +35,4 @@ export { default as useSleep } from './hooks/useSleep';
 export { default as useOnline } from './hooks/useOnline';
 export { default as useVolume } from './hooks/useVolume';
 export { default as useEyeDropper } from './hooks/useEyeDropper';
+export { default as useWakeLock } from './hooks/useWakeLock';
