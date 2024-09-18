@@ -39,7 +39,7 @@ export default (options: Options) => {
     if (!isSupported) {
       return;
     }
-    const [newFile] = await showOpenFilePicker({ ...options, ..._options });
+    const [newFile] = await (window as any).showOpenFilePicker({ ...options, ..._options });
 
     handleRef.current = newFile;
 
@@ -58,7 +58,7 @@ export default (options: Options) => {
     if (!isSupported) {
       return;
     }
-    handleRef.current = await showSaveFilePicker({ ...options, ..._options });
+    handleRef.current = await (window as any).showSaveFilePicker({ ...options, ..._options });
     const writableStream = await handleRef.current?.createWritable();
     if (writableStream) {
       await writableStream.write(data!);
@@ -67,7 +67,7 @@ export default (options: Options) => {
   };
 
   const create = async () => {
-    handleRef.current = await showSaveFilePicker(options);
+    handleRef.current = await (window as any).showSaveFilePicker(options);
     setData(void 0);
   };
 
