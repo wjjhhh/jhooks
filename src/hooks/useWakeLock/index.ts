@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from 'react';
 type Options = {
     onRelease?: () => void;
     onLock?: () => void;
-
 }
 
 const useWakeLock = (options: Options) => {
@@ -38,8 +37,8 @@ const useWakeLock = (options: Options) => {
       }
     };
   }, []);
-  const release = () => {
-    wakeLock?.release();
+  const release = async () => {
+    return await wakeLock?.release();
   }
   return { isSupported, wakeLock, release, lock };
 };
