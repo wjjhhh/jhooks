@@ -27,6 +27,7 @@ const useWakeLock = (options: Options) => {
     }
     lock();
     document.addEventListener('visibilitychange', () => {
+      console.log('visibilitychange!!!')
       if (wakeLock && document.visibilityState === 'visible') {
         lock();
       }
