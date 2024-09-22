@@ -1,8 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 type Options = {
     onRelease?: () => void;
     onLock?: () => void;
+    onError?: (error: unknown) => void;
 }
 
 const useWakeLock = (options: Options) => {
@@ -19,6 +20,7 @@ const useWakeLock = (options: Options) => {
       });
     } catch (err) {
       console.error(`Failed to acquire wake lock`);
+      options?.onError?.(err);
     }
   };
   useEffect(() => {
@@ -27,7 +29,6 @@ const useWakeLock = (options: Options) => {
     }
     lock();
     document.addEventListener('visibilitychange', () => {
-      console.log('visibilitychange!!!')
       if (wakeLock && document.visibilityState === 'visible') {
         lock();
       }
