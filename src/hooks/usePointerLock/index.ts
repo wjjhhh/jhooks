@@ -12,7 +12,7 @@ const usePointerLock = ({
   onMove,
 }: {
   onLock?: () => void;
-  onError?: () => void;
+  onError?: (e: Event) => void;
   onExit?: () => void;
   onMove?: (position: Position, event: MouseEvent) => void;
 } = {}) => {
@@ -47,9 +47,9 @@ const usePointerLock = ({
     }
   };
 
-  const handlePointerLockError = useCallback(() => {
+  const handlePointerLockError = useCallback((e: Event) => {
     console.error('Error attempting to lock pointer.');
-    onError?.();
+    onError?.(e);
   }, []);
 
   const requestPointerLock = (element: HTMLElement) => {
