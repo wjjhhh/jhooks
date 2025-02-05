@@ -37,3 +37,4 @@ export { default as useVolume } from './hooks/useVolume';
 export { default as useEyeDropper } from './hooks/useEyeDropper';
 export { default as useWakeLock } from './hooks/useWakeLock';
 export { default as usePointerLock } from './hooks/usePointerLock';
+export { default as useDoubleClick } from './hooks/useDoubleClick';
