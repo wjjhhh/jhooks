@@ -16,15 +16,16 @@ group:
 
 <code src="./demo/demo1.tsx" />
 
+### 额外支持单击回调
+
+<code src="./demo/demo2.tsx" />
 
 ## API
 
 ```typescript
 
-
 ```
 
 ### Params
-
 
 ### Result

@@ -59,13 +59,12 @@ export function isPlainObject(obj: object) {
 export function preciseSetTimeout(callback: Function, delay: number) {
   const start = Date.now();
   let rafId: number;
-
   const tick = () => {
-    if (Date.now() - start >= delay) {
+    if ((Date.now() - start) >= delay) {
       callback();
     } else {
       rafId = requestAnimationFrame(tick);
-    }
+    } 
   };
 
   tick();
