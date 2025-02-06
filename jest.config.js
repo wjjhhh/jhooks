@@ -22,4 +22,7 @@ module.exports = {
     '**/src/hooks/**',
     '!**/demo/**',
   ],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+  }
 };
