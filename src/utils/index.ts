@@ -2,7 +2,7 @@ import { MutableRefObject } from 'react';
 
 type TargetValue<T> = T | undefined | null;
 
-type TargetType = HTMLElement | Element | Window | Document;
+export type TargetType = HTMLElement | Element | Window | Document;
 
 export type BasicTarget<T extends TargetType = Element> =
   | (() => TargetValue<T>)
@@ -54,4 +54,20 @@ export function isEmptyObject(obj: object) {
 
 export function isPlainObject(obj: object) {  
   return Object.prototype.toString.call(obj) === '[object Object]' && !Array.isArray(obj) && obj.constructor === Object;  
+}
+
+export function preciseSetTimeout(callback: Function, delay: number) {
+  const start = Date.now();
+  let rafId: number;
+  const tick = () => {
+    if ((Date.now() - start) >= delay) {
+      callback();
+    } else {
+      rafId = requestAnimationFrame(tick);
+    } 
+  };
+
+  tick();
+
+  return () => cancelAnimationFrame(rafId);
 }
