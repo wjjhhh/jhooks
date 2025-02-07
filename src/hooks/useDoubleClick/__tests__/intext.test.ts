@@ -1,7 +1,7 @@
 import useDoubleClick from '..';
 import { renderHook, act } from '@testing-library/react';
 import { preciseSetTimeout, getTargetElement } from '@/utils';
-import type { TargetType } from '@/utils';
+import type { BasicTarget } from '@/utils';
 
 jest.mock('@/utils', () => ({
   preciseSetTimeout: jest.fn(),
@@ -12,7 +12,7 @@ describe('useDoubleClick', () => {
   const doubleClick = jest.fn();
   const onClick = jest.fn();
   const options = { delay: 300, onClick };
-  const target = {} as TargetType;
+  const target = {} as BasicTarget;
 
   beforeEach(() => {
     jest.clearAllMocks();
