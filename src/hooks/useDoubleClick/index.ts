@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { preciseSetTimeout, getTargetElement } from '@/utils';
-import type { TargetType } from '@/utils';
+import type { BasicTarget } from '@/utils';
 
 type Options = {
   delay: number;
   onClick?: (event: Event) => void;
 };
 
-const useDoubleClick = (target: TargetType, doubleClick: Function, options: Options) => {
+const useDoubleClick = (target: BasicTarget, doubleClick: Function, options: Options) => {
   const timerRef = useRef<(() => void) | null>(null);
   const hasClicked = useRef(false);
   const effect: EventListener = (event) => {
