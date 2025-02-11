@@ -3,7 +3,7 @@ import QRCode from 'qrcode';
 
 function useQRCode(text: string, options?: QRCode.QRCodeToDataURLOptions) {
   const [dataUrl, setDataUrl] = useState('');
-  const toUrl = async (_text: string, _options: QRCode.QRCodeToDataURLOptions) => {
+  const toUrl = async (_text: string, _options?: QRCode.QRCodeToDataURLOptions) => {
     if (!_text) {
       setDataUrl('');
     } else {
