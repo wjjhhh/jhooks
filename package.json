@@ -1,7 +1,15 @@
 {
-  "private": true,
-  "name": "jhooks",
+  "name": "@wjjhhh/jhooks",
   "version": "0.0.1",
+  "description": "react hooks",
+  "main": "index.js",
+  "keywords": [
+    "react",
+    "hooks",
+    "react hooks"
+  ],
+  "license": "MIT",
+  "author": "JJ Wu",
   "scripts": {
     "init": "yarn install && yarn run build",
     "start": "dumi dev",
@@ -44,6 +52,7 @@
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^27.0.3",
     "@types/lodash-es": "^4.17.6",
+    "@types/qrcode": "^1.5.5",
     "@types/recordrtc": "^5.6.10",
     "@types/wicg-file-system-access": "^2020.9.5",
     "@umijs/fabric": "^2.8.1",

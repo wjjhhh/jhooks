@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { TargetType } from '@/utils/types';
+import type { TargetType } from '@/types';
 import { getTargetElement } from '../../utils';
 import useDeepEffect from '../useDeepEffect';
 
@@ -19,8 +19,9 @@ function useAnimation(
     if (!isSupported) {
       return;
     }
-    if (keyframes) {
-      const a = getTargetElement(target).animate(keyframes, options);
+    const element = getTargetElement(target);
+    if (keyframes && element instanceof HTMLElement) {
+      const a = element.animate(keyframes, options);
 
       a.onfinish = () => {
         setStatus('finished');

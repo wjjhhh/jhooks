@@ -19,7 +19,12 @@ let res: Result = {
 function getSnapshot() {
   return res;
 }
-const scrollEndTimer = Symbol('timer')
+const scrollEndTimer = Symbol('timer');
+declare global {
+  interface Window {
+    [scrollEndTimer]: number;
+  }
+}
 
 const isSupportedScrollend = 'onscrollend' in window;
 

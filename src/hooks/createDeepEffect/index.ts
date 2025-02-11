@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import type { DependencyList, useEffect, useLayoutEffect } from 'react';
 type EffectHook = typeof useEffect | typeof useLayoutEffect;
 
-function deepEqual(obj1: Object | void, obj2: Object | void) {
+function deepEqual(obj1: Record<string, any> | void, obj2: Record<string, any> | void) {
   if (obj1 === obj2) {
     return true;
   }
