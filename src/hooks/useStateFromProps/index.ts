@@ -1,13 +1,23 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useRef } from 'react';
 
-const useStateFromProps = (props: any) => {
-  const [state, setState] = useState(props);
-  const oldValue = useRef(props);
+const useStateFromProps = <T>(props: any) => {
+  const [, forceUpdate] = useState({});
+  const oldValue = useRef<T>(props);
+  const curValue = useRef<T>(props);
   if (oldValue.current !== props) {
-    setState(props);
     oldValue.current = props;
+    curValue.current = props;
   }
-  return [state, setState];
+  return [
+    curValue.current,
+    (prevState: T) => {
+      const updatedValue =
+        typeof prevState === 'function' ? prevState(curValue.current) : prevState;
+      curValue.current = updatedValue;
+      forceUpdate({});
+      return updatedValue;
+    },
+  ];
 };
 
 export default useStateFromProps;
