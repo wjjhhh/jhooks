@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 
 const useStateFromProps = <T>(props: any) => {
   const [, forceUpdate] = useState({});
@@ -8,16 +8,19 @@ const useStateFromProps = <T>(props: any) => {
     oldValue.current = props;
     curValue.current = props;
   }
-  return [
-    curValue.current,
-    (prevState: T) => {
-      const updatedValue =
-        typeof prevState === 'function' ? prevState(curValue.current) : prevState;
-      curValue.current = updatedValue;
-      forceUpdate({});
-      return updatedValue;
-    },
-  ];
+  return useMemo(
+    () => [
+      curValue.current,
+      (prevState: T) => {
+        const updatedValue =
+          typeof prevState === 'function' ? prevState(curValue.current) : prevState;
+        curValue.current = updatedValue;
+        forceUpdate({});
+        return updatedValue;
+      },
+    ],
+    [props, curValue.current],
+  );
 };
 
 export default useStateFromProps;

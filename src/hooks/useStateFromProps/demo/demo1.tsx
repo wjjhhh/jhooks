@@ -4,7 +4,6 @@ import { useStateFromProps } from 'jhooks';
 const Child = ({ num: parentNum }: { num: number }) => {
   const [num, setNum] = useStateFromProps(parentNum);
   console.count('child render');
-  console.log('child state:', num);
   return (
     <div>
       <div>
@@ -17,12 +16,12 @@ const Child = ({ num: parentNum }: { num: number }) => {
 
 export default () => {
   const [num, setNum] = useState(0);
+  console.count('parent render');
   return (
     <div>
       <div>
         parent state: {num} <button onClick={() => setNum(num + 1)}>add</button>
       </div>
-
       <Child num={num} />
     </div>
   );
