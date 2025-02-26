@@ -3,7 +3,6 @@ import { useStateFromProps } from 'jhooks';
 
 const B = ({ data: outData }: { data: string[] }) => {
   const [data, setData] = useStateFromProps(outData);
-  console.log(data)
   return (
     <div>
       B:
