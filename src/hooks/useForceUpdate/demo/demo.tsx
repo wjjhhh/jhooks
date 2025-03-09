@@ -1,4 +1,4 @@
-import { useForceUpdate } from 'jhooks'
+import { useForceUpdate } from '@wjjhhh/jhooks'
 
 export default () => {
     const forceUpdate = useForceUpdate()

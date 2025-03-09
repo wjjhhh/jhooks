@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useStateFromProps } from 'jhooks';
+import { useStateFromProps } from '@wjjhhh/jhooks';
 
 const Child = ({ num: parentNum }: { num: number }) => {
   const [num, setNum] = useStateFromProps(parentNum);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSleep } from 'jhooks';
+import { useSleep } from '@wjjhhh/jhooks';
 
 export default () => {
   const [status, setStatus] = React.useState('idle');

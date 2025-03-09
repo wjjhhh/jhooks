@@ -1,4 +1,4 @@
-import { useCycleList } from 'jhooks';
+import { useCycleList } from '@wjjhhh/jhooks';
 
 export default () => {
   const { prev, next, data, index, push, pop, shift, unshift, list } = useCycleList([

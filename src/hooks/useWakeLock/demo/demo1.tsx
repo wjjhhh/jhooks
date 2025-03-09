@@ -1,4 +1,4 @@
-import { useWakeLock } from 'jhooks';
+import { useWakeLock } from '@wjjhhh/jhooks';
 import { useState } from 'react';
 
 export default () => {

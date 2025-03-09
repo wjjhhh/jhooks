@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useFileSystemAccess } from 'jhooks';
+import { useFileSystemAccess } from '@wjjhhh/jhooks';
 
 export default () => {
   const { isSupported, open, file } = useFileSystemAccess({

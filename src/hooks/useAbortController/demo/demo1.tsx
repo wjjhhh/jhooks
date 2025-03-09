@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAbortController } from 'jhooks';
+import { useAbortController } from '@wjjhhh/jhooks';
 
 const Com = () => {
   const abc = useAbortController({

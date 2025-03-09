@@ -1,4 +1,4 @@
-import { useCopy } from 'jhooks';
+import { useCopy } from '@wjjhhh/jhooks';
 import { message } from 'antd';
 import React from 'react';
 const mm = Date.now();

@@ -1,4 +1,4 @@
-import { useSharedWorker } from 'jhooks';
+import { useSharedWorker } from '@wjjhhh/jhooks';
 import { useState, useEffect } from 'react';
 
 

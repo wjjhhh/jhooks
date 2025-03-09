@@ -1,5 +1,5 @@
 import React from 'react';
-import { useBatchExternal } from 'jhooks';
+import { useBatchExternal } from '@wjjhhh/jhooks';
 
 export default () => {
   const { status, load, unload } = useBatchExternal();

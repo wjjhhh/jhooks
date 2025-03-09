@@ -1,4 +1,4 @@
-import { useDeepEffect } from 'jhooks';
+import { useDeepEffect } from '@wjjhhh/jhooks';
 import { useEffect, useState, useRef } from 'react';
 
 export default () => {

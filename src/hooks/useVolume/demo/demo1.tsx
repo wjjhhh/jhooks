@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useVolume } from 'jhooks';
+import { useVolume } from '@wjjhhh/jhooks';
 
 const Volume = () => {
   const { volume, closeStream, startStream, status, audioContext } = useVolume({

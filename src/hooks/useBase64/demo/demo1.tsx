@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useBase64 } from 'jhooks';
+import { useBase64 } from '@wjjhhh/jhooks';
 
 export default () => {
   const [text, setText] = useState('');

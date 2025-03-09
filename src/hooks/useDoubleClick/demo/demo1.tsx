@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDoubleClick } from 'jhooks';
+import { useDoubleClick } from '@wjjhhh/jhooks';
 
 export default () => {
   const [num, setNum] = useState(0);

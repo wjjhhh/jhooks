@@ -1,4 +1,4 @@
-import { useWorker } from 'jhooks';
+import { useWorker } from '@wjjhhh/jhooks';
 import { useEffect, useState } from 'react';
 
 

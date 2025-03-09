@@ -1,4 +1,4 @@
-import { useComposition } from 'jhooks';
+import { useComposition } from '@wjjhhh/jhooks';
 import React, { useState, useRef } from 'react';
 
 export default () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocalStorage } from 'jhooks';
+import { useLocalStorage } from '@wjjhhh/jhooks';
 
 const key = 'jhooks_test_useLocalStorage1';
 

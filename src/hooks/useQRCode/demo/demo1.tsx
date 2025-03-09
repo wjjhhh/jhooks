@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useQRCode } from 'jhooks';
+import { useQRCode } from '@wjjhhh/jhooks';
 
 export default () => {
-  const [text, setText] = useState('jhooks');
+  const [text, setText] = useState('@wjjhhh/jhooks');
   const dataUrl = useQRCode(text, {
     margin: 4,
     width: 200,

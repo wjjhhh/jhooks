@@ -1,4 +1,4 @@
-import { useHover } from 'jhooks';
+import { useHover } from '@wjjhhh/jhooks';
 import React from 'react';
 
 export default () => {

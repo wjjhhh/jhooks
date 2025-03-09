@@ -1,4 +1,4 @@
-import { useOnline } from 'jhooks';
+import { useOnline } from '@wjjhhh/jhooks';
 
 export default () => {
   const isOnline = useOnline((_isOnline: boolean) => {

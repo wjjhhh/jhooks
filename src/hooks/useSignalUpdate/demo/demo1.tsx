@@ -1,4 +1,4 @@
-import { useSignal, useSignalUpdate } from 'jhooks';
+import { useSignal, useSignalUpdate } from '@wjjhhh/jhooks';
 import React from 'react';
 
 export default () => {

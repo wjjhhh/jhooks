@@ -2,7 +2,7 @@
  * title: 间接记录复杂对象类型
  * desc: 撤销跟重做操作，输入内容后，点击 back 和 forward。甚至可以在第二个参数传true来覆盖记录(不进入历史)。
  */
-import { useTravel } from 'jhooks';
+import { useTravel } from '@wjjhhh/jhooks';
 import React, { useState } from 'react';
 
 export default () => {

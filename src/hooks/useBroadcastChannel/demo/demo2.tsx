@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useBroadcastChannel } from 'jhooks';
+import { useBroadcastChannel } from '@wjjhhh/jhooks';
 
 const A = () => {
-  const { post, data, close } = useBroadcastChannel('jhooks is good');
+  const { post, data, close } = useBroadcastChannel('@wjjhhh/jhooks is good');
   const [value, setValue] = useState('');
 
   return (
@@ -18,7 +18,7 @@ const A = () => {
 };
 
 const B = () => {
-  const { post, data } = useBroadcastChannel('jhooks is good');
+  const { post, data } = useBroadcastChannel('@wjjhhh/jhooks is good');
   const [value, setValue] = useState('');
   return (
     <>
@@ -30,7 +30,7 @@ const B = () => {
 };
 
 export default () => {
-  const { isSupported } = useBroadcastChannel('jhooks is good');
+  const { isSupported } = useBroadcastChannel('@wjjhhh/jhooks is good');
 
   if (!isSupported) {
     return <div>not supported BroadcastChannel API</div>;

@@ -1,4 +1,4 @@
-import { useComposition } from 'jhooks';
+import { useComposition } from '@wjjhhh/jhooks';
 import { Select } from 'antd';
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
