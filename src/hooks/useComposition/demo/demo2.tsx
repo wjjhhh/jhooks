@@ -1,4 +1,4 @@
-import { useComposition } from 'jhooks';
+import { useComposition } from '@wjjhhh/jhooks';
 import { Input } from 'antd';
 import { useState, useRef } from 'react';
 

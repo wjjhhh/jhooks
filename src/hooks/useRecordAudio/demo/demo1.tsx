@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRecordAudio }  from 'jhooks'
+import { useRecordAudio }  from '@wjjhhh/jhooks'
 
 
 export default () => {

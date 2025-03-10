@@ -1,4 +1,4 @@
-import { useLocalStorage } from 'jhooks';
+import { useLocalStorage } from '@wjjhhh/jhooks';
 import React from 'react';
 
 const key = 'jhooks_test_useLocalStorage';

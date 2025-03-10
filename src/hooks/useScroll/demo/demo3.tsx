@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { useScroll } from 'jhooks';
+import { useScroll } from '@wjjhhh/jhooks';
 
 export default () => {
   const ref = useRef(null);

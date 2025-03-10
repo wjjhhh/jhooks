@@ -16,7 +16,7 @@ $ pnpm add @wjjhhh/jhooks
 ## 🔨 使用
 
 ```ts
-import { useLocalStorage } from 'jhooks';
+import { useLocalStorage } from '@/wjjhhh/jhooks';
 ```
 ## 🤝 参与共建
 

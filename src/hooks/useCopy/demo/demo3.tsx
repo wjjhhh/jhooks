@@ -1,4 +1,4 @@
-import { useCopy } from 'jhooks';
+import { useCopy } from '@wjjhhh/jhooks';
 
 export default () => {
   const { ref } = useCopy({

@@ -16,7 +16,7 @@ describe('useBase64', () => {
   });
 
   it('should make text to base64', async () => {
-    const text = 'jhooks is good';
+    const text = '@wjjhhh/jhooks is good';
     const hook = renderHook(() => {
       return useBase64(text);
     });

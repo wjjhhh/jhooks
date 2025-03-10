@@ -1,4 +1,4 @@
-import { useDataMask } from 'jhooks';
+import { useDataMask } from '@wjjhhh/jhooks';
 import React from 'react';
 
 export default () => {

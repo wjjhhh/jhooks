@@ -2,7 +2,7 @@
  * title: 基础用法
  * desc: 撤销跟重做操作，输入内容后，点击 back 和 forward。
  */
-import { useTravel } from 'jhooks';
+import { useTravel } from '@wjjhhh/jhooks';
 import React from 'react';
 
 export default () => {

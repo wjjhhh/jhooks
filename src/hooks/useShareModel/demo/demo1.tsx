@@ -1,4 +1,4 @@
-import { useShareModel } from 'jhooks';
+import { useShareModel } from '@wjjhhh/jhooks';
 import React, { useState, memo } from 'react';
 
 const hook = () => {

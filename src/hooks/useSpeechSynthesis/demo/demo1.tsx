@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSpeechSynthesis } from 'jhooks';
+import { useSpeechSynthesis } from '@wjjhhh/jhooks';
 
 export default () => {
   const [text, setText] = useState('很久不见 到底发生过什么事');

@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { useBroadcastChannel } from 'jhooks'
+import { useBroadcastChannel } from '@wjjhhh/jhooks'
 
 const A = () => {
-    const { post, data } = useBroadcastChannel('jhooks channel')
+    const { post, data } = useBroadcastChannel('@wjjhhh/jhooks channel')
     const [value, setValue] = useState('')
  
     return (
@@ -16,7 +16,7 @@ const A = () => {
 
 
 const B = () => {
-    const { post, data } = useBroadcastChannel('jhooks channel')
+    const { post, data } = useBroadcastChannel('@wjjhhh/jhooks channel')
     const [value, setValue] = useState('')
    
     return (

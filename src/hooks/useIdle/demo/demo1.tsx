@@ -1,4 +1,4 @@
-import { useIdle } from 'jhooks';
+import { useIdle } from '@wjjhhh/jhooks';
 
 export default () => {
   const { isIdle, lastActive, reset } = useIdle(3 * 1000);

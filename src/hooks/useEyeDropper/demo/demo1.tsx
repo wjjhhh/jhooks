@@ -1,4 +1,4 @@
-import { useEyeDropper } from 'jhooks';
+import { useEyeDropper } from '@wjjhhh/jhooks';
 
 export default () => {
   const { color, openEyeDropper, isSupported } = useEyeDropper();

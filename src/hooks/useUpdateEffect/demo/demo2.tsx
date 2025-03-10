@@ -3,7 +3,7 @@
  * desc: 只在依赖项更新时执行一次。
  */
 
-import { useUpdateEffect } from 'jhooks';
+import { useUpdateEffect } from '@wjjhhh/jhooks';
 import React, { useEffect, useState } from 'react';
 
 export default () => {

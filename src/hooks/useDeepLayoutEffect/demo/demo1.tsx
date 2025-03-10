@@ -1,4 +1,4 @@
-import { useDeepLayoutEffect } from 'jhooks';
+import { useDeepLayoutEffect } from '@wjjhhh/jhooks';
 import { useLayoutEffect, useState, useRef } from 'react';
 
 export default () => {

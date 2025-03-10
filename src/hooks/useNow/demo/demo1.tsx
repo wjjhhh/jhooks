@@ -1,4 +1,4 @@
-import { useNow } from 'jhooks';
+import { useNow } from '@wjjhhh/jhooks';
 
 export default () => {
   const { now, pause, resume } = useNow();

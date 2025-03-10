@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useStateFromProps } from 'jhooks';
+import { useStateFromProps } from '@wjjhhh/jhooks';
 
 const B = ({ data: outData }: { data: string[] }) => {
   const [data, setData] = useStateFromProps(outData);

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCustomEvent } from 'jhooks';
+import { useCustomEvent } from '@wjjhhh/jhooks';
 
 const A = () => {
   const { dispatch } = useCustomEvent('jhooks_useCustomEvent');

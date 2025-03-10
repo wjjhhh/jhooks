@@ -3,7 +3,7 @@
  * desc: 只在依赖项更新时执行一次。
  */
 
-import { useUpdateLayoutEffect } from 'jhooks';
+import { useUpdateLayoutEffect } from '@wjjhhh/jhooks';
 import React, { useLayoutEffect, useState } from 'react';
 
 export default () => {

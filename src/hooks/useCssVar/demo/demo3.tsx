@@ -1,4 +1,4 @@
-import { useCssVar } from 'jhooks';
+import { useCssVar } from '@wjjhhh/jhooks';
 import React, { useRef } from 'react';
 import './demo.less';
 

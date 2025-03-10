@@ -1,4 +1,4 @@
-import { useWorker } from 'jhooks';
+import { useWorker } from '@wjjhhh/jhooks';
 import { useState } from 'react';
 
 function bigCal() {

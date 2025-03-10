@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useAnimations } from 'jhooks';
+import { useAnimations } from '@wjjhhh/jhooks';
 
 export default () => {
   const ref = useRef(null);

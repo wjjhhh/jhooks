@@ -19,9 +19,9 @@ hero:
 ## 📦 安装
 
 ```bash
-$ npm install --save jhooks
+$ npm install --save @wjjhhh/jhooks
 # or
-$ yarn add jhooks
+$ yarn add @wjjhhh/jhooks
 
 ```
 

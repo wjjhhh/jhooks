@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSleep } from 'jhooks';
+import { useSleep } from '@wjjhhh/jhooks';
 
 async function fetchWithDelay() {
   const response = await fetch('https://mock.mengxuegu.com/mock/605c30690d58b864da03da46/example/getAllAdcode');
