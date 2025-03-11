@@ -43,7 +43,7 @@ describe('useWatch', () => {
       return (
         <>
           <button data-testid="bt" onClick={() => setValue({})} />
-          <button data-testid="bt1" onClick={() => setValue({ @wjjhhh/jhooks: 'good!' })} />
+          <button data-testid="bt1" onClick={() => setValue({ jhooks: 'good!' })} />
         </>
       );
     };
