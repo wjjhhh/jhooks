@@ -47,9 +47,11 @@ describe('useIdle', () => {
     });
     const lastActive1 = hook.result.current.lastActive;
     expect(lastActive1).not.toBe(lastActive0);
-    await act(async () => {
-      await sleep(600);
+    jest.useFakeTimers();
+    act(() => {
+      jest.advanceTimersByTime(600);
     });
     expect(lastActive1).toBe(hook.result.current.lastActive);
+    jest.useRealTimers();
   });
 });
