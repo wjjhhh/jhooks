@@ -12,9 +12,10 @@ export default () => {
     <>
       <button
         onClick={() =>
-          set({
-            '--color': 'green',
-          })
+          // set({
+          //   '--color': 'green',
+          // })
+          set('--color', 'green')
         }
       >
         字体改成绿色
@@ -36,6 +37,11 @@ export default () => {
         }
       >
         字体改成红色
+      </button>
+      <button onClick={() => {
+        set('--color', undefined)
+      }}>
+        字体颜色变量重置
       </button>
       <button
         onClick={() =>
