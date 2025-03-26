@@ -26,11 +26,7 @@ describe('useHover', () => {
     });
 
     expect(result.current.get()).toEqual({ '--color': 'red' });
-
-    act(() => {
-      result.current.set({
-        '--color': 'green',
-      });
+    const checkColor = () => {
       const vs = result.current.get();
       const color = vs?.['--color'];
       expect(color).toEqual(
@@ -38,6 +34,28 @@ describe('useHover', () => {
           .getComputedStyle(getByText('useCssHover0'))
           .getPropertyValue('--color'),
       );
+    }
+    act(() => {
+      result.current.set({
+        '--color': 'green',
+      });
+      checkColor(); 
+      result.current.set('--color', 'yellow');
+      checkColor();
+    });
+  });
+  it('should clean var', () => {
+    const { result } = renderHook(() => {
+      const ref = useRef()
+      return useCssVar(ref, {
+        '--color': 'black'
+      });
+    });
+    act(() => {
+      result.current.set('--color', null);
+      expect(result.current.get()).toEqual({
+        '--color': null
+      });
     });
   });
   it('should work simple var', () => {
