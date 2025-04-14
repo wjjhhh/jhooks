@@ -13,6 +13,7 @@ const useSleep = (fn?: Fn) => {
       cancelAnimationFrame(rafIdRef.current);
       isSleepingRef.current = false
     };
+    
     if (controller.current) {
       controller.current.abort();
       controller.current = null;
@@ -55,6 +56,10 @@ const useSleep = (fn?: Fn) => {
     //   });
     // };
     const sleep = (time: number, onProgress?: SleepProgressCallback) => {
+      controller.current = new AbortController();
+      controller.current.signal.addEventListener('abort', () => {
+
+      })
       return new Promise((resolve) => {
         let startTime = performance.now();
         const step = (timestamp: number) => {
