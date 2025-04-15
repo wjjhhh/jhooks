@@ -7,15 +7,19 @@ group:
 ---
 
 # useSleep
-提供延时和打断能力的hook
+主要提供了三个功能：延迟执行（睡眠）、取消操作以及使 Promise 可取消
 
 ## 代码演示
 
 ### 基础用法
+不再需要手写setTimeout来延时
 <code src="./demo/demo1.tsx" />
 
 ### Promise内容也可打断
 <code src="./demo/demo2.tsx" />
+
+### 睡眠进度跟进
+<code src="./demo/demo3.tsx" />
 
 ## API
 
