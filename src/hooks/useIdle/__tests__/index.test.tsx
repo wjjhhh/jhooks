@@ -4,6 +4,10 @@ import React from 'react';
 import { sleep } from '../../../utils';
 
 describe('useIdle', () => {
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it('should be defined', () => {
     expect(useIdle).toBeDefined();
   });
@@ -42,10 +46,16 @@ describe('useIdle', () => {
       return useIdle(500);
     });
     const lastActive0 = hook.result.current.lastActive;
+  
+    jest.useFakeTimers();
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
     act(() => {
       fireEvent.mouseDown(element);
     });
     const lastActive1 = hook.result.current.lastActive;
+    
     expect(lastActive1).not.toBe(lastActive0);
     jest.useFakeTimers();
     act(() => {
@@ -55,3 +65,4 @@ describe('useIdle', () => {
     jest.useRealTimers();
   });
 });
+   
