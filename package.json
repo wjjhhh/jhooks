@@ -1,8 +1,11 @@
 {
   "name": "@wjjhhh/jhooks",
-  "version": "0.0.2",
-  "description": "react hooks",
-  "main": "index.js",
+  "version": "0.0.6",
+  "description": "react hooks library",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "keywords": [
     "react",
     "hooks",
@@ -23,8 +26,6 @@
     "prepublishOnly": "npm run build",
     "lint": "lint-staged"
   },
-  "module": "es/index.js",
-  "typings": "es/index.d.ts",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
