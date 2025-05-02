@@ -30,13 +30,13 @@ const { sleep, destory } = useSleep(fn?);
 
 ### Params
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| fn | 打断的回调函数 | () => void | - |
+| 参数 | 说明           | 类型       | 默认值 |
+| ---- | -------------- | ---------- | ------ |
+| fn   | 打断的回调函数 | () => void | -      |
 
 ### Result
-| 参数 | 说明 | 类型 |
-| --- | --- | --- |
-| sleep | 延时函数 | (time: number) => void |
-| destory | 打断函数 | () => void |
-| makeCancelable | 输出一个可打断的promise | (promise: Promise<any>) => Promise<unknown> |
+| 参数           | 说明                    | 类型                                                             |
+| -------------- | ----------------------- | ---------------------------------------------------------------- |
+| sleep          | 延时函数                | (time: number, onProgress?: (progress: number) => void ) => void |
+| destory        | 打断函数                | () => void                                                       |
+| makeCancelable | 输出一个可打断的promise | (promise: Promise<any>) => Promise<unknown>                      |
