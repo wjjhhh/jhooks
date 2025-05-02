@@ -20,7 +20,7 @@ const useSleep = (fn?: Fn) => {
       fn?.();
     }
   }
-    const makeCancelable = (promise: Promise<any>) => {
+    const makeCancelable = <T>(promise: Promise<T>): Promise<T> => {
       controller.current = new AbortController();
       const { signal } = controller.current;
       return new Promise((resolve, reject) => {
