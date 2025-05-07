@@ -6,7 +6,7 @@ group:
   order: 1
 ---
 
-# useWatch
+# useWatcht
 
 模仿vue的watch使用习惯
 
