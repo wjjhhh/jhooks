@@ -8,7 +8,7 @@ export default () => {
     return (
         <div style={{ height: 2300, background: '#fff'}}>
             <div>
-                长内容
+                content
             </div>
         </div>
 
