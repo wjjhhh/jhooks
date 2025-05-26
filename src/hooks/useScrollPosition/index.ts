@@ -15,6 +15,10 @@ interface IUseScrollPositionOptions {
 }
 
 const isSupportedScrollend = 'onscrollend' in window;
+function isWindow(target: unknown): target is Window {
+    return typeof window !== 'undefined' && target === window;
+}
+
 
 const useSrollPosition = (options?: IUseScrollPositionOptions) => {
     const {
@@ -43,12 +47,17 @@ const useSrollPosition = (options?: IUseScrollPositionOptions) => {
         const ele = getTargetElement(target);
 
         const _onScrollEnd = () => {
+            if (!ele) {
+                return
+            }
+            const y = isWindow(ele) ? ele.scrollY : ele.scrollTop
+            const x = isWindow(ele) ? ele.scrollX : ele.scrollLeft
             const scrollPosition = ({
-                'y': ele[target === window ? 'scrollY' : 'scrollTop'],
-                'x': ele[target === window ? 'scrollX' : 'scrollLeft'],
-                'xy': {
-                    x: ele[target === window ? 'scrollX' : 'scrollLeft'],
-                    y: ele[target === window ? 'scrollY' : 'scrollTop'],
+                y,
+                x,
+                xy: {
+                    x,
+                    y,
                 },
             })[direction]
             storage.setItem(storageKey, JSON.stringify(scrollPosition))
@@ -65,6 +74,9 @@ const useSrollPosition = (options?: IUseScrollPositionOptions) => {
             if (scrollPositionString) {
                 if (scrollPositionString === 'undefined') {
                     storage.removeItem(storageKey)
+                    return
+                }
+                if (!ele) {
                     return
                 }
                 const sp = JSON.parse(scrollPositionString)

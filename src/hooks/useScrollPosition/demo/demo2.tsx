@@ -3,7 +3,7 @@ import { useScrollPosition } from "@wjjhhh/jhooks";
 
 
 const Long = () => {
-    const ref = useRef()
+    const ref = useRef(null)
 
     const { reset } = useScrollPosition({
         target: ref,
