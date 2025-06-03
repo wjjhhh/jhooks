@@ -4,7 +4,7 @@ import { getTargetElement } from '../../utils';
 
 type Target = BasicTarget | Window;
 
-interface IUseScrollPositionOptions {
+interface IuseScrollMemoryOptions {
     /** localStorage or sessionStorage */
     level?: 'local' | 'session',
     target?: Target
@@ -20,7 +20,7 @@ function isWindow(target: unknown): target is Window {
 }
 
 
-const useSrollPosition = (options?: IUseScrollPositionOptions) => {
+const useSrollPosition = (options?: IuseScrollMemoryOptions) => {
     const {
         level = 'session',
         target = window,

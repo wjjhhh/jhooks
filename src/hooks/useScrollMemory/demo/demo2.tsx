@@ -1,14 +1,14 @@
 import { useRef, useState, useId } from 'react'
-import { useScrollPosition } from "@wjjhhh/jhooks";
+import { useScrollMemory } from "@wjjhhh/jhooks";
 
 
 const Long = () => {
     const ref = useRef(null)
 
-    const { reset } = useScrollPosition({
+    const { reset } = useScrollMemory({
         target: ref,
-        cacheName: 'jhooks-useScrollPosition-demo2',
-       
+        cacheName: 'jhooks-useScrollMemory-demo2',
+
     })
     return <div ref={ref} style={{ height: 400, background: '#fff', overflowY: 'auto' }}>
         <div style={{

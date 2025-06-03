@@ -1,9 +1,9 @@
 import { useRef } from 'react';
-import { useScrollPosition } from "@wjjhhh/jhooks";
+import { useScrollMemory } from "@wjjhhh/jhooks";
 
 export default () => {
     const ref = useRef(null)
-    useScrollPosition({
+    useScrollMemory({
         level: 'local',
         target: ref,
         direction: 'x',

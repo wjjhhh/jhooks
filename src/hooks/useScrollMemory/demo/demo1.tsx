@@ -1,7 +1,7 @@
-import { useScrollPosition } from "@wjjhhh/jhooks";
+import { useScrollMemory } from "@wjjhhh/jhooks";
 
 export default () => {
-    useScrollPosition({
+    useScrollMemory({
         level: 'local'
     })
 
