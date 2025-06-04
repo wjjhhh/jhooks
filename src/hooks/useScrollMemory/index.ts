@@ -38,7 +38,6 @@ const useSrollPosition = (options?: IuseScrollMemoryOptions) => {
 
     const storageTimeKey = storageKey + '/time'
     const reset = () => {
-        const ele = getTargetElement(target);
         storage.removeItem(storageKey)
         storage.removeItem(storageTimeKey)
     }
