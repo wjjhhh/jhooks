@@ -40,3 +40,4 @@ export { default as usePointerLock } from './hooks/usePointerLock';
 export { default as useDoubleClick } from './hooks/useDoubleClick';
 export { default as useStateFromProps } from './hooks/useStateFromProps';
 export { default as useScrollMemory } from './hooks/useScrollMemory';
+export { default as useOverflowDection } from './hooks/useOverflowDetection';
