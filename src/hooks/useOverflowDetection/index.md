@@ -13,22 +13,30 @@ group:
 
 ## 代码演示
 
-### 用法
-
-基本用法
+### 基本用法
+尝试增减下面的输入框内容
 <code src="./demo/demo1.tsx" />
 
-
+### 同时检测水平垂直方向
+尝试增减下面的输入框内容
+<code src="./demo/demo2.tsx" />
 
 ## API
 
 ```typescript
+const [isOverflow] = useOverflowDection(target, Options?)
 
 ```
 
-### Result
+### Params
 
-| 参数    | 说明                 | 类型                        |
-| ------- | -------------------- | --------------------------- |
-| ref     | 元素对应 ref         | `React.MutableRefObject<T>` |
-| hovered | 是否悬停在对应元素上 | `boolean`                   |
+| 参数                 | 说明         | 类型                                 | 默认值       |
+| -------------------- | ------------ | ------------------------------------ | ------------ |
+| targat               | 元素对应 ref | React.MutableRefObject<T>            | BasicTarget  | - |
+| Options.direction    | 检测方向     | 'horizontal' \| 'vertical' \| 'both' | 'horizontal' |
+| Options.debounceTime | 防抖时间(ms) | number                               | 100          |
+
+### Result
+| 参数       | 说明         | 类型    |
+| ---------- | ------------ | ------- |
+| isOverflow | 内容是否溢出 | boolean |

@@ -1,58 +1,46 @@
 import { useEffect, useState } from 'react'
 import { BasicTarget } from '../../types';
 import { getTargetElement } from '../../utils';
-import { over, overArgs } from 'lodash-es';
-import { doc } from 'prettier';
+import { useDebounceFn } from '@wjjhhh/jhooks'
 
 type OverflowDirection = 'horizontal' | 'vertical' | 'both'
 
 export interface UseOverflowDectionOptions {
     direction?: OverflowDirection
     debounceTime?: number
-    target: BasicTarget
-
 }
 
-function debounce(fn: Function, delay: number) {
-    let timestamp = Date.now()
-    return (...args: any[]) => {
-        if (timestamp && (Date.now() - timestamp) >= delay) {
-            timestamp = Date.now()
-            fn(...args)
-        }
-    }
-}
-
-export default (options: UseOverflowDectionOptions) => {
+export default (target: BasicTarget, options?: UseOverflowDectionOptions) => {
     const {
         direction = 'horizontal',
         debounceTime = 200,
-        target
-    } = options
+    } = options || {}!
     const [isOverflow, setIsOverflow] = useState(false)
+
+    const checkDebounce = useDebounceFn(() => {
+        const element = getTargetElement(target);
+        let overflow = false
+        const range = document.createRange()
+        range.selectNodeContents(element!)
+        const contentRect = range.getBoundingClientRect()
+        const elementRect = element!.getBoundingClientRect()
+
+        if (direction === 'both' || direction === 'horizontal') {
+            overflow = contentRect.width > elementRect.width
+        }
+        if (!overflow && (direction === 'vertical' || direction === 'both')) {
+            overflow = contentRect.height > elementRect.height
+        }
+        setIsOverflow(overflow)
+    }, debounceTime, [target, direction, debounceTime])
+
     useEffect(() => {
         const element = getTargetElement(target);
-
         if (element) {
-            const check = debounce(() => {
-                let overflow = false
-                const range = document.createRange()
-                range.selectNodeContents(element)
-                const contentRect = range.getBoundingClientRect()
-                const elementRect = element.getBoundingClientRect()
-                console.log(contentRect)
-                console.log(elementRect)
-                if (direction === 'both' || direction === 'horizontal') {
-                    overflow = contentRect.width > elementRect.width
-                }
-                if (!overflow && (direction === 'vertical' || direction === 'both')) {
-                    overflow = contentRect.height > elementRect.height
-                }
-                setIsOverflow(overflow)
-            }, debounceTime)
 
-            window.addEventListener('resize', check)
-            const observer = new MutationObserver(check)
+            checkDebounce()
+            window.addEventListener('resize', checkDebounce)
+            const observer = new MutationObserver(checkDebounce)
 
             observer.observe(element, {
                 attributes: true,
@@ -61,11 +49,11 @@ export default (options: UseOverflowDectionOptions) => {
                 subtree: true,
             })
             const returnBase = () => {
-                window.removeEventListener('resize', check)
+                window.removeEventListener('resize', checkDebounce)
                 observer.disconnect()
             }
             if (window.ResizeObserver) {
-                const resizeObserver = new ResizeObserver(check)
+                const resizeObserver = new ResizeObserver(checkDebounce)
                 resizeObserver.observe(element)
                 return () => {
                     resizeObserver.disconnect()
