@@ -42,4 +42,3 @@ const { reset } = useScrollMemory(options?: Options)
 | 参数  | 说明     | 类型       |
 | ----- | -------- | ---------- |
 | reset | 清空缓存 | () => void |
-`
