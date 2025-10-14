@@ -2,7 +2,7 @@ import React from 'react';
 import { useAudio } from '@wjjhhh/jhooks';
 
 const AudioPlayer: React.FC = () => {
-    const { isPlaying, volume, play, pause, togglePlay, setNewVolume } = useAudio({
+    const { isPlaying, volume, isLoading, togglePlay, setNewVolume } = useAudio({
         src: 'https://www.w3schools.com/html/horse.mp3',
         initialVolume: 1,
         loop: true,
@@ -10,7 +10,7 @@ const AudioPlayer: React.FC = () => {
     });
     return (
         <div>
-            <button onClick={togglePlay}>{isPlaying ? 'Pause' : 'Play'}</button>
+            <button onClick={togglePlay} disabled={isLoading}>{isPlaying ? 'Pause' : 'Play'}</button>
             <input
                 type="range"
                 min="0"

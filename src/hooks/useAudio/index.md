@@ -16,6 +16,9 @@ group:
 
 <code src="./demo/demo1.tsx" />
 
+###  支持手动加载资源
+<code src="./demo/demo2.tsx">
+
 ## API
 
 ```typescript
@@ -33,13 +36,14 @@ const { isPlaying, volume, play, pause, togglePlay, setNewVolume} = useAudio(Use
 | muted         | 是否静音         | boolean | false  |
 
 ### Result
-| 参数         | 说明         | 类型                        |
-| ------------ | ------------ | --------------------------- |
-| isPlaying    | 是否正在播放 | boolean                     |
-| volume       | 音量，0 - 1  | number                      |
-| play         | 播放         | () => void                  |
-| pause        | 暂停         | () => void                  |
-| togglePlay   | 状态切换     | () => void                  |
-| setNewVolume | 设置音量     | (newVolume: number) => void |
+| 参数         | 说明                     | 类型                        |
+| ------------ | ------------------------ | --------------------------- |
+| isPlaying    | 是否正在播放             | boolean                     |
+| volume       | 音量，0 - 1              | number                      |
+| play         | 播放                     | () => void                  |
+| pause        | 暂停                     | () => void                  |
+| togglePlay   | 状态切换                 | () => void                  |
+| setNewVolume | 设置音量                 | (newVolume: number) => void |
+| isLoading    | 资源加载状态  ｜ boolean |
 
 
