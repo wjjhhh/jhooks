@@ -16,7 +16,7 @@ interface UseAudioOptions {
 const useAudio = ({ src, autoPlay = false, initialVolume = 0.5, muted, loop }: UseAudioOptions) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(initialVolume);
+  const [volume, _setVolume] = useState(initialVolume);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -49,6 +49,7 @@ const useAudio = ({ src, autoPlay = false, initialVolume = 0.5, muted, loop }: U
   const play = () => {
     if (!audioRef.current || isLoading) return
     audioRef.current?.play().then(() => {
+      console.log('Audio is playing !!!!');
       setIsPlaying(true);
     }).catch((error) => {
       console.error('Error playing audio:', error);
@@ -69,9 +70,9 @@ const useAudio = ({ src, autoPlay = false, initialVolume = 0.5, muted, loop }: U
     }
   };
 
-  const setNewVolume = (newVolume: number) => {
+  const setVolume = (newVolume: number) => {
     const clampedVolume = Math.min(1, Math.max(0, newVolume));
-    setVolume(clampedVolume);
+    _setVolume(clampedVolume);
     if (audioRef.current) {
       audioRef.current.volume = clampedVolume;
     }
@@ -83,8 +84,9 @@ const useAudio = ({ src, autoPlay = false, initialVolume = 0.5, muted, loop }: U
     play,
     pause,
     togglePlay,
-    setNewVolume,
-    isLoading
+    setVolume,
+    isLoading,
+    audioRef,
   };
 };
 

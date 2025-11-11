@@ -2,7 +2,7 @@ import React from 'react';
 import { useAudio } from '@wjjhhh/jhooks';
 
 const AudioPlayer: React.FC = () => {
-    const { isPlaying, volume, isLoading, togglePlay, setNewVolume } = useAudio({
+    const { isPlaying, volume, isLoading, togglePlay, setVolume } = useAudio({
         src: 'https://www.w3schools.com/html/horse.mp3',
         initialVolume: 1,
         loop: true,
@@ -17,7 +17,7 @@ const AudioPlayer: React.FC = () => {
                 max="1"
                 step="0.01"
                 value={volume}
-                onChange={(e) => setNewVolume(Number(e.target.value))}
+                onChange={(e) => setVolume(Number(e.target.value))}
             />
         </div>
     );

@@ -22,7 +22,7 @@ group:
 ## API
 
 ```typescript
-const { isPlaying, volume, play, pause, togglePlay, setNewVolume} = useAudio(UseAudioOptions)
+const { isPlaying, volume, play, pause, togglePlay, setVolume} = useAudio(UseAudioOptions)
 ```
 
 ### Params
@@ -43,7 +43,7 @@ const { isPlaying, volume, play, pause, togglePlay, setNewVolume} = useAudio(Use
 | play         | 播放                     | () => void                  |
 | pause        | 暂停                     | () => void                  |
 | togglePlay   | 状态切换                 | () => void                  |
-| setNewVolume | 设置音量                 | (newVolume: number) => void |
+| setVolume | 设置音量                 | (newVolume: number) => void |
 | isLoading    | 资源加载状态  ｜ boolean |
 
 
